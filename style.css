@@ -27,6 +27,9 @@ a {
     text-decoration: none;
     transition: color .15s
 }
+br {
+    margin-bottom: 20px;
+}
 a:hover,
 a:focus,
 a:active {
@@ -56,27 +59,24 @@ a:active {
 }
 .jumbotron .btn {
     background: none;
-    border: 4px dashed rgba(255, 255, 255, 0.35);
+    border: 3px solid rgba(255, 255, 255, 0.35);
     border-radius: 2px;
     color: #f4f4f4;
     cursor: pointer;
     display: inline-block;
     font-size: 24px;
     padding: 28px 48px;
-	margin-bottom: 20px;
+	margin-bottom: 25px;
     transition: background .25s, width .5s, height .5s;
-    transition: color .25s;
+    transition: color .10s;
 }
 .jumbotron .btn:hover,
 .jumbotron .btn:active,
 .jumbotron .btn:focus,
 .jumbotron .btn.drop {
-    background: rgba(47, 47, 47, 0.2);
+    background: rgba(200, 200, 200, 0.5);
     text-decoration: none;
-    color: rgba(0, 0, 0, 0.5);
-}
-#no-file-api {
-    display: none
+    color: rgba(20, 20, 20, 0.5);
 }
 .alert {
     background-color: #FCF8E3;
@@ -139,10 +139,10 @@ only screen and (max-width: 400px) {
         font-size: 13px
     }
     .alert-error {
-        background-color: rgba(248, 223, 223, .75)
+        background-color: rgba(248, 223, 223, 0.75)
     }
     nav {
-        background-color: rgba(148, 49, 36, 0.75);
+        background-color: rgba(248, 223, 223, 0);
         padding: 10px 0
     }
     nav ul li {
