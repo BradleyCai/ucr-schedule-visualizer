@@ -15,9 +15,9 @@ This project will be hosted on GitHub pages. You can check it out [here](http://
 Credits
 -------
 
-Lots of inspiration from pomf.
+Lots of inspiration from [pomf](https://github.com/nokonoko/Pomf).
 
-Authored and conceived by Bradley Cai and Ammon 
+Authored and conceived by [Bradley Cai](https://github.com/BradleyCai) and [Ammon](https://github.com/ammongit). 
 
 License
 -------

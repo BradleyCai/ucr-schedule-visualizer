@@ -5,7 +5,8 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
         <title>UCR Schedule Map</title>
         <link rel="shortcut icon" href="img/ucr-icon.png" type="image/png">
-        <link rel="stylesheet" href="style.css">        
+        <link rel="stylesheet" href="css/style.css">        
+        <script src="js/ucrsv.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
         <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
     </head>
@@ -14,28 +15,31 @@
         <div class="container">
             <div class="jumbotron">
                 <h1>UCR Schedule Mapper</h1>
-                <h3>What's good, cutie</h3>
-                <p class="lead">Copy your schedule, drop it down below, then enjoy your printed schedule and class map.</p>
+                <p class="lead">Copy your schedule, drop it down below,<br> and we'll draw out the schedule and locations</p>
                 <noscript>
                     <p class="alert alert-error">
 						<strong>You'll need to enable JavaScript.</strong> Please? For me? For scotty? For fun?</p>
                 </noscript>
-                <a href="javascript:;" id="upload-btn" class="btn">Submit here babe~</a>
+                <a href="javascript:;" id="upload-btn" class="btn">Submit it, fam</a>
             </div>
-                <p class="alert alert-info">
-                <strong>What is this anyway?</strong> This website is a tool to kiss your frog of a schedule and turn him into a beautiful prince.
-                We will interpret your schdule and give you a calender like view of it and provide links to the buildings where your classes are at.<br><br>
-                <strong>I don't want to give my schedule to a stranger.</strong> Don't worry about it! All processing and
-                thinking is done on your own computer. Nothing is sent to us. Try disconnecting your internet and entering your data. If you're still skeptical, you can see all the source code on our GitHub project located <a href="https://github.com/ammongit/ucr-class-map">here</a>.
-				</p>
-                <nav>
-                    <ul>
-                        <li><a href="https://www.google.com/">Home</a></li>
-                        <li><a href="https://en.wikipedia.org/wiki/FAQ">FAQ</a></li>
-                        <li><a href="http://www.ucr.edu/">UCR</a></li>
-                        <li><a href="http://campusmap.ucr.edu/imap/index.html">Map</a></li>
-                    </ul>
+            
+            <p class="alert alert-info">
+            <strong>What is this anyway?</strong> This website is a tool to kiss your frog of a schedule and turn him into a beautiful prince.
+            We will interpret your schdule and give you a calender like view of it and provide links to the buildings where your classes are at.<br><br>
+            <strong>I don't want to give my schedule to a stranger.</strong> Don't worry about it! All processing and
+            thinking is done on your own computer. Nothing is sent to us. Try disconnecting your internet and entering 
+            your data. If you're still skeptical, you can see all the source code on our GitHub project located 
+            <a href="https://github.com/ammongit/ucr-class-map">here</a>.
+            </p>
+            
+            <nav>
+                <ul>
+                    <li><a href="http://ammongit.github.io/ucr-class-map/>Home</a></li>
+                    <li><a href="https://en.wikipedia.org/wiki/FAQ">FAQ</a></li>
+                    <li><a href="http://www.ucr.edu/">UCR</a></li>
+                    <li><a href="http://campusmap.ucr.edu/imap/index.html">Map</a></li>
+                </ul>
+            </nav>
         </div>
     </body>
 </html>
-
