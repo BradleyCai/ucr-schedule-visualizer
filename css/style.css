@@ -9,7 +9,7 @@ body {
     line-height: 20px;
     margin: 0;
     padding-top: 20px;
-    padding-bottom: 40px
+    padding-bottom: 40px;
 }
 .container {
     margin: 0 auto;
@@ -18,12 +18,9 @@ body {
 p {
     margin: 0 0 10px
 }
-input[type=image],
-img {
-    vertical-align: middle
-}
+
 a {
-    color: #FFAE00;
+    color: #3399FF;
     text-decoration: none;
     transition: color .15s
 }
@@ -56,6 +53,17 @@ a:active {
     line-height: 30px;
     margin-bottom: 20px;
     transition: font-size .5s
+}
+.jumbotron .form-group{
+  display: block;
+  margin: 0px 0;
+  width: 200px;
+  height: 50px;
+  font-family: sans-serif;
+  font-size: 18px;
+  appearance: none;
+  box-shadow: none;
+  border-radius: none;
 }
 .jumbotron .btn {
     background: none;
@@ -97,6 +105,7 @@ a:active {
     border-color: #EAEAEA;
     color: #6C6C6C
 }
+
 nav>ul,
 nav a {
     color: #f8f8f8;
