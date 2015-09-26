@@ -1,3 +1,10 @@
+/**
+ * Class to represent a course. Should be used in a list to represent a schedule.
+ * Has functions avaliable to manipulate the data and present things in different ways.
+ * 
+ * @constructor 
+ * @author Bradley Cai
+ */
 function Course(quarter, name, nameID, gt, units, days, hour1, hour2, min1, min2, bldg, room) {
     this.quarter = quarter; //written as a string in the format of "season####"
     this.name = name;
