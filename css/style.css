@@ -79,8 +79,7 @@ a:active {
     transition: color .10s;
 }
 .jumbotron .btn:hover,
-.jumbotron .btn:active,
-.jumbotron .btn:focus,
+
 .jumbotron .btn.drop {
     background: rgba(200, 200, 200, 0.5);
     text-decoration: none;

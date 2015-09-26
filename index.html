@@ -6,9 +6,9 @@
         <title>UCR Schedule Map</title>
         <link rel="shortcut icon" href="img/ucr-icon.png" type="image/png">
         <link rel="stylesheet" href="css/style.css">        
-        <script src="js/ucrsv.js"></script>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-        <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+        <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+        <script type="text/javascript" src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+        <script type="text/javascript" src="js/ucr.js"></script>
     </head>
     
     <body>
@@ -20,7 +20,10 @@
                     <p class="alert alert-error">
 						<strong>You'll need to enable JavaScript.</strong> Please? For me? For scotty? For fun?</p>
                 </noscript>
-                <a href="javascript:;" id="upload-btn" class="btn">Submit it, fam</a>
+                <!-- <a href="javascript:('#hides').hide(100)" id="upload-btn" class="btn">Submit it, fam</a> -->
+                <button class='btn'>Show Calender</button>
+                <p id="hides">Hello world</p>
+                
             </div>
             
             <p class="alert alert-info">
@@ -34,10 +37,11 @@
             
             <nav>
                 <ul>
-                    <li><a href="http://ammongit.github.io/ucr-class-map/>Home</a></li>
+                    <li><a href="http://ammongit.github.io/ucr-class-map/">Home</a></li>
                     <li><a href="https://en.wikipedia.org/wiki/FAQ">FAQ</a></li>
                     <li><a href="http://www.ucr.edu/">UCR</a></li>
                     <li><a href="http://campusmap.ucr.edu/imap/index.html">Map</a></li>
+                    <li><a href="https://github.com/ammongit/ucr-class-map">GitHub</a></li>
                 </ul>
             </nav>
         </div>
