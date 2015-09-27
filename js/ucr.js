@@ -5,10 +5,10 @@
  * @constructor 
  * @author Bradley Cai
  */
-function Course(quarter, name, courseName, gt, units, days, hour1, hour2, min1, min2, bldg, room) {
+function Course(quarter, name, nameId, gt, units, days, hour1, hour2, min1, min2, bldg, room) {
     this.quarter = quarter; //written as a string in the format of "season####"
     this.name = name;
-    this.courseName = courseName; //ID written under the name of the course. (ex. CHEM-001A-060)
+    this.nameId = nameId; //ID written under the name of the course. (ex. CHEM-001A-060)
     this.gt = gt; //GT - Grade type. No one knows what this is. 
     this.units = units; //Expressed as a double
     this.days = [false, false, false, false, false, false]; //Array of days as booleans.
