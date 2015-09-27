@@ -19,7 +19,7 @@ function Course(quarter, name, nameId, gt, units, days, hour1, hour2, min1, min2
     this.bldg = bldg; //String of the bldg
     this.room = room; //String of room number
 
-    for(i = 0; i < days.length(); i++) {
+    for(var i = 0; i < days.length(); i++) {
         switch(days.charAt(i)) {
             case 'M':
                 this.days[0] = true;
