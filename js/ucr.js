@@ -88,23 +88,27 @@ function createHourList() {
     }
 }
 
-function createTable() {
+function createTableString() {
+    var tableString = "<table class='pure-table'> \
+                            <thead> \
+                                <tr> \
+                                    <th></th> \
+                                    <th>Monday</th> \
+                                    <th>Tuesday</th> \
+                                    <th>Wednesday</th> \
+                                    <th>Thursday</th> \
+                                    <th>Friday</th> \
+                                    <th>Saturday</th> \
+                                </tr> \
+                            </thead>";
+    
+    
+    return tableString;
+}
+
+function createTable(tableString) {
     var hourList = document.getElementById("table-space");
     
-    hourList.innerHTML = "<table class='pure-table'> \
-                    <thead> \
-                        <tr> \
-                            <th></th> \
-                            <th>Monday</th> \
-                            <th>Tuesday</th> \
-                            <th>Wednesday</th> \
-                            <th>Thursday</th> \
-                            <th>Friday</th> \
-                            <th>Saturday</th> \
-                        </tr> \
-                    </thead>";
-    
+    hourList.innerHTML = tableString;
     
 }
-courseList = createTestCourses();
-createHourList();

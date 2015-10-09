@@ -7,16 +7,20 @@
         <link rel="shortcut icon" href="img/ucr-icon.png" type="image/png">
         <link rel="stylesheet" href="css/style.css">        
         <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-        <script type="text/javascript" src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+        <script type="text/javascript" src="js/ucr.js"></script>
         <script>
             $(document).ready(function(){
                 $("#hides").hide();
+                $("button").one("click", function() {
+                    courseList = createTestCourses();
+                    createHourList();
+                    createTable(createTableString());
+                });
                 $("button").click(function(){
                     $("#hides").toggle(100);
                 });
             });
         </script>
-        <script type="text/javascript" src="js/ucr.js"></script>
     </head>
     
     <body>
@@ -37,7 +41,7 @@
                     </div>
                 </div>
                 <!-- <a href="javascript:('#hides').hide(100)" id="upload-btn" class="btn">Submit it, fam</a> -->
-                <button class="btn" onClick="createTable()">Show Calender</button>
+                <button class="btn">Show Calender</button>
                 
             </div>
             
