@@ -1,6 +1,6 @@
 body {
     background-attachment: fixed, fixed;
-	background-image: url('../img/stardust.png');
+	background-image: url("../img/stardust.png");
     background-color: #f4f4f4;
     color: #f8f8f8;
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
@@ -13,12 +13,11 @@ body {
 }
 .container {
     margin: 0 auto;
-    max-width: 810px
+    max-width: 810px;
 }
 p {
     margin: 0 0 10px
 }
-
 a {
     color: #3399FF;
     text-decoration: none;
@@ -31,6 +30,60 @@ a:hover,
 a:focus,
 a:active {
     color: #2f2f2f
+}
+div.centered {
+    text-align: center;
+}
+
+div.centered table {
+    margin: 0 auto; 
+    text-align: left;
+}
+.table-space {
+    margin-bottom: 25px;
+}
+.pure-table {
+    /* Remove spacing between table cells (from Normalize.css) */
+    text-align: center;
+    width: 700px;
+    table-layout: fixed;
+    border-collapse: collapse;
+    border-spacing: 0;
+    empty-cells: show;
+    border: 1px solid #cbcbcb;
+}
+.pure-table caption {
+    color: #000;
+    font: italic 85%/1 arial, sans-serif;
+    padding: 1em 0;
+    text-align: center;
+}
+.pure-table td,
+.pure-table th {
+    border: 1px solid #cbcbcb;/*  inner column border */
+    border-width: 0 0 0 1px;
+    font-size: inherit;
+    margin: 0;
+    overflow: visible; /*to make ths where the title is really long work*/
+    padding: 0.5em 1em; /* cell padding */
+}
+.pure-table tr {
+    border: 1px solid #cbcbcb;
+}
+/* Consider removing this next declaration block, as it causes problems when
+there's a rowspan on the first cell. Case added to the tests. issue#432 */
+.pure-table td:first-child,
+.pure-table th:first-child {
+    border-left-width: 0;
+}
+.pure-table thead {
+    background-color: #e0e0e0;
+    color: #000;
+    text-align: left;
+    vertical-align: bottom;
+}
+.pure-table td {
+    background-color: transparent;
 }
 .jumbotron {
     margin: 0px 0;
@@ -104,7 +157,6 @@ a:active {
     border-color: #EAEAEA;
     color: #6C6C6C
 }
-
 nav>ul,
 nav a {
     color: #f8f8f8;
