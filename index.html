@@ -8,7 +8,15 @@
         <link rel="stylesheet" href="css/style.css">        
         <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
         <script type="text/javascript" src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-        <script defer type="text/javascript" src="js/ucr.js"></script>
+        <script>
+            $(document).ready(function(){
+                $("#hides").hide();
+                $("button").click(function(){
+                    $("#hides").toggle(100);
+                });
+            });
+        </script>
+        <script type="text/javascript" src="js/ucr.js"></script>
     </head>
     
     <body>
@@ -21,63 +29,15 @@
 						<strong>You'll need to enable JavaScript.</strong> Please? For me? For scotty? For fun?</p>
                 </noscript>
                 
-                <div class = "centered" id="hides">
+                <div class="centered" id="hides">
                 <p><strong>*This is a placeholder calender*</strong></p>
                 
-                <div class="table-space">
-                    <table class="pure-table">
-                        <thead>
-                            <tr>
-                                <th></th>
-                                <th>Monday</th>
-                                <th>Tuesday</th>
-                                <th>Wednesday</th>
-                                <th>Thursday</th>
-                                <th>Friday</th>
-                                <th>Saturday</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr id = "700AM">
-                                <td rowspan="2">7AM</td>
-                                <td>CS 10</td>
-                                <td></td>
-                                <td>CS 10</td>
-                                <td></td>
-                                <td>CS 10</td>
-                                <td></td>
-                            </tr>
-                            <tr id = "730AM">
-                                <td>CS 10</td>
-                                <td></td>
-                                <td>CS 10</td>
-                                <td></td>
-                                <td>CS 10</td>
-                                <td></td>
-                            </tr>
-                            <tr id = "800AM">
-                                <td rowspan="2">8AM</td>
-                                <td>CS 61</td>
-                                <td></td>
-                                <td>CS 61</td>
-                                <td></td>
-                                <td>CS 61</td>
-                                <td></td>
-                            </tr>
-                            <tr id = "800AM">
-                                <td>CS 61</td>
-                                <td></td>
-                                <td>CS 61</td>
-                                <td></td>
-                                <td>CS 61</td>
-                                <td></td>
-                            </tr>
-                        </tbody>
-                    </table>
+                <div class="table-space" id="table-space">
+                    
                     </div>
                 </div>
                 <!-- <a href="javascript:('#hides').hide(100)" id="upload-btn" class="btn">Submit it, fam</a> -->
-                <button class='btn'>Show Calender</button>
+                <button class="btn" onClick="createTable()">Show Calender</button>
                 
             </div>
             
