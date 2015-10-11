@@ -8,7 +8,6 @@
 function Course(quarter, name, nameID, bldg, room, gt, units,
                 hour1, min1, hour2, min2, days) {
     
-    
     //General information
     this.quarter = quarter; //written as a string in the format of "season####"
     this.name = name;
@@ -57,8 +56,9 @@ var courseList = 0;
 var hourList = 0;
 
 /**
- * Test function to fill courseList with dummy courses
+ * Test function to fill an array with dummy courses.
  *
+ * @return - A fake courseList of courses. 
  */
 function createTestCourses() {
     
@@ -72,6 +72,13 @@ function createTestCourses() {
     
     return list;
 }
+
+/**
+ * Creates a 2D array whose rows are time in 30 minute blocks and columns days of the week.
+ * The spot on a calender where the courses takes place in time on a certain day will fill
+ * that postion on the array.
+ * 
+ */
 function createHourList() {             
     //Initialize a 2-D array. Each item within the array is an array.
     hourList = new Array(32)
@@ -93,7 +100,14 @@ function createHourList() {
     }
 }
 
+/**
+ * Creates a string for the innerHTML element of the table. You can view the html in the console log
+ * 
+ * More is explained inside.
+ *
+ */
 function createTableString() {
+    //This creates the first row of days
     var tableString = 
 "<table class='pure-table'>\n \
     <thead>\n \
@@ -109,11 +123,14 @@ function createTableString() {
     </thead>\n \
     <tbody>\n";
     
+    //This creates the body of the table
     var hour = 0;
-    for (var row = 0; row < 32; row++) { //for each tr/row (700 730 800 etc). 30 is the amount of rows. See blocks
+    for (var row = 0; row < 32; row++) { //for each tr/row (700 730 800 etc). 32 is the amount of rows. See blocks
         
-        //Creates the row with an hour ID to keep things readable
+        //Starts off the row with an hour ID to keep things readable
         tableString += "<tr id = '" + (row * 30 + 420)/60 + "'>\n";
+        
+        //This is the 12 hour clock mechanism
         if (row < 11) {
             hour = (row * 30 + 420)/60;
         }
@@ -121,7 +138,7 @@ function createTableString() {
             hour = (row * 30 + 420)/60 - 12;
         }
         
-        //Creates the first column of times
+        //This creates the first column of times and adds AM or PM based on time of day
         if (row % 2 == 0) { //To make each rowspan 2 time column
             if (Math.floor(row/15) == 0) {
                 tableString += "<td rowspan='2'><strong>" + hour + "AM</strong></td>\n" }
@@ -129,9 +146,11 @@ function createTableString() {
                 tableString += "<td rowspan='2'><strong>" + hour + "PM</strong></td>\n" }
         }
         
-        //Creates the courses in the table
-        for (var col = 0; col < 6; col++) { // for each td/day (mon - sat = 6). Starts
+        //This creates the courses in the table
+        for (var col = 0; col < 6; col++) { // for each td/day (mon - sat = 6)
             courseAtI = hourList[row][col];
+            
+            //This displays the course info per course, instead of per block
             if (!(courseAtI == null)) {
                 if (hourList[row - 1][col] == null) {
                     var popoutString;
@@ -161,6 +180,11 @@ function createTableString() {
     return tableString;
 }
 
+/**
+ * This will find the div with an ID of "table-space" and then insert the innerHTML that createTableString() made.
+ * Will also display the tableString on the console log
+ *
+ */
 function createTable(tableString) {
     var tableSpace = document.getElementById("table-space");
 
