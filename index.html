@@ -7,17 +7,18 @@
         <link rel="shortcut icon" href="img/ucr-icon.png" type="image/png">
         <link rel="stylesheet" href="css/style.css">        
         <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+        <script type="text/javascript" src="js/bootstrap.js"></script>
         <script type="text/javascript" src="js/ucr.js"></script>
         <script>
             $(document).ready(function(){
-                $("#hides").hide();
+                $("#table-space").hide();
                 $("button").one("click", function() {
                     courseList = createTestCourses();
                     createHourList();
                     createTable(createTableString());
                 });
                 $("button").click(function(){
-                    $("#hides").toggle(100);
+                    $("#table-space").toggle(300);
                 });
             });
         </script>
@@ -27,31 +28,26 @@
         <div class="container">
             <div class="jumbotron">
                 <h1>UCR Schedule Visualizer</h1>
-                <p class="lead">Copy your schedule, drop it down below,<br> and we'll draw out the schedule and locations</p>
+                <p class="lead">Copy your schedule, drop it down below,<br> and we'll draw out the hour by hour view and locations</p>
                 <noscript>
                     <p class="alert alert-error">
 						<strong>You'll need to enable JavaScript.</strong> Please? For me? For scotty? For fun?</p>
                 </noscript>
-                
-                <div class="centered" id="hides">
-                <p><strong>*This is a placeholder calender*</strong></p>
-                
-                <div class="table-space" id="table-space">
-                    
-                    </div>
-                </div>
-                <!-- <a href="javascript:('#hides').hide(100)" id="upload-btn" class="btn">Submit it, fam</a> -->
-                <button class="btn">Show Calender</button>
-                
-            </div>
+            </div>    
+        </div>
+        
+        <div class="centered">
+            <div class="table-space" id="table-space"></div>
+            <button class="btn">Show Calender</button>
+        </div>
             
+        <div class="container">
             <p class="alert alert-info">
-            <strong>What is this anyway?</strong> This website is a tool to kiss your frog of a schedule and turn him into a beautiful prince.
-            We will interpret your schdule and give you a calender like view of it and provide links to the buildings where your classes are at.<br><br>
-            <strong>I don't want to give my schedule to a stranger.</strong> Don't worry about it! All processing and
-            thinking is done on your own computer. Nothing is sent to us. Try disconnecting your internet and entering 
-            your data. If you're still skeptical, you can see all the source code on our GitHub project located 
-            <a href="https://github.com/ammongit/ucr-class-map">here</a>.
+                <strong>What is this anyway?</strong> This website is a tool to kiss your frog of a schedule and turn him into a beautiful prince.
+                We'll interpret your schdule and give you an hour by hour view as well as provide links to the buildings where your classes are at.<br><br>
+                <strong>I don't want to give my schedule to some stranger though...</strong> Don't worry about it! All processing and
+                thinking is done on your own computer. Nothing is sent to us. Try disconnecting your internet and entering 
+                your data. If you're still skeptical, you can see all the source code on our GitHub which you can find at the bottom of the page.
             </p>
             
             <nav>

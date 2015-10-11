@@ -5,14 +5,14 @@
  * @constructor 
  * @author Bradley Cai
  */
-function Course(quarter, name, nameId, bldg, room, gt, units,
+function Course(quarter, name, nameID, bldg, room, gt, units,
                 hour1, min1, hour2, min2, days) {
     
     
     //General information
     this.quarter = quarter; //written as a string in the format of "season####"
     this.name = name;
-    this.nameId = nameId; //ID written under the name of the course. (ex. CHEM-001A-060)
+    this.nameID = nameID; //ID written under the name of the course. (ex. CHEM-001A-060)
     this.bldg = bldg; //String of the bldg
     this.room = room; //String of room number
     this.gt = gt; //GT - Grade type. No one knows what this is
@@ -74,41 +74,96 @@ function createTestCourses() {
 }
 function createHourList() {             
     //Initialize a 2-D array. Each item within the array is an array.
-    hourList = new Array(30)
-    for (var i = 0; i < 30; i++) {
+    hourList = new Array(32)
+    for (var i = 0; i < 32; i++) {
         hourList[i] = new Array(6);
     }
     
     for (var c = 0; c < courseList.length; c++) { //for each course
-        for (var day = 0; day < courseList[c].days.length; day++) { //for each day of the week
-            if (courseList[c].days[day] == true) {
+        var current = courseList[c];
+        for (var day = 0; day < current.days.length; day++) { //for each day of the week
+            if (current.days[day] == true) {
                 //console.log(courseList[c].pos + " " + day);
-                hourList[courseList[c].pos][day] = courseList[c]; }
+                for (var b = 0; b < current.blocks; b++) {//for each block
+                    
+                    hourList[current.pos + b][day] = courseList[c];
+                }
+            }
         }
     }
 }
 
 function createTableString() {
-    var tableString = "<table class='pure-table'> \
-                            <thead> \
-                                <tr> \
-                                    <th></th> \
-                                    <th>Monday</th> \
-                                    <th>Tuesday</th> \
-                                    <th>Wednesday</th> \
-                                    <th>Thursday</th> \
-                                    <th>Friday</th> \
-                                    <th>Saturday</th> \
-                                </tr> \
-                            </thead>";
+    var tableString = 
+"<table class='pure-table'>\n \
+    <thead>\n \
+        <tr>\n \
+            <th></th>\n \
+            <th>Monday</th>\n \
+            <th>Tuesday</th>\n \
+            <th>Wednesday</th>\n \
+            <th>Thursday</th>\n \
+            <th>Friday</th>\n \
+            <th>Saturday</th>\n \
+        </tr>\n \
+    </thead>\n \
+    <tbody>\n";
     
-    
+    var hour = 0;
+    for (var row = 0; row < 32; row++) { //for each tr/row (700 730 800 etc). 30 is the amount of rows. See blocks
+        
+        //Creates the row with an hour ID to keep things readable
+        tableString += "<tr id = '" + (row * 30 + 420)/60 + "'>\n";
+        if (row < 11) {
+            hour = (row * 30 + 420)/60;
+        }
+        else {
+            hour = (row * 30 + 420)/60 - 12;
+        }
+        
+        //Creates the first column of times
+        if (row % 2 == 0) { //To make each rowspan 2 time column
+            if (Math.floor(row/15) == 0) {
+                tableString += "<td rowspan='2'><strong>" + hour + "AM</strong></td>\n" }
+            else {
+                tableString += "<td rowspan='2'><strong>" + hour + "PM</strong></td>\n" }
+        }
+        
+        //Creates the courses in the table
+        for (var col = 0; col < 6; col++) { // for each td/day (mon - sat = 6). Starts
+            courseAtI = hourList[row][col];
+            if (!(courseAtI == null)) {
+                if (hourList[row - 1][col] == null) {
+                    var popoutString;
+                    switch (courseAtI.blocks) {
+                        case 1:
+                            tableString += "<td class='rspan' rowspan='" + courseAtI.blocks + "'>" + courseAtI.nameID + "</td>\n";
+                            break;
+                        case 2:
+                            tableString += "<td class='rspan' rowspan='" + courseAtI.blocks + "'>" + courseAtI.nameID
+                            + "<br>" + courseAtI.duration + " minutes</td>\n";
+                            break;
+                        default:
+                            tableString += "<td class='rspan' rowspan='" + courseAtI.blocks + "'>" + courseAtI.nameID
+                            + "<br>" + courseAtI.duration + " minutes<br>" + courseAtI.bldg + " "
+                            + courseAtI.room + "</td>\n"
+                            break;
+                    }
+                    
+                }
+            }
+            else {
+                tableString += "<td></td>\n";
+            }
+        }
+    }
+    tableString += "</table>";
     return tableString;
 }
 
 function createTable(tableString) {
-    var hourList = document.getElementById("table-space");
-    
-    hourList.innerHTML = tableString;
-    
+    var tableSpace = document.getElementById("table-space");
+
+    tableSpace.innerHTML = tableString;
+    console.log(tableString);
 }

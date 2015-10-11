@@ -13,7 +13,7 @@ body {
 }
 .container {
     margin: 0 auto;
-    max-width: 810px;
+    max-width: 820px;
 }
 p {
     margin: 0 0 10px
@@ -44,31 +44,34 @@ div.centered table {
 }
 .pure-table {
     /* Remove spacing between table cells (from Normalize.css) */
-    text-align: center;
-    width: 700px;
+    background-color: rgba(0, 0, 0, .2);
+    width: 1000px;
     table-layout: fixed;
     border-collapse: collapse;
     border-spacing: 0;
     empty-cells: show;
     border: 1px solid #cbcbcb;
 }
-.pure-table caption {
-    color: #000;
-    font: italic 85%/1 arial, sans-serif;
-    padding: 1em 0;
-    text-align: center;
-}
 .pure-table td,
 .pure-table th {
+    text-align: center;
     border: 1px solid #cbcbcb;/*  inner column border */
     border-width: 0 0 0 1px;
     font-size: inherit;
     margin: 0;
-    overflow: visible; /*to make ths where the title is really long work*/
-    padding: 0.5em 1em; /* cell padding */
+}
+.pure-table td {
+    height: 20px;
+}
+.pure-table th {
+    height: 35px;
+    padding-bottom: 15px;
 }
 .pure-table tr {
-    border: 1px solid #cbcbcb;
+    border: 1px solid rgb(80, 80, 80);
+}
+.rspan{
+    background-color: rgba(0, 0, 0, .3);
 }
 /* Consider removing this next declaration block, as it causes problems when
 there's a rowspan on the first cell. Case added to the tests. issue#432 */
@@ -77,13 +80,9 @@ there's a rowspan on the first cell. Case added to the tests. issue#432 */
     border-left-width: 0;
 }
 .pure-table thead {
-    background-color: #e0e0e0;
-    color: #000;
-    text-align: left;
+    background-color: #f8f8f8;
+    color: rgb(60, 60, 60);
     vertical-align: bottom;
-}
-.pure-table td {
-    background-color: transparent;
 }
 .jumbotron {
     margin: 0px 0;
@@ -118,7 +117,7 @@ there's a rowspan on the first cell. Case added to the tests. issue#432 */
   box-shadow: none;
   border-radius: none;
 }
-.jumbotron .btn {
+.btn {
     background: none;
     border: 3px solid rgba(255, 255, 255, 0.35);
     border-radius: 2px;
@@ -131,9 +130,9 @@ there's a rowspan on the first cell. Case added to the tests. issue#432 */
     transition: background .25s, width .5s, height .5s;
     transition: color .10s;
 }
-.jumbotron .btn:hover,
+.btn:hover,
 
-.jumbotron .btn.drop {
+.btn.drop {
     background: rgba(200, 200, 200, 0.5);
     text-decoration: none;
     color: rgba(20, 20, 20, 0.5);
@@ -203,7 +202,7 @@ only screen and (max-width: 400px) {
     }
     nav {
         background-color: rgba(248, 223, 223, 0);
-        padding: 10px 0
+        padding: 10px 0;
     }
     nav ul li {
         margin: 0px 0px 12px 0px;
