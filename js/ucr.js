@@ -19,15 +19,20 @@ function Course(quarter, name, nameID, bldg, room, gt, units,
     
     //Time information
     this.hour1 = hour1; //Hour class begins. Integer between 0-23
-    this.min1 = min1; //Integer between 0-59
+    this.min1 = min1; //Minute class begins. Integer between 0-59
     this.hour2 = hour2; //Hour when class ends.
-    this.min2 = min2; 
+    this.min2 = min2;
+    if (hour1 != null) {
+        this.times = Math.ceil(hour1%12.1) + ":" +(min1 + 10) + ((hour1 < 12) ? "am" : "pm") + " – " 
+        + Math.ceil(hour2%12.1) + ":" + (min2 + 10) + ((hour2 < 12) ? "am" : "pm");
+    }
     
     //Array information
     this.blocks = 2*(this.hour2 - this.hour1) - (this.min2 - this.min1)/30; //How many 30 minute blocks it takes (ex 60 is 2 blocks)
     this.duration = 30 * this.blocks; //Duration of class in minutes (ex. 60 for 60 minutes)
     this.pos = ((this.hour1 * 60 + this.min1) - 420)/30; //Position on the hourList
     this.days = [false, false, false, false, false, false]; //Array of days as booleans.
+    this.index = -1;
     
     for(var i = 0; i < days.length; i++) {
         switch(days.charAt(i)) {
@@ -50,6 +55,10 @@ function Course(quarter, name, nameID, bldg, room, gt, units,
                 this.days[5] = true;
                 break;
         }
+    }
+    
+    this.setIndex = function(index) {
+        this.index = index;
     }
 }
 var courseList = 0;
@@ -79,7 +88,7 @@ function createTestCourses() {
  * that postion on the array.
  * 
  */
-function createHourList() {             
+function createHourList() {
     //Initialize a 2-D array. Each item within the array is an array.
     hourList = new Array(32)
     for (var i = 0; i < 32; i++) {
@@ -88,6 +97,7 @@ function createHourList() {
     
     for (var c = 0; c < courseList.length; c++) { //for each course
         var current = courseList[c];
+        current.setIndex(c);
         for (var day = 0; day < current.days.length; day++) { //for each day of the week
             if (current.days[day] == true) {
                 //console.log(courseList[c].pos + " " + day);
@@ -131,12 +141,7 @@ function createTableString() {
         tableString += "<tr id = '" + (row * 30 + 420)/60 + "'>\n";
         
         //This is the 12 hour clock mechanism
-        if (row < 11) {
-            hour = (row * 30 + 420)/60;
-        }
-        else {
-            hour = (row * 30 + 420)/60 - 12;
-        }
+        hour = Math.ceil(((row * 30 + 420)/60) % 12.1);
         
         //This creates the first column of times and adds AM or PM based on time of day
         if (row % 2 == 0) { //To make each rowspan 2 time column
@@ -153,19 +158,22 @@ function createTableString() {
             //This displays the course info per course, instead of per block
             if (!(courseAtI == null)) {
                 if (hourList[row - 1][col] == null) {
-                    var popoutString;
+                    
+                    var popoutString = "<td class='rspan' rowspan='" + courseAtI.blocks + "'>" +
+                    "<a href='' onclick='return false;' " +
+                    "class='course" + courseAtI.index + "'>\n";
+                    
                     switch (courseAtI.blocks) {
                         case 1:
-                            tableString += "<td class='rspan' rowspan='" + courseAtI.blocks + "'>" + courseAtI.nameID + "</td>\n";
+                            tableString += popoutString + courseAtI.nameID + "</a></td>\n";
                             break;
                         case 2:
-                            tableString += "<td class='rspan' rowspan='" + courseAtI.blocks + "'>" + courseAtI.nameID
-                            + "<br>" + courseAtI.duration + " minutes</td>\n";
+                            tableString += popoutString + courseAtI.nameID + 
+                            "<br>" + courseAtI.bldg + " " + courseAtI.room + "</a></td>\n";
                             break;
                         default:
-                            tableString += "<td class='rspan' rowspan='" + courseAtI.blocks + "'>" + courseAtI.nameID
-                            + "<br>" + courseAtI.duration + " minutes<br>" + courseAtI.bldg + " "
-                            + courseAtI.room + "</td>\n"
+                            tableString += popoutString + courseAtI.nameID + "<br>" + courseAtI.duration + " minutes<br>" + 
+                            courseAtI.bldg + " " + courseAtI.room + "</a></td>\n"
                             break;
                     }
                     
@@ -176,7 +184,7 @@ function createTableString() {
             }
         }
     }
-    tableString += "</table>";
+    tableString += "</thead>\n</table>";
     return tableString;
 }
 
@@ -190,4 +198,41 @@ function createTable(tableString) {
 
     tableSpace.innerHTML = tableString;
     console.log(tableString);
+    createPopovers();
+}
+
+function createPopovers() {
+    for (var c = 0; c < courseList.length; c++) {
+        courseAtI = courseList[c];
+        console.log(courseAtI.bldg);
+        //There's probably a more efficient way to do this
+        var gt, times, days, bldg, room;
+        if (!(courseAtI.gt == null)) {
+            gt = courseAtI.gt;
+        } else {
+            gt = "None";
+        } if (!(courseAtI.hour1 == null)) {
+            times = courseAtI.times;
+        } else {
+            times = "None";
+        } if (!(courseAtI.days == null)) {
+            days = courseAtI.days;
+        } else {
+            days = "None";
+        } if (!(courseAtI.bldg == null)) {
+            bldg = courseAtI.bldg;
+        } else {
+            bldg = "None";
+        } if (!(courseAtI.room == null)) {
+            room = courseAtI.room;
+        } else {
+            room = "None";
+        }
+        var sel = '.course' + c;
+        $(document).ready(function(){
+            $(sel).popover({title: "" + courseAtI.name, content: "<strong>Times: </strong>" + times + 
+            " <br><strong>Building:</strong> " + bldg + " <br><strong>Room:</strong> " + room + " <br><strong>GT:</strong> " + gt +
+            " <br><strong>Location:</strong> (To be implemented)", html: true, trigger: "focus"}); 
+        });
+    }
 }

@@ -6,6 +6,7 @@
         <title>UCR Schedule Visualizer</title>
         <link rel="shortcut icon" href="img/ucr-icon.png" type="image/png">
         <link rel="stylesheet" href="css/style.css">        
+        <link rel="stylesheet" href="css/bs-popover.css">
         <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
         <script type="text/javascript" src="js/bootstrap.js"></script>
         <script type="text/javascript" src="js/ucr.js"></script>
@@ -20,6 +21,7 @@
                 $("button").click(function(){
                     $("#table-space").toggle(300);
                 });
+                $('[data-toggle=popover]').popover(); 
             });
         </script>
     </head>
@@ -37,10 +39,18 @@
         </div>
         
         <div class="centered">
-            <div class="table-space" id="table-space"></div>
+            <div class="table-space" id="table-space">
+            <table class="pure-table">
+                <tr>
+                    <td class='rspan' rowspan = '2'><a href="#" data-toggle="popover" title="Popover Header" data-content="Some content inside the popover">Toggle popover</a></td>
+                    <td>Hello</td>
+                </tr>
+            </table>
+            </div>
+            
             <button class="btn">Show Calender</button>
         </div>
-            
+        
         <div class="container">
             <p class="alert alert-info">
                 <strong>What is this anyway?</strong> This website is a tool to kiss your frog of a schedule and turn him into a beautiful prince.
@@ -53,7 +63,7 @@
             <nav>
                 <ul>
                     <li><a href="http://ammongit.github.io/ucr-class-map/">Home</a></li>
-                    <li><a href="https://en.wikipedia.org/wiki/FAQ">FAQ</a></li>
+                    <li><a href="about.html">About</a></li>
                     <li><a href="http://www.ucr.edu/">UCR</a></li>
                     <li><a href="http://campusmap.ucr.edu/imap/index.html">Map</a></li>
                     <li><a href="https://github.com/ammongit/ucr-class-map">GitHub</a></li>
