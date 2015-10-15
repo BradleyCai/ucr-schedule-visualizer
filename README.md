@@ -1,5 +1,5 @@
-UCR Schedule Calendar Map Viewer
-=================================
+UCR Schedule Visualizer
+=======================
 
 The raw class list from GROWL is pretty ugly. We're here to fix that.
 
@@ -27,6 +27,9 @@ Credits
 Lots of inspiration from [pomf](https://github.com/nokonoko/Pomf).
 
 Authored and conceived by [Bradley Cai](https://github.com/BradleyCai) and [Ammon](https://github.com/ammongit). 
+
+Come contact us! We have a [twitter](https://twitter.com/UCR_Visualizer), or you can [email me](mailto:bradleycai24@gmail.com) (Bradley) if it's something more 
+detailed.
 
 License
 -------

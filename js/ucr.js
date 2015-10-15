@@ -196,18 +196,8 @@ function createTableString() {
 function createTable(tableString) {
     var tableSpace = document.getElementById("table-space");
     
-    
     tableSpace.innerHTML = tableString;
-    html2canvas("#table-space") {
-        logging: true,
-        onrendered: function(canvas) {
-            console.log("On rendered");
-            //window.open().location = canvas.toDataURL("image/png");
-            var img = canvas.toDataURL("image/png");
-            document.write('<img src="'+img+'"/>');
-            //document.body.appendChild(canvas);
-        }
-    });
+    
     console.log(tableString);
     createPopovers();
 }
@@ -216,29 +206,13 @@ function createPopovers() {
     for (var c = 0; c < courseList.length; c++) {
         courseAtI = courseList[c];
         console.log(courseAtI.bldg);
-        //There's probably a more efficient way to do this
-        var gt, times, days, bldg, room;
-        if (courseAtI.gt != null) {
-            gt = courseAtI.gt;
-        } else {
-            gt = "None";
-        } if (courseAtI.hour1 != null) {
-            times = courseAtI.times;
-        } else {
-            times = "None";
-        } if (courseAtI.days != null) {
-            days = courseAtI.days;
-        } else {
-            days = "None";
-        } if (courseAtI.bldg != null)) {
-            bldg = courseAtI.bldg;
-        } else {
-            bldg = "None";
-        } if (courseAtI.room != null) {
-            room = courseAtI.room;
-        } else {
-            room = "None";
-        }
+        
+        //This block will give "None" to empty variables in a course
+        var gt = (courseAtI.gt == "") ? "None" : courseAtI.gt;
+        var times = (courseAtI.hour1 == "") ? "None" : courseAtI.times;
+        var days = (courseAtI.days == "") ? "None" : courseAtI.days;
+        var bldg = (courseAtI.bldg == "") ? "None" : courseAtI.bldg;
+        var room = (courseAtI.room == "") ? "None" : courseAtI.room;
         
         var sel = '.course' + c;
         $(document).ready(function(){
