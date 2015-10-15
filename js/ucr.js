@@ -195,8 +195,19 @@ function createTableString() {
  */
 function createTable(tableString) {
     var tableSpace = document.getElementById("table-space");
-
+    
+    
     tableSpace.innerHTML = tableString;
+    html2canvas("#table-space") {
+        logging: true,
+        onrendered: function(canvas) {
+            console.log("On rendered");
+            //window.open().location = canvas.toDataURL("image/png");
+            var img = canvas.toDataURL("image/png");
+            document.write('<img src="'+img+'"/>');
+            //document.body.appendChild(canvas);
+        }
+    });
     console.log(tableString);
     createPopovers();
 }
@@ -207,32 +218,33 @@ function createPopovers() {
         console.log(courseAtI.bldg);
         //There's probably a more efficient way to do this
         var gt, times, days, bldg, room;
-        if (!(courseAtI.gt == null)) {
+        if (courseAtI.gt != null) {
             gt = courseAtI.gt;
         } else {
             gt = "None";
-        } if (!(courseAtI.hour1 == null)) {
+        } if (courseAtI.hour1 != null) {
             times = courseAtI.times;
         } else {
             times = "None";
-        } if (!(courseAtI.days == null)) {
+        } if (courseAtI.days != null) {
             days = courseAtI.days;
         } else {
             days = "None";
-        } if (!(courseAtI.bldg == null)) {
+        } if (courseAtI.bldg != null)) {
             bldg = courseAtI.bldg;
         } else {
             bldg = "None";
-        } if (!(courseAtI.room == null)) {
+        } if (courseAtI.room != null) {
             room = courseAtI.room;
         } else {
             room = "None";
         }
+        
         var sel = '.course' + c;
         $(document).ready(function(){
             $(sel).popover({title: "" + courseAtI.name, content: "<strong>Times: </strong>" + times + 
             " <br><strong>Building:</strong> " + bldg + " <br><strong>Room:</strong> " + room + " <br><strong>GT:</strong> " + gt +
-            " <br><strong>Location:</strong> (To be implemented)", html: true, trigger: "focus"}); 
+            " <br><strong>Location:</strong> (To be implemented)", html: true, animation: true, trigger: "focus"}); 
         });
     }
 }
