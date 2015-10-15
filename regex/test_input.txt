@@ -37,7 +37,7 @@ MATH-008B-033     NG    0.00    MW      0610PM-0700PM   WAT     2240
 
 FRSHMN ADVIS SEM:NAT & AGR SCI
 NASC-093 -069     SN    2.00    T       0210PM-0300PM   GEOL    1444
-R       0210PM-0300PM   PRCE    2301
+                                R       0210PM-0300PM   PRCE    2301
 
 
 Total Enrolled Units: 17.00 
