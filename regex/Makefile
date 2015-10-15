@@ -1,7 +1,7 @@
 # Compiles all multi-regexes.
 
 .PHONY: all clean
-OBJECTS = master session
+OBJECTS = input session
 
 all: $(OBJECTS)
 
