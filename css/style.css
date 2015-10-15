@@ -1,6 +1,6 @@
 body {
     background-attachment: fixed, fixed;
-	background-image: url('../img/stardust.png');
+	background-image: url("../img/stardust.png");
     background-color: #f4f4f4;
     color: #f8f8f8;
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
@@ -13,14 +13,13 @@ body {
 }
 .container {
     margin: 0 auto;
-    max-width: 810px
+    max-width: 820px;
 }
 p {
     margin: 0 0 10px
 }
-
 a {
-    color: #3399FF;
+    color: #4099FF;
     text-decoration: none;
     transition: color .15s
 }
@@ -31,6 +30,73 @@ a:hover,
 a:focus,
 a:active {
     color: #2f2f2f
+}
+div.centered {
+    text-align: center;
+}
+
+div.centered table {
+    margin: 0 auto; 
+    text-align: left;
+}
+.table-space {
+    margin-bottom: 25px;
+}
+.pure-table {
+    /* Remove spacing between table cells (from Normalize.css) */
+    background-color: rgba(0, 0, 0, .2);
+    width: 1000px;
+    table-layout: fixed;
+    border-collapse: collapse;
+    border-spacing: 0;
+    empty-cells: show;
+    border: 1px solid #cbcbcb;
+}
+.pure-table td,
+.pure-table th {
+    text-align: center;
+    border: 1px solid #cbcbcb;/*  inner column border */
+    border-width: 0 0 0 1px;
+    font-size: inherit;
+    margin: 0;
+}
+.pure-table td {
+    height: 20px;
+}
+.pure-table th {
+    height: 35px;
+    padding-bottom: 15px;
+}
+.pure-table tr {
+    border: 1px solid rgb(80, 80, 80);
+}
+.rspan{
+    background-color: rgba(0, 0, 0, .3);
+}
+/* Consider removing this next declaration block, as it causes problems when
+there's a rowspan on the first cell. Case added to the tests. issue#432 */
+.pure-table td:first-child,
+.pure-table th:first-child {
+    border-left-width: 0;
+}
+.pure-table thead {
+    background-color: #f8f8f8;
+    color: rgb(60, 60, 60);
+    vertical-align: bottom;
+}
+.popover {
+    border: 1px solid black;
+  }
+.popover-title {
+    background-color: #f8f8f8; 
+    color: rgb(60, 60, 60); 
+    font-size: 28px;
+    text-align:center;
+}
+.popover-content {
+    background-color: #f8f8f8;
+    color: rgb(60, 60, 60);
+    padding: 25px;
 }
 .jumbotron {
     margin: 0px 0;
@@ -65,7 +131,7 @@ a:active {
   box-shadow: none;
   border-radius: none;
 }
-.jumbotron .btn {
+.btn {
     background: none;
     border: 3px solid rgba(255, 255, 255, 0.35);
     border-radius: 2px;
@@ -78,10 +144,8 @@ a:active {
     transition: background .25s, width .5s, height .5s;
     transition: color .10s;
 }
-.jumbotron .btn:hover,
-.jumbotron .btn:active,
-.jumbotron .btn:focus,
-.jumbotron .btn.drop {
+.btn:hover,
+.btn.drop {
     background: rgba(200, 200, 200, 0.5);
     text-decoration: none;
     color: rgba(20, 20, 20, 0.5);
@@ -105,12 +169,12 @@ a:active {
     border-color: #EAEAEA;
     color: #6C6C6C
 }
-
 nav>ul,
 nav a {
     color: #f8f8f8;
     list-style: none;
     margin: 0;
+    margin-bottom: 75px;
     padding: 0;
     text-align: center
 }
@@ -152,7 +216,7 @@ only screen and (max-width: 400px) {
     }
     nav {
         background-color: rgba(248, 223, 223, 0);
-        padding: 10px 0
+        padding: 10px 0;
     }
     nav ul li {
         margin: 0px 0px 12px 0px;
