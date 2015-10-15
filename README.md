@@ -7,7 +7,7 @@ This project is a website written in HTML, CSS, and Javascript that is meant to 
 as well as provide links to each class location from the schedule you get from GROWL. Security is ensured because all of the schedule 
 interpreting and viewing is done client side. No personal schedule related information is sent over the web.
 
-[GitHub Pages](http://ammongit.github.io/ucr-class-map/)
+[GitHub Pages](https://github.com/BradleyCai/ucr-class-map/)
 --------------------------------------------------------
 
 This project will be hosted for free on GitHub pages. The downside is that you can't do any server side magic. The upside is that the 
