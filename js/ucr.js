@@ -61,8 +61,6 @@ function Course(quarter, name, nameID, bldg, room, gt, units,
         this.index = index;
     }
 }
-var courseList = 0;
-var hourList = 0;
 
 /**
  * Test function to fill an array with dummy courses.
@@ -87,27 +85,33 @@ function createTestCourses() {
  * The spot on a calender where the courses takes place in time on a certain day will fill
  * that postion on the array.
  * 
+ * @param cList - A list of courses
+ * @return hList - A 2D array hour list
  */
-function createHourList() {
+function createHourList(cList) {
+    var hList;
+    
     //Initialize a 2-D array. Each item within the array is an array.
-    hourList = new Array(32)
+    hList = new Array(32)
     for (var i = 0; i < 32; i++) {
-        hourList[i] = new Array(6);
+        hList[i] = new Array(6);
     }
     
-    for (var c = 0; c < courseList.length; c++) { //for each course
-        var current = courseList[c];
+    for (var c = 0; c < cList.length; c++) { //for each course
+        var current = cList[c];
         current.setIndex(c);
         for (var day = 0; day < current.days.length; day++) { //for each day of the week
             if (current.days[day] == true) {
-                //console.log(courseList[c].pos + " " + day);
+                //console.log(cList[c].pos + " " + day);
                 for (var b = 0; b < current.blocks; b++) {//for each block
                     
-                    hourList[current.pos + b][day] = courseList[c];
+                    hList[current.pos + b][day] = cList[c];
                 }
             }
         }
     }
+    
+    return hList;
 }
 
 /**
@@ -115,8 +119,10 @@ function createHourList() {
  * 
  * More is explained inside.
  *
+ * @param hList - Hour list, get it from createHourList(cList)
+ * @param cList - List of courses, gotten from the regex parsing
  */
-function createTableString() {
+function createTableString(hList) {
     //This creates the first row of days
     var tableString = 
 "<table class='pure-table'>\n \
@@ -153,11 +159,11 @@ function createTableString() {
         
         //This creates the courses in the table
         for (var col = 0; col < 6; col++) { // for each td/day (mon - sat = 6)
-            courseAtI = hourList[row][col];
+            courseAtI = hList[row][col];
             
             //This displays the course info per course, instead of per block
             if (!(courseAtI == null)) {
-                if (hourList[row - 1][col] == null) {
+                if (hList[row - 1][col] == null) {
                     
                     var popoutString = "<td class='rspan' rowspan='" + courseAtI.blocks + "'>" +
                     "<a href='' onclick='return false;' " +
@@ -188,6 +194,8 @@ function createTableString() {
     return tableString;
 }
 
+//function createCanvasString()
+
 /**
  * This will find the div with an ID of "table-space" and then insert the innerHTML that createTableString() made.
  * Will also display the tableString on the console log
@@ -195,16 +203,16 @@ function createTableString() {
  */
 function createTable(tableString) {
     var tableSpace = document.getElementById("table-space");
+    console.log(tableString);
     
     tableSpace.innerHTML = tableString;
     
     console.log(tableString);
-    createPopovers();
 }
 
-function createPopovers() {
-    for (var c = 0; c < courseList.length; c++) {
-        courseAtI = courseList[c];
+function createPopovers(cList) {
+    for (var c = 0; c < cList.length; c++) {
+        courseAtI = cList[c];
         console.log(courseAtI.bldg);
         
         //This block will give "None" to empty variables in a course
@@ -215,10 +223,23 @@ function createPopovers() {
         var room = (courseAtI.room == "") ? "None" : courseAtI.room;
         
         var sel = '.course' + c;
-        $(document).ready(function(){
-            $(sel).popover({title: "" + courseAtI.name, content: "<strong>Times: </strong>" + times + 
-            " <br><strong>Building:</strong> " + bldg + " <br><strong>Room:</strong> " + room + " <br><strong>GT:</strong> " + gt +
-            " <br><strong>Location:</strong> (To be implemented)", html: true, animation: true, trigger: "focus"}); 
-        });
+        $(sel).popover({title: "" + courseAtI.name, content: "<strong>Times: </strong>" + times + 
+        " <br><strong>Building:</strong> " + bldg + " <br><strong>Room:</strong> " + room + " <br><strong>GT:</strong> " + gt +
+        " <br><strong>Location:</strong> (To be implemented)", html: true, animation: true, trigger: "focus"}); 
     }
 }
+
+function main() {
+    var courseList;
+    var hourList;
+    var tableString;
+
+    courseList = createTestCourses(); //to be replaced by actual courseList
+    hourList = createHourList(courseList);
+    tableString = createTableString(hourList);
+    
+    createTable(tableString);
+    createPopovers(courseList);
+}
+
+main();

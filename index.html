@@ -10,21 +10,7 @@
         <script type="text/javascript" src="js/jquery.min.js"></script>
         <script type="text/javascript" src="js/bootstrap.js"></script>
         <script type="text/javascript" src="js/html2canvas.js"></script>
-        <script type="text/javascript" src="js/ucr.js"></script>
-        <script>
-            $(document).ready(function(){
-                $("#table-space").hide();
-                $("button").one("click", function() {
-                    courseList = createTestCourses();
-                    createHourList();
-                    createTable(createTableString());
-                });
-                $("button").click(function(){
-                    $("#table-space").toggle(300);
-                });
-                $('[data-toggle=popover]').popover(); 
-            });
-        </script>
+        <script defer type="text/javascript" src="js/ucr.js"></script>
     </head>
     
     <body>
@@ -42,8 +28,6 @@
         
         <div class="centered">
             <div class="table-space" id="table-space"></div>
-            
-            <button class="btn">Show Calender</button>
         </div>
         
         <div class="container">
@@ -57,7 +41,6 @@
             
             <nav>
                 <ul>
-
                     <li><a href="index.html">Home</a></li>
                     <li><a href="about.html">About</a></li>
                     <li><a href="https://twitter.com/UCR_Visualizer">Twitter</a></li>
