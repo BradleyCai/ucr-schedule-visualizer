@@ -145,7 +145,7 @@ function createTableString() {
         
         //This creates the first column of times and adds AM or PM based on time of day
         if (row % 2 == 0) { //To make each rowspan 2 time column
-            if (Math.floor(row/15) == 0) {
+            if (Math.floor(row/10) == 0) {
                 tableString += "<td rowspan='2'><strong>" + hour + "AM</strong></td>\n" }
             else {
                 tableString += "<td rowspan='2'><strong>" + hour + "PM</strong></td>\n" }

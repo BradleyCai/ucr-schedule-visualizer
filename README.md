@@ -15,6 +15,8 @@ website's purpose only really needs client side HTML, CSS, and JS which works ou
 
 You can check it out the current stable release of our website via the link above.
 
+Because the GitHub pages branch is the equivilant of a master branch, the gh-pages branch is our master branch.
+
 Issues
 ------
 
