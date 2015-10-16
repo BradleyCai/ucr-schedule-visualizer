@@ -194,7 +194,9 @@ function createTableString(hList) {
     return tableString;
 }
 
-//function createCanvasString()
+function createCanvasString(hList) {
+    
+}
 
 /**
  * This will find the div with an ID of "table-space" and then insert the innerHTML that createTableString() made.
@@ -222,10 +224,15 @@ function createPopovers(cList) {
         var bldg = (courseAtI.bldg == "") ? "None" : courseAtI.bldg;
         var room = (courseAtI.room == "") ? "None" : courseAtI.room;
         
-        var sel = '.course' + c;
-        $(sel).popover({title: "" + courseAtI.name, content: "<strong>Times: </strong>" + times + 
-        " <br><strong>Building:</strong> " + bldg + " <br><strong>Room:</strong> " + room + " <br><strong>GT:</strong> " + gt +
-        " <br><strong>Location:</strong> (To be implemented)", html: true, animation: true, trigger: "focus"}); 
+        $('.course' + c).popover({title: courseAtI.name, 
+        content: "<strong>Times: </strong>" + times + 
+        " <br><strong>Building:</strong> " + bldg + 
+        " <br><strong>Room:</strong> " + room + 
+        " <br><strong>GT:</strong> " + gt +
+        " <br><strong>Location:</strong> (To be implemented)", 
+        html: true, 
+        animation: true, 
+        trigger: "focus"}); 
     }
 }
 

@@ -196,9 +196,6 @@ nav>ul>li:last-child:after {
 
 @media only screen and (max-device-width: 320px),
 only screen and (max-width: 400px) {
-    body {
-        padding: 10px 0 0
-    }
     .jumbotron {
         margin: 0px 0px 20px 0px
     }
@@ -224,4 +221,5 @@ only screen and (max-width: 400px) {
     nav a {
         padding: 15px 5px 0px 5px;
     }
+    
 }
