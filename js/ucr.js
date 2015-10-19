@@ -117,11 +117,11 @@ function drawCanvasTable(hList, canvas, width, height) {
     var offset = 100; //Sets the table down (offset) amount of pixels. Used for the title
     var tableWidth = width * hList[0].length + width + 1;
     var tableHeight = height * hList.length + height + 1 + offset;
+
+    canvas.width = tableWidth;
+    canvas.height = tableHeight;
     
-    //Set the tableWidth and tableHeight based on the function input
-    var canvas = $('#canvas-img').attr({width: tableWidth, height: tableHeight});
-    
-    var context = canvas.get(0).getContext("2d");
+    var context = canvas.getContext("2d");
     context.font = 'bold 50px "Helvetica"';
     context.textBaseline = "middle";
     context.textAlign = "center";
@@ -158,17 +158,36 @@ function drawCanvasTable(hList, canvas, width, height) {
         for (var col = 1; col < hList[0].length + 1; col++) { //For each day Mon-Sat
             courseAtI = hList[row - 1][col - 1];
             
-            context.rect(col * width + .5, row * height + .5 + offset, width, height);
-            
             if (courseAtI != null) {
-                context.fillText(courseAtI.nameID, 
-                col*width + width/2, 
-                row*height + height/2 + offset);
+                if (hList[row - 2][col - 1] == null) {
+                    switch (courseAtI.blocks) {
+                        case 1:
+                            context.rect(col * width + .5, row * height + .5 + offset, width, height);
+                            context.fillText(courseAtI.nameID, col*width + width/2, row*height + height/2 + offset);
+                            break;
+                        case 2:
+                            context.rect(col * width + .5, row * 2 * height + .5 + offset, width, height);
+                            context.fillText(courseAtI.nameID, col*width + width/2, row*height + height/2 + offset);
+                            context.fillText(courseAtI.bldg + " " + courseAtI.room, col*width + width/2, row*height + height + height/2 + offset);
+                            break;
+                        default:
+                            context.rect(col * width + .5, row * courseAtI.blocks * height + .5 + offset, width, height);
+                            
+                            context.fillText(courseAtI.nameID, col*width + width/2, row*height + height*courseAtI.blocks/2 - height + offset);
+                            context.fillText(courseAtI.duration + " minutes", col*width + width/2, row*height + height*courseAtI.blocks/2 + offset);
+                            context.fillText(courseAtI.bldg + " " + courseAtI.room, col*width + width/2, row*height + height*courseAtI.blocks/2 + height + offset);
+                            break;
+                    }
+                }
+            }
+            else {
+                context.rect(col * width + .5, row * height + .5 + offset, width, height);
             }
         }
     }
     
     context.stroke();
+    $("#table-space").append(canvas);
 }
 
 /**
@@ -298,11 +317,15 @@ function main() {
     courseList = createTestCourses(); //to be replaced by actual courseList
     hourList = createHourList(courseList);
     tableString = createTableString(hourList);
-    canvas = document.getElementById("canvas-img");
+    canvas = document.createElement('canvas');
     
     createTable(tableString);
     createPopovers(courseList);
     drawCanvasTable(hourList, canvas, 150, 25);
+    
+    $(".btn").click(function() {
+        //save feature here
+    });
 }
 
-main();
+main()
