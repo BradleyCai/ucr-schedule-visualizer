@@ -26,12 +26,14 @@ code if you think something seems amiss. If you wanna merge in a new feature or 
 Credits
 -------
 
-Lots of inspiration from [pomf](https://github.com/nokonoko/Pomf).
-[jQuery](https://jquery.com/)
-[Bootstrap](http://getbootstrap.com/)
-[FileSaver.js](https://github.com/eligrey/FileSaver.js/)
-[Canvas-toBlob.js](https://github.com/eligrey/canvas-toBlob.js)
-[Blob.js](https://github.com/eligrey/Blob.js)
+<ul>
+  <li>Lots of inspiration from [pomf](https://github.com/nokonoko/Pomf).</li>
+  <li>[jQuery](https://jquery.com/)</li>
+  <li>[Bootstrap](http://getbootstrap.com/)</li>
+  <li>[FileSaver.js](https://github.com/eligrey/FileSaver.js/)</li>
+  <li>[Canvas-toBlob.js](https://github.com/eligrey/canvas-toBlob.js)</li>
+  <li>[Blob.js](https://github.com/eligrey/Blob.js)</li>
+</ul>
 
 Authored and conceived by [Bradley Cai](https://github.com/BradleyCai) and [Ammon](https://github.com/ammongit). 
 
