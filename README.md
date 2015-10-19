@@ -13,7 +13,7 @@ interpreting and viewing is done client side. No personal schedule related infor
 This project will be hosted for free on GitHub pages. The downside is that you can't do any server side magic. The upside is that the 
 website's purpose only really needs client side HTML, CSS, and JS which works out!
 
-You can check it out the current stable release of our website via the link above.
+You can check out the current stable release of our website via the link above.
 
 Because the GitHub pages branch is the equivilant of a master branch, the gh-pages branch is our master branch.
 
