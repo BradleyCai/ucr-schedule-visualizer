@@ -27,12 +27,12 @@ Credits
 -------
 
 <ul>
-  <li>Lots of inspiration from [pomf](https://github.com/nokonoko/Pomf).</li>
-  <li>[jQuery](https://jquery.com/)</li>
-  <li>[Bootstrap](http://getbootstrap.com/)</li>
-  <li>[FileSaver.js](https://github.com/eligrey/FileSaver.js/)</li>
-  <li>[Canvas-toBlob.js](https://github.com/eligrey/canvas-toBlob.js)</li>
-  <li>[Blob.js](https://github.com/eligrey/Blob.js)</li>
+  <li>Lots of inspiration from <a href="https://github.com/nokonoko/Pomf">pomf</a></li>
+  <li><a href="https://jquery.com/">jQuery</a></li>
+  <li><a href="http://getbootstrap.com/">Bootstrap</a></li>
+  <li><a href="https://github.com/eligrey/FileSaver.js/">FileSaver.js</a></li>
+  <li><a href="https://github.com/eligrey/canvas-toBlob.js">Canvas-toBlob.js</a></li>
+  <li><a href="https://github.com/eligrey/Blob.js">Blob.js</a></li>
 </ul>
 
 Authored and conceived by [Bradley Cai](https://github.com/BradleyCai) and [Ammon](https://github.com/ammongit). 
