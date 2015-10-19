@@ -131,7 +131,7 @@ function drawCanvasTable(hList, canvas, width, height) {
     var days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
     context.fillStyle="white";
     context.fillRect(0, 0, tableWidth, tableHeight);
-    context.fillStyle="black"
+    context.fillStyle="black";
     context.fillText("UCR Schedule Visualizer", tableWidth/2, 30);
     context.font = '18px "Helvetica"';
     context.fillText("https://waa.ai/UCR-SV", tableWidth/2, 65);
@@ -166,13 +166,17 @@ function drawCanvasTable(hList, canvas, width, height) {
                             context.fillText(courseAtI.nameID, col*width + width/2, row*height + height/2 + offset);
                             break;
                         case 2:
-                            context.rect(col * width + .5, row * 2 * height + .5 + offset, width, height);
+                            context.fillStyle="#E6E6E6";
+                            context.fillRect(col * width + .5, row * height + .5 + offset, width, height * 2);
+                            context.fillStyle="black";
+                            //context.fillStyle="black";
                             context.fillText(courseAtI.nameID, col*width + width/2, row*height + height/2 + offset);
                             context.fillText(courseAtI.bldg + " " + courseAtI.room, col*width + width/2, row*height + height + height/2 + offset);
                             break;
                         default:
-                            context.rect(col * width + .5, row * courseAtI.blocks * height + .5 + offset, width, height);
-                            
+                            context.fillStyle="#E6E6E6";
+                            context.fillRect(col * width + .5, row * height + .5 + offset, width, height * courseAtI.blocks);
+                            context.fillStyle="black";
                             context.fillText(courseAtI.nameID, col*width + width/2, row*height + height*courseAtI.blocks/2 - height + offset);
                             context.fillText(courseAtI.duration + " minutes", col*width + width/2, row*height + height*courseAtI.blocks/2 + offset);
                             context.fillText(courseAtI.bldg + " " + courseAtI.room, col*width + width/2, row*height + height*courseAtI.blocks/2 + height + offset);
@@ -187,7 +191,6 @@ function drawCanvasTable(hList, canvas, width, height) {
     }
     
     context.stroke();
-    $("#table-space").append(canvas);
 }
 
 /**
@@ -324,8 +327,10 @@ function main() {
     drawCanvasTable(hourList, canvas, 150, 25);
     
     $(".btn").click(function() {
-        //save feature here
+        canvas.toBlob(function(blob) {
+            saveAs(blob, "UCR-Schedule-Visualized.png");
+        });
     });
 }
 
-main()
+main();
