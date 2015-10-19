@@ -236,12 +236,16 @@ function createPopovers(cList) {
     }
 }
 
-function main() {
-    var courseList;
+/**
+ * Creates all of the parts related to this website. Makes the hourList then the tableString
+ * and then the actual table and then fills it with popovers
+ *
+ * @param courseList - List of courses, see Course class
+ */
+function createAll(courseList) {
     var hourList;
     var tableString;
 
-    courseList = createTestCourses(); //to be replaced by actual courseList
     hourList = createHourList(courseList);
     tableString = createTableString(hourList);
     
@@ -249,4 +253,4 @@ function main() {
     createPopovers(courseList);
 }
 
-main();
+createAll(createTestCourses());
