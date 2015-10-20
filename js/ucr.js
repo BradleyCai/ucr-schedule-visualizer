@@ -120,18 +120,18 @@ function createTableString() {
     //This creates the first row of days
     var tableString = 
 "<table class='pure-table'>\n \
-    <thead>\n \
-        <tr>\n \
-            <th></th>\n \
-            <th>Monday</th>\n \
-            <th>Tuesday</th>\n \
-            <th>Wednesday</th>\n \
-            <th>Thursday</th>\n \
-            <th>Friday</th>\n \
-            <th>Saturday</th>\n \
-        </tr>\n \
-    </thead>\n \
-    <tbody>\n";
+    <thead> \
+        <tr> \
+            <th></th> \
+            <th>Monday</th> \
+            <th>Tuesday</th> \
+            <th>Wednesday</th> \
+            <th>Thursday</th> \
+            <th>Friday</th> \
+            <th>Saturday</th> \
+        </tr> \
+    </thead> \
+    <tbody>";
     
     //This creates the body of the table
     var hour = 0;
