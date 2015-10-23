@@ -134,7 +134,7 @@ function drawCanvasTable(hList, canvas, width, height) {
     context.fillStyle="black";
     context.fillText("UCR Schedule Visualizer", tableWidth/2, 30);
     context.font = '18px "Helvetica"';
-    context.fillText("https://waa.ai/UCR-SV", tableWidth/2, 65);
+    context.fillText("https://waa.ai/ucrsv", tableWidth/2, 65);
     context.font = '14px "Helvetica"';
     
     for (var day = 0; day < days.length; day++) { //Heh, courses for days. No? Okay ;_;
