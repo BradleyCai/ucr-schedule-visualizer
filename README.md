@@ -37,7 +37,7 @@ Credits
 
 Authored and conceived by [Bradley Cai](https://github.com/BradleyCai) and [Ammon](https://github.com/ammongit). 
 
-Contact us! We have a [twitter](https://twitter.com/UCR_Visualizer), or you can [email me at bradleycai24@gmail.com](mailto:bradleycai24@gmail.com)(Bradley) if it's something more 
+Contact us! We have a [twitter](https://twitter.com/UCR_Visualizer), or you can email me at [bradleycai24@gmail.com](mailto:bradleycai24@gmail.com)(Bradley) if it's something more 
 detailed.
 
 License
