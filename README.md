@@ -24,8 +24,7 @@ which you can find [here](http://bradleycai.github.io/ucr-class-map/img/WAAAI-QR
 Issues
 ------
 
-If you want to be a nice pal, suggest a feature in the "issues" section! If you want to be a super pal, you can suggest edits to our
-code if you think something seems amiss. If you wanna merge in a new feature or fix from your fork, we'll take the time to consider it.
+If you want to be a nice pal, suggest a feature in the "issues" section! If you want to be a super pal, you can fork us and make a change that we can merge into our source.
 
 Credits
 -------
@@ -36,15 +35,15 @@ Credits
   <li><a href="http://getbootstrap.com/">Bootstrap</a></li>
   <li><a href="https://github.com/eligrey/FileSaver.js/">FileSaver.js</a></li>
   <li><a href="https://github.com/eligrey/canvas-toBlob.js">Canvas-toBlob.js</a></li>
-  <li><a href="https://github.com/eligrey/Blob.js">Blob.js</a></li>
+  <li><a href="https://github.com/eligrey/Blob.js">Blob.js</a></l>
 </ul>
 
 Authored and conceived by [Bradley Cai](https://github.com/BradleyCai) and [Ammon](https://github.com/ammongit). 
 
-Contact us! We have a [twitter](https://twitter.com/UCR_Visualizer), or you can email me at [bradleycai24@gmail.com](mailto:bradleycai24@gmail.com)(Bradley) if it's something more 
+Contact us! We have a [twitter](https://twitter.com/UCR_Visualizer), or you can email us at [bradleycai24@gmail.com](mailto:bradleycai24@gmail.com) (Bradley) or [ammon.i.smith@gmail.com](mailto:ammon.i.smith@gmail.com) (Ammon) if it's something more 
 detailed.
 
 License
 -------
 
-MIT License: Do what ever you want with the code <3 This project is intended for public use and for personal learning and enjoyment.
+MIT License: Do what ever you want with this code :heart:. This project is intended for public use and for personal learning and enjoyment.
