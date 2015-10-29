@@ -1,6 +1,12 @@
 /**
  * Class to represent a course. Should be used in a list to represent a schedule.
  * Has functions avaliable to manipulate the data and present things in different ways.
+ *
+ * There are certain courses that do not have one period of time for one set of days.
+ * These courses have multiple times for different days. (ex. One course but Tuesday class 
+ * meets at 7 where as Thrusday class meets at 8). These special cases are handeled by storing
+ * them as two different courses. These two courses are technically one course but to represent
+ * them better we have them as 2. 
  * 
  * @constructor 
  * @author Bradley Cai
@@ -82,6 +88,25 @@ function createTestCourses() {
     return list;
 }
 
+function createCourses(regex) {
+    var list = new Array();
+    
+    var input = document.getElementById('regex');
+    input.onkeyup = function() {
+        //Quick check if input is a schedule
+        if(this.value.match(regex)) {
+            console.log("Schedule Match");
+        }
+        
+    };
+    
+    return list;
+}
+
+function parseRawCourses(rawCourses) {
+    
+}
+
 /**
  * Creates a 2D array whose rows are time in 30 minute blocks and columns days of the week.
  * The spot on a calender where the courses takes place in time on a certain day will fill
@@ -102,7 +127,6 @@ function createHourList() {
             if (current.days[day] == true) {
                 //console.log(courseList[c].pos + " " + day);
                 for (var b = 0; b < current.blocks; b++) {//for each block
-                    
                     hourList[current.pos + b][day] = courseList[c];
                 }
             }
@@ -222,3 +246,5 @@ function createPopovers() {
         });
     }
 }
+
+createCourses(/(.*)\n\s*([A-Z]+ ?-[A-Z0-9]+ ?-[0-9]{3})\s+([A-Z]*)\s+([0-9]\.[0-9]{2})\s+((?:TBA|[MTWRFS]+)\s+(?:[0-9]{4}[AP]M)?-([0-9]{4}[AP]M)?\s+(?:[A-Z\-]*)\s+(?:[0-9]*)\s*)+\n/g);

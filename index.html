@@ -10,7 +10,8 @@
         <script type="text/javascript" src="js/jquery.min.js"></script>
         <script type="text/javascript" src="js/bootstrap.js"></script>
         <script type="text/javascript" src="js/html2canvas.js"></script>
-        <script type="text/javascript" src="js/ucr.js"></script>
+        <script defer type="text/javascript" src="js/ucr.js"></script>
+        
         <script>
             $(document).ready(function(){
                 $("#table-space").hide();
@@ -43,7 +44,7 @@
         <div class="centered">
             <div class="table-space" id="table-space"></div>
             <h3>Paste your GROWL schedule here:</h3>
-            <input type="text" name="input"/>
+            <textarea type="text" id="regex"></textarea>
         </div>
 
         <div class="container">
