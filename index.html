@@ -9,23 +9,10 @@
         <link rel="stylesheet" href="css/bs-popover.css">
         <script type="text/javascript" src="js/jquery.min.js"></script>
         <script type="text/javascript" src="js/bootstrap.js"></script>
-        <script type="text/javascript" src="js/html2canvas.js"></script>
+        <script type="text/javascript" src="js/Blob.js"></script>
+        <script type="text/javascript" src="js/canvas-toBlob.js"></script>
+        <script type="text/javascript" src="js/FileSaver.js"></script>
         <script defer type="text/javascript" src="js/ucr.js"></script>
-        
-        <script>
-            $(document).ready(function(){
-                $("#table-space").hide();
-                $("button").one("click", function() {
-                    courseList = createTestCourses();
-                    createHourList();
-                    createTable(createTableString());
-                });
-                $("button").click(function(){
-                    $("#table-space").toggle(300);
-                });
-                $('[data-toggle=popover]').popover(); 
-            });
-        </script>
     </head>
     
     <body>
@@ -42,9 +29,9 @@
         </div>
         
         <div class="centered">
-            <div class="table-space" id="table-space"></div>
             <h3>Paste your GROWL schedule here:</h3>
             <textarea type="text" id="regex"></textarea>
+            <div class="table-space" id="table-space"></div>
         </div>
 
         <div class="container">
@@ -52,13 +39,11 @@
                 <strong>What is this anyway?</strong> This website is a tool to kiss your frog of a schedule and turn him into a beautiful prince.
                 We'll interpret your schdule and give you an hour by hour view as well as provide links to the buildings where your classes are at.<br><br>
                 <strong>Something isn't working!</strong> Yeah we <i>just</i> pumped out our working version not too long ago. We're still working on this
-                project everyday! <strong><a href="https://twitter.com/UCR_Visualizer">Tweet</a> problems at us or send us detailed emails</strong> about what went wrong!<br><br> 
-                <strong>Let me stalk you cutie.</strong> O-Okay. The about link below has more info about us and the website.
+                project everyday! <strong><a href="https://twitter.com/UCR_Visualizer">Tweet</a> problems at us or send us detailed emails</strong> about what went wrong! 
             </p>
             
             <nav>
                 <ul>
-
                     <li><a href="index.html">Home</a></li>
                     <li><a href="about.html">About</a></li>
                     <li><a href="https://twitter.com/UCR_Visualizer">Twitter</a></li>

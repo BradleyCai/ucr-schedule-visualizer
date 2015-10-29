@@ -67,8 +67,6 @@ function Course(quarter, name, nameID, bldg, room, gt, units,
         this.index = index;
     }
 }
-var courseList = 0;
-var hourList = 0;
 
 /**
  * Test function to fill an array with dummy courses.
@@ -112,26 +110,112 @@ function parseRawCourses(rawCourses) {
  * The spot on a calender where the courses takes place in time on a certain day will fill
  * that postion on the array.
  * 
+ * @param cList - A list of courses
+ * @return hList - A 2D array hour list
  */
-function createHourList() {
+function createHourList(cList) {
+    var hList;
+    
     //Initialize a 2-D array. Each item within the array is an array.
-    hourList = new Array(32)
+    hList = new Array(32)
     for (var i = 0; i < 32; i++) {
-        hourList[i] = new Array(6);
+        hList[i] = new Array(6);
     }
     
-    for (var c = 0; c < courseList.length; c++) { //for each course
-        var current = courseList[c];
+    for (var c = 0; c < cList.length; c++) { //for each course
+        var current = cList[c];
         current.setIndex(c);
         for (var day = 0; day < current.days.length; day++) { //for each day of the week
             if (current.days[day] == true) {
-                //console.log(courseList[c].pos + " " + day);
+                //console.log(cList[c].pos + " " + day);
                 for (var b = 0; b < current.blocks; b++) {//for each block
-                    hourList[current.pos + b][day] = courseList[c];
+                    hList[current.pos + b][day] = cList[c];
                 }
             }
         }
     }
+    
+    return hList;
+}
+
+function drawCanvasTable(hList, canvas, width, height) {
+    var offset = 100; //Sets the table down (offset) amount of pixels. Used for the title
+    var tableWidth = width * hList[0].length + width + 1;
+    var tableHeight = height * hList.length + height + 1 + offset;
+
+    canvas.width = tableWidth;
+    canvas.height = tableHeight;
+    
+    var context = canvas.getContext("2d");
+    context.font = 'bold 50px "Helvetica"';
+    context.textBaseline = "middle";
+    context.textAlign = "center";
+    
+    var courseAtI;
+    
+    var days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+    context.fillStyle="white";
+    context.fillRect(0, 0, tableWidth, tableHeight);
+    context.fillStyle="black";
+    context.fillText("UCR Schedule Visualizer", tableWidth/2, 30);
+    context.font = '18px "Helvetica"';
+    context.fillText("https://waa.ai/ucrsv", tableWidth/2, 65);
+    context.font = '14px "Helvetica"';
+    
+    for (var day = 0; day < days.length; day++) { //Heh, courses for days. No? Okay ;_;
+        context.rect(day * width + width + .5, offset + .5, width, height);
+        context.fillText(days[day], day*width + width + width/2, height/2 + offset); 
+    }
+    context.rect(.5, offset + .5, width, height);    
+    
+    var hour = 0;
+    for (var row = 1; row < hList.length + 1; row++) { //For each 30 minute block
+        if (row%2 == 1) {
+            hour = Math.ceil(((row * 30 + 420)/60) % 12.1);
+            context.rect(.5 ,row * height + offset + .5, width, height*2);
+            if (Math.floor(row/10) == 0) {
+                context.fillText(hour + "AM", .5 + width / 2, row * height + height + offset + .5); }
+            else {
+                context.fillText(hour + "PM", .5 + width / 2, row * height + height + offset + .5); }
+            
+        }
+        
+        for (var col = 1; col < hList[0].length + 1; col++) { //For each day Mon-Sat
+            courseAtI = hList[row - 1][col - 1];
+            
+            if (courseAtI != null) {
+                if (hList[row - 2][col - 1] == null) {
+                    switch (courseAtI.blocks) {
+                        case 1:
+                            context.rect(col * width + .5, row * height + .5 + offset, width, height);
+                            context.fillText(courseAtI.nameID, col*width + width/2, row*height + height/2 + offset);
+                            break;
+                        case 2:
+                            context.fillStyle="#E6E6E6";
+                            context.fillRect(col * width + .5, row * height + .5 + offset, width, height * 2);
+                            context.fillStyle="black";
+                            //context.fillStyle="black";
+                            context.fillText(courseAtI.nameID, col*width + width/2, row*height + height/2 + offset);
+                            context.fillText(courseAtI.bldg + " " + courseAtI.room, col*width + width/2, row*height + height + height/2 + offset);
+                            break;
+                        default:
+                            context.fillStyle="#E6E6E6";
+                            context.fillRect(col * width + .5, row * height + .5 + offset, width, height * courseAtI.blocks);
+                            context.fillStyle="black";
+                            context.fillText(courseAtI.nameID, col*width + width/2, row*height + height*courseAtI.blocks/2 - height + offset);
+                            context.fillText(courseAtI.duration + " minutes", col*width + width/2, row*height + height*courseAtI.blocks/2 + offset);
+                            context.fillText(courseAtI.bldg + " " + courseAtI.room, col*width + width/2, row*height + height*courseAtI.blocks/2 + height + offset);
+                            break;
+                    }
+                }
+            }
+            else {
+                context.rect(col * width + .5, row * height + .5 + offset, width, height);
+            }
+        }
+    }
+    
+    context.stroke();
 }
 
 /**
@@ -139,8 +223,10 @@ function createHourList() {
  * 
  * More is explained inside.
  *
+ * @param hList - Hour list, get it from createHourList(cList)
+ * @param cList - List of courses, gotten from the regex parsing
  */
-function createTableString() {
+function createTableString(hList) {
     //This creates the first row of days
     var tableString = 
 "<table class='pure-table'>\n \
@@ -169,19 +255,19 @@ function createTableString() {
         
         //This creates the first column of times and adds AM or PM based on time of day
         if (row % 2 == 0) { //To make each rowspan 2 time column
-            if (Math.floor(row/15) == 0) {
-                tableString += "<td rowspan='2'><strong>" + hour + "AM</strong></td>\n" }
+            if (Math.floor(row/10) == 0) {
+                tableString += "<td rowspan='2'><strong>" + hour + "AM</strong></td>\n"; }
             else {
-                tableString += "<td rowspan='2'><strong>" + hour + "PM</strong></td>\n" }
+                tableString += "<td rowspan='2'><strong>" + hour + "PM</strong></td>\n"; }
         }
         
         //This creates the courses in the table
         for (var col = 0; col < 6; col++) { // for each td/day (mon - sat = 6)
-            courseAtI = hourList[row][col];
+            courseAtI = hList[row][col];
             
             //This displays the course info per course, instead of per block
-            if (!(courseAtI == null)) {
-                if (hourList[row - 1][col] == null) {
+            if (courseAtI != null) {
+                if (hList[row - 1][col] == null) {
                     
                     var popoutString = "<td class='rspan' rowspan='" + courseAtI.blocks + "'>" +
                     "<a href='' onclick='return false;' " +
@@ -208,7 +294,8 @@ function createTableString() {
             }
         }
     }
-    tableString += "</thead>\n</table>";
+    tableString += "</thead>\n</table> \
+    <button class = 'btn'>Click to download schedule</button>";
     return tableString;
 }
 
@@ -219,16 +306,16 @@ function createTableString() {
  */
 function createTable(tableString) {
     var tableSpace = document.getElementById("table-space");
+    console.log(tableString);
     
     tableSpace.innerHTML = tableString;
     
     console.log(tableString);
-    createPopovers();
 }
 
-function createPopovers() {
-    for (var c = 0; c < courseList.length; c++) {
-        courseAtI = courseList[c];
+function createPopovers(cList) {
+    for (var c = 0; c < cList.length; c++) {
+        courseAtI = cList[c];
         console.log(courseAtI.bldg);
         
         //This block will give "None" to empty variables in a course
@@ -238,13 +325,45 @@ function createPopovers() {
         var bldg = (courseAtI.bldg == "") ? "None" : courseAtI.bldg;
         var room = (courseAtI.room == "") ? "None" : courseAtI.room;
         
-        var sel = '.course' + c;
-        $(document).ready(function(){
-            $(sel).popover({title: "" + courseAtI.name, content: "<strong>Times: </strong>" + times + 
-            " <br><strong>Building:</strong> " + bldg + " <br><strong>Room:</strong> " + room + " <br><strong>GT:</strong> " + gt +
-            " <br><strong>Location:</strong> (To be implemented)", html: true, animation: true, trigger: "focus"}); 
-        });
+        $('.course' + c).popover({title: courseAtI.name, 
+        content: "<strong>Times: </strong>" + times + 
+        " <br><strong>Building:</strong> " + bldg + 
+        " <br><strong>Room:</strong> " + room + 
+        " <br><strong>GT:</strong> " + gt +
+        " <br><strong>Location:</strong> (To be implemented)", 
+        html: true, 
+        animation: true, 
+        trigger: "focus"}); 
     }
 }
 
-createCourses(/(.*)\n\s*([A-Z]+ ?-[A-Z0-9]+ ?-[0-9]{3})\s+([A-Z]*)\s+([0-9]\.[0-9]{2})\s+((?:TBA|[MTWRFS]+)\s+(?:[0-9]{4}[AP]M)?-([0-9]{4}[AP]M)?\s+(?:[A-Z\-]*)\s+(?:[0-9]*)\s*)+\n/g);
+/**
+ * Creates all of the parts related to this website. Makes the hourList then the tableString
+ * and then the actual table and then fills it with popovers
+ *
+ * @param courseList - List of courses, see Course class
+ */
+function createAll(courseList) {
+    var hourList;
+    var tableString;
+    var canvas;
+    //var regexes;
+
+    hourList = createHourList(courseList);
+    tableString = createTableString(hourList);
+    canvas = document.createElement('canvas');
+    //regexes = createRegexes();
+    
+    //createTable(tableString);
+    //createPopovers(courseList);
+    //drawCanvasTable(hourList, canvas, 150, 25);
+    //createCourses();
+    
+    $(".btn").click(function() {
+        canvas.toBlob(function(blob) {
+            saveAs(blob, "UCR-Schedule-Visualized.png");
+        });
+    });
+}
+
+createAll(createTestCourses());
