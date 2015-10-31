@@ -129,7 +129,7 @@ var buildingNames = {
     "SOCS"     : "UCR Soccer Stadium",
     "SOMR"     : "School of Medicine Research Building",
     "SPR"      : "Sproul Hall",
-    "SPTCN"    : "UC iverside Baseball Complex",
+    "SPTCN"    : "UC Riverside Baseball Complex",
     "SPTH"     : "Spieth Hall",
     "SRCTC"    : "UCR Student Recreation Center Tennis Courts",
     "SSB"      : "Student Services",
