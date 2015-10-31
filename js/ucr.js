@@ -6,7 +6,7 @@ var buildingNames = {
     "ANDU2"    : "Anderson Hall 2 (AGSM)",
     "ARTS"     : "Arts Building",
     "ATH"      : "Athletics and Dance Building",
-    "BANNA"    : "Bannockburn Village A,
+    "BANNA"    : "Bannockburn Village A",
     "BANNB"    : "Bannockburn Village B",
     "BANNC"    : "Bannockburn Village C",
     "BANND"    : "Bannockburn Village D",
