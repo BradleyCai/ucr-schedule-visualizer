@@ -470,7 +470,7 @@ function getBuildingLocation(bldg, room) {
     if (name == undefined || name == "undefined")
         return "Unknown";
 
-    return "<a href=\"" + url + "\">" + name + " " + room + "</a>";
+    return "<a target=\"_blank\" href=\"" + url + "\">" + name + " " + room + "</a>";
 }
 
 /**
