@@ -1,3 +1,154 @@
+var buildingNames = {
+    "A&I"      : "Aberdeen_Inverness Residence Hall",
+    "AHF"      : "Amy Harrison Field",
+    "ALUM"     : "Alumni and Visitor Center",
+    "ANDHL"    : "Anderson Hall 1 (AGSM)",
+    "ANDU2"    : "Anderson Hall 2 (AGSM)",
+    "ARTS"     : "Arts Building",
+    "ATH"      : "Athletics and Dance Building",
+    "BANNA"    : "Bannockburn Village A"
+    "BANNB"    : "Bannockburn Village B"
+    "BANNC"    : "Bannockburn Village C"
+    "BANND"    : "Bannockburn Village D"
+    "BANNE"    : "Bannockburn Village E"
+    "BANNF"    : "Bannockburn Village F"
+    "BANNG"    : "Bannockburn Village G"
+    "BANNH"    : "Bannockburn Village H"
+    "BANNI"    : "Bannockburn Village I"
+    "BANNJ"    : "Bannockburn Village J"
+    "BANNK"    : "Bannockburn Village K"
+    "BANNL"    : "Bannockburn Village L"
+    "BANNM"    : "Bannockburn Village M"
+    "BANNN"    : "Bannockburn Village N"
+    "BANNO"    : "Bannockburn Village O"
+    "BANNP"    : "Bannockburn Village P"
+    "BANNQ"    : "Bannockburn Village Q"
+    "BANNQ"    : "Bannockburn Village Q"
+    "BANNR"    : "Bannockburn Village R"
+    "BANNS"    : "Bannockburn Village S"
+    "BANNT"    : "Bannockburn Village T"
+    "BANNU"    : "Bannockburn Village U"
+    "BANNV"    : "Bannockburn Village V"
+    "BARN"     : "The Barn",
+    "BATCH"    : "Batchelor Hall",
+    "BIOSC"    : "Biological Sciences",
+    "BMSTC"    : "Biomedical Teaching Complex",
+    "BOOKS"    : "Campus Bookstore",
+    "BOTIC"    : "Botanic Gardens",
+    "BOYDN"    : "Boyden Lab",
+    "BOYHL"    : "Boyce Hall",
+    "BRNHL"    : "Bourns Hall",
+    "BTOWR"    : "Bell Tower",
+    "CBN"      : "College Building North",
+    "CBS"      : "College Building South",
+    "CCCTR"    : "Computing and Communications",
+    "CDEVC"    : "Child Development South",
+    "CDEVCN"   : "Child Development North",
+    "CDEVEADY" : "Eady Center",
+    "CHEM"     : "Chemical Sciences",
+    "CHPHL"    : "Chapman Hall",
+    "CHUNG"    : "Winston Chung Hall",
+    "COSTH"    : "Costo Hall",
+    "EI&Q"     : "East I & Q (Insectary)",
+    "ENTMU"    : "Entology Research Museum",
+    "FAWLB"    : "Fawcett Lab",
+    "FLKRK"    : "Falkirk Apartments",
+    "GEOL"     : "Geology Building",
+    "GHO2A"    : "Green House 2 A",
+    "GMH1B"    : "Glen Mor 1 B",
+    "GMH1D"    : "Glen Mor 1 D",
+    "GMH1E"    : "Glen Mor 1 E",
+    "HDHL"     : "Highlander Hall",
+    "HERB"     : "Herbarium",
+    "HINHL"    : "Administration (Hinderaker Hall)",
+    "HMNSS"    : "Humanities and Social Sciences",
+    "HSERV"    : "Veitch Student Center",
+    "HUB"      : "Highlander Union Building (HUB)",
+    "HUMN"     : "Humanities / University Theatre",
+    "INTN"     : "CHASS Interdisciplinary North",
+    "INTS"     : "CHASS Interdisciplinary South",
+    "INTVLW"   : "International Village - Apartments West Wing",
+    "KUCR"     : "KUCR Radio",
+    "L55H"     : "Latitude 55 (HUB)",
+    "LFSC"     : "Life Sciences",
+    "LOTH"     : "Lothian Residence Hall",
+    "MSE"      : "Material Science & Engineering",
+    "OBAN"     : "Oban Apartments",
+    "OBANA"    : "Oban Apartments A",
+    "OBANB"    : "Oban Apartments B",
+    "OBANC"    : "Oban Apartments C",
+    "OBAND"    : "Oban Apartments D",
+    "OBANE"    : "Oban Apartments E",
+    "OBANF"    : "Oban Apartments F",
+    "OBANG"    : "Oban Apartments G",
+    "OBANH"    : "Oban Apartments H",
+    "OBANI"    : "Oban Apartments I",
+    "OBANJ"    : "Oban Apartments J",
+    "OLMH"     : "Olmsted Hall",
+    "ORBLI"    : "Orbach Science Library",
+    "P1"       : "Parking P1",
+    "P11"      : "Parking P11",
+    "P13"      : "Parking P13",
+    "P14"      : "Parking P14",
+    "P15"      : "Parking P15",
+    "P19"      : "Parking P19",
+    "P20"      : "Parking P20",
+    "P22"      : "Parking P22",
+    "P24"      : "Parking P24",
+    "P26"      : "Parking P26",
+    "P4"       : "Parking P4",
+    "P41"      : "Parking P41",
+    "P5"       : "Parking P5",
+    "P6"       : "Parking P6/V6",
+    "PARKS"    : "Parking Services",
+    "PENTA"    : "Pentland Hills - Building A",
+    "PENTB"    : "Pentland Hills - Building B",
+    "PENTC"    : "Pentland Hills - Building C",
+    "PENTD"    : "Pentland Hills - Building D",
+    "PENTE"    : "Pentland Hills - Building E",
+    "PENTF"    : "Pentland Hills - Building F",
+    "PENTG"    : "Pentland Hills - Building G",
+    "PENTH"    : "Pentland Hills - Building H",
+    "PENTI"    : "Pentland Hills - Building I",
+    "PENTJ"    : "Pentland Hills - Building J",
+    "PENTK"    : "Pentland Hills - Building K",
+    "PENTL"    : "Pentland Hills - Building L",
+    "PENTM"    : "Pentland Hills - Building M",
+    "PENTN"    : "Pentland Hills - Building N",
+    "PENTO"    : "Pentland Hills - Building O",
+    "PENTP"    : "Pentland Hills - Building P",
+    "PENTQ"    : "Pentland Hills - Building Q",
+    "PHY"      : "Physics Building",
+    "POLCE"    : "Police Facility",
+    "PR"       : "Printing and Reprographics",
+    "PRCE"     : "Pierce Hall",
+    "PRSNL"    : "Human Resources",
+    "PSYCH"    : "Psychology Building",
+    "RIVL"     : "Rivera Library",
+    "SCLAB"    : "Science Laboratories 1",
+    "SOCS"     : "UCR Soccer Stadium",
+    "SOMR"     : "School of Medicine Research Building",
+    "SPR"      : "Sproul Hall",
+    "SPTCN"    : "UC iverside Baseball Complex",
+    "SPTH"     : "Spieth Hall",
+    "SRCTC"    : "UCR Student Recreation Center Tennis Courts",
+    "SSB"      : "Student Services",
+    "STAT"     : "School of Medicine Education Building",
+    "STREC"    : "Student Recreation Center",
+    "SURGE"    : "Campus Surge",
+    "UCREX"    : "UCR Extension Center",
+    "UNLH"     : "University Lecture Hall",
+    "UOB"      : "University Office Building",
+    "UP"       : "University Plaza Apartments",
+    "UV"       : "University Village",
+    "WAT"      : "Watkins Hall",
+    "WEBHL"    : "Webber Hall",
+    "X8"       : "UC Riverside Track and Field Stadium",
+    "XSTA"     : "Arts 113-Studio Theatre",
+    "XWRH"     : "Watkins Hall 1000",
+};
+
+
 /**
  * Class to represent a course. Should be used in a list to represent a schedule.
  * Has functions avaliable to manipulate the data and present things in different ways.
@@ -74,7 +225,7 @@ function createTestCourses() {
     /*Example courses. Will be filled from user input in the final version */
     list.push(new Course("FALL", "INTRO: CS FOR SCI,MATH&ENGR I", "CS -010 -001", "BRNHL", "A125", "None", 4,
                     9, 0, 10, 0, "MWF"));
-    list.push(new Course("FALL", "INTRO: CS FOR SCI,MATH&ENGR I", "CS -010 -001", "BRNHL", "A125", "None", 4,
+    list.push(new Course("FALL", "GENERAL CHEMISTRY", "CHEM-001A-060", "INTN", "1020", "None", 4,
                     15, 30, 17, 0, "TR"));
     
     return list;
@@ -298,17 +449,28 @@ function createPopovers(cList) {
         var days = (courseAtI.days == "") ? "None" : courseAtI.days;
         var bldg = (courseAtI.bldg == "") ? "None" : courseAtI.bldg;
         var room = (courseAtI.room == "") ? "None" : courseAtI.room;
+        var locat = getBuildingLocation(bldg, room);
         
         $('.course' + c).popover({title: courseAtI.name, 
         content: "<strong>Times: </strong>" + times + 
         " <br><strong>Building:</strong> " + bldg + 
         " <br><strong>Room:</strong> " + room + 
         " <br><strong>GT:</strong> " + gt +
-        " <br><strong>Location:</strong> (To be implemented)", 
+        " <br><strong>Location:</strong> " + locat,
         html: true, 
         animation: true, 
         trigger: "focus"}); 
     }
+}
+
+function getBuildingLocation(bldg, room) {
+    name = buildingNames[bldg];
+    url = "http://campusmap.ucr.edu/imap/index.html?loc=" + bldg;
+
+    if (name == undefined || name == "undefined")
+        return "Unknown";
+
+    return "<a href=\"" + url + "\">" + name + " " + room + "</a>";
 }
 
 /**
