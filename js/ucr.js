@@ -1,5 +1,5 @@
 var buildingNames = {
-    "A&I"      : "Aberdeen_Inverness Residence Hall",
+    "A&I"      : "Aberdeen-Inverness Residence Hall",
     "AHF"      : "Amy Harrison Field",
     "ALUM"     : "Alumni and Visitor Center",
     "ANDHL"    : "Anderson Hall 1 (AGSM)",
