@@ -6,29 +6,29 @@ var buildingNames = {
     "ANDU2"    : "Anderson Hall 2 (AGSM)",
     "ARTS"     : "Arts Building",
     "ATH"      : "Athletics and Dance Building",
-    "BANNA"    : "Bannockburn Village A"
-    "BANNB"    : "Bannockburn Village B"
-    "BANNC"    : "Bannockburn Village C"
-    "BANND"    : "Bannockburn Village D"
-    "BANNE"    : "Bannockburn Village E"
-    "BANNF"    : "Bannockburn Village F"
-    "BANNG"    : "Bannockburn Village G"
-    "BANNH"    : "Bannockburn Village H"
-    "BANNI"    : "Bannockburn Village I"
-    "BANNJ"    : "Bannockburn Village J"
-    "BANNK"    : "Bannockburn Village K"
-    "BANNL"    : "Bannockburn Village L"
-    "BANNM"    : "Bannockburn Village M"
-    "BANNN"    : "Bannockburn Village N"
-    "BANNO"    : "Bannockburn Village O"
-    "BANNP"    : "Bannockburn Village P"
-    "BANNQ"    : "Bannockburn Village Q"
-    "BANNQ"    : "Bannockburn Village Q"
-    "BANNR"    : "Bannockburn Village R"
-    "BANNS"    : "Bannockburn Village S"
-    "BANNT"    : "Bannockburn Village T"
-    "BANNU"    : "Bannockburn Village U"
-    "BANNV"    : "Bannockburn Village V"
+    "BANNA"    : "Bannockburn Village A,
+    "BANNB"    : "Bannockburn Village B",
+    "BANNC"    : "Bannockburn Village C",
+    "BANND"    : "Bannockburn Village D",
+    "BANNE"    : "Bannockburn Village E",
+    "BANNF"    : "Bannockburn Village F",
+    "BANNG"    : "Bannockburn Village G",
+    "BANNH"    : "Bannockburn Village H",
+    "BANNI"    : "Bannockburn Village I",
+    "BANNJ"    : "Bannockburn Village J",
+    "BANNK"    : "Bannockburn Village K",
+    "BANNL"    : "Bannockburn Village L",
+    "BANNM"    : "Bannockburn Village M",
+    "BANNN"    : "Bannockburn Village N",
+    "BANNO"    : "Bannockburn Village O",
+    "BANNP"    : "Bannockburn Village P",
+    "BANNQ"    : "Bannockburn Village Q",
+    "BANNQ"    : "Bannockburn Village Q",
+    "BANNR"    : "Bannockburn Village R",
+    "BANNS"    : "Bannockburn Village S",
+    "BANNT"    : "Bannockburn Village T",
+    "BANNU"    : "Bannockburn Village U",
+    "BANNV"    : "Bannockburn Village V",
     "BARN"     : "The Barn",
     "BATCH"    : "Batchelor Hall",
     "BIOSC"    : "Biological Sciences",
