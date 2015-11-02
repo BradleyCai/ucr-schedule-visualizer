@@ -20,9 +20,6 @@ input.onkeyup = function() {
         schedule.createHourList();
         schedule.injectTable();
         schedule.drawCanvasTable(150, 25);
-        console.log(schedule.courseList);
-        console.log(schedule.hourList);
-        console.log(parser.noShowList);
     }
 };
 

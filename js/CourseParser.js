@@ -55,7 +55,6 @@ function CourseParser() {
                     subCourse[1], hour1, min1, hour2, min2, subCourse[4], subCourse[5]));
                 }
                 else {
-                    console.log("Hello!");
                     this.noShowList.push(new Course(quarter, course[1], course[2], course[3], course[4],
                     subCourse[1], hour1, min1, hour2, min2, subCourse[4], subCourse[5]));
                 }

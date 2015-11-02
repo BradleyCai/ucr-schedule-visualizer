@@ -230,11 +230,7 @@ only screen and (max-width: 400px) {
     .alert {
         font-size: 13px;
     }
-    .alert-error {
-        background-color: rgba(248, 223, 223, 0.75);
-    }
     nav {
-        background-color: rgba(248, 223, 223, 0);
         padding: 10px 0;
     }
     nav ul li {

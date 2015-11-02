@@ -141,19 +141,7 @@ function Schedule(courseList) {
      */
     this.createTableString = function () {
         //This creates the first row of days
-        this.tableString = "<table class='pure-table'>\n\
-        <thead> \n\
-            <tr> \n\
-                <th></th> \n\
-                <th>Monday</th> \n\
-                <th>Tuesday</th> \n\
-                <th>Wednesday</th> \n\
-                <th>Thursday</th> \n\
-                <th>Friday</th> \n\
-                <th>Saturday</th> \n\
-            </tr> \n\
-        </thead> \n\
-    <tbody>\n";
+        this.tableString = "<table class='pure-table'>\n <thead> \n<tr> \n<th></th> \n<th>Monday</th> \n<th>Tuesday</th> \n<th>Wednesday</th> \n<th>Thursday</th> \n<th>Friday</th> \n<th>Saturday</th> \n</tr> \n</thead> \n<tbody>\n";
 
         //This creates the body of the table
         var hour = 0;
