@@ -28,22 +28,30 @@ function Course(quarter, name, nameID, gt, units,
     this.min1 = min1; //Minute class begins. Integer between 0-60
     this.hour2 = hour2; //Hour when class ends.
     this.min2 = min2;
-    if (this.hour1 != null) {
+    this.times = "";
+    if (this.hour1 !== undefined || this.hour1 === "") {
         this.times =
-        Math.ceil(this.hour1%12.1) + ":" + this.min1 + (this.min1 == 0 ? "0" : "") +
+        Math.ceil(this.hour1%12.1) + ":" + this.min1 + (this.min1 === 0 ? "0" : "") +
         (this.hour1 < 12 ? "am" : "pm") + " – " +
-        Math.ceil(this.hour2%12.1) + ":" + this.min2 + (this.min2 == 0 ? "0" : "") +
+        Math.ceil(this.hour2%12.1) + ":" + this.min2 + (this.min2 === 0 ? "0" : "") +
         (this.hour2 < 12 ? "am" : "pm");
     }
 
     //Array information
-    this.blocks = 2*(this.hour2 - this.hour1) + parseInt((this.min2 - this.min1)/30); //How many 30 minute blocks it takes (ex 60 is 2 blocks)
+    this.minDiff = this.min2 - this.min1;
+    this.minBlock = 0;
+    if (this.minDiff >= 15) {
+        this.minBlock = 1;
+    }
+    else if (this.minDiff <= -15){
+        this.minBlock = -1;
+    }
+    this.blocks = 2*(this.hour2 - this.hour1) + this.minBlock; //How many 30 minute blocks it takes (ex 60 is 2 blocks)
     this.duration = 30 * this.blocks; //Duration of class in minutes (ex. 60 for 60 minutes)
     this.pos = parseInt(((this.hour1 * 60 + this.min1) - 420)/30); //Position on the hourList
     this.days = [false, false, false, false, false, false]; //Array of days as booleans.
     this.index = -1;
-
-    if (days != null) {
+    if (days !== undefined) {
         for(var i = 0; i < days.length; i++) {
             switch(days.charAt(i)) {
                 case "M":
@@ -70,5 +78,5 @@ function Course(quarter, name, nameID, gt, units,
 
     this.setIndex = function(index) {
         this.index = index;
-    }
+    };
 }

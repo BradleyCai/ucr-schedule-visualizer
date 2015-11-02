@@ -13,7 +13,6 @@ function Schedule(courseList) {
     this.canvas = document.createElement('canvas');
     this.tableString = -1;
 
-
     /**
      * Creates a 2D array whose rows are time in 30 minute blocks and columns days of the week.
      * The spot on a calender where the courses takes place in time on a certain day will fill
@@ -24,7 +23,7 @@ function Schedule(courseList) {
      */
     this.createHourList = function() {
         //Initialize a 2-D array. Each item within the array is an array.
-        this.hourList = new Array(32)
+        this.hourList = new Array(32);
         for (var i = 0; i < 32; i++) {
             this.hourList[i] = new Array(6);
         }
@@ -34,7 +33,7 @@ function Schedule(courseList) {
             var current = this.courseList[c];
             current.setIndex(c);
             for (var day = 0; day < current.days.length; day++) { //for each day of the week
-                if (current.days[day] == true) {
+                if (current.days[day] === true) {
                     //console.log(courseList[c].pos + " " + day);
                     for (var b = 0; b < current.blocks; b++) {//for each block
                         this.hourList[current.pos + b][day] = this.courseList[c];
@@ -44,6 +43,7 @@ function Schedule(courseList) {
         }
     };
 
+    // TODO: split into multiple functions
     this.drawCanvasTable = function(numCols, numRows) {
         var canvas = this.canvas;
         var offset = 100; //Sets the table down (offset) amount of pixels. Used for the title
@@ -70,46 +70,46 @@ function Schedule(courseList) {
         context.font = '14px "Helvetica"';
 
         for (var day = 0; day < days.length; day++) { //Heh, courses for days. No? Okay ;_;
-            context.rect(day * numCols + numCols + .5, offset + .5, numCols, numRows);
+            context.rect(day * numCols + numCols + 0.5, offset + 0.5, numCols, numRows);
             context.fillText(days[day], day*numCols + numCols + numCols/2, numRows/2 + offset);
         }
-        context.rect(.5, offset + .5, numCols, numRows);
+        context.rect(0.5, offset + 0.5, numCols, numRows);
 
         var hour = 0;
         for (var row = 1; row < this.hourList.length + 1; row++) { //For each row (30 minute block)
             if (row%2 == 1) {
                 hour = Math.ceil(((row * 30 + 420)/60) % 12.1);
-                context.rect(.5 ,row * numRows + offset + .5, numCols, numRows*2);
-                if (Math.floor(row/10) == 0) {
-                    context.fillText(hour + "AM", .5 + numCols / 2, row * numRows + numRows + offset + .5); }
+                context.rect(0.5 ,row * numRows + offset + 0.5, numCols, numRows*2);
+                if (Math.floor(row/10) === 0) {
+                    context.fillText(hour + "AM", 0.5 + numCols / 2, row * numRows + numRows + offset + 0.5); }
                 else {
-                    context.fillText(hour + "PM", .5 + numCols / 2, row * numRows + numRows + offset + .5); }
+                    context.fillText(hour + "PM", 0.5 + numCols / 2, row * numRows + numRows + offset + 0.5); }
 
             }
 
             for (var col = 1; col < this.hourList[0].length + 1; col++) { //For each day (Mon-Sat)
                 courseAtI = this.hourList[row - 1][col - 1];
 
-                if (courseAtI != null) {
-                    if (this.hourList[row - 2][col - 1] == null) {
+                if (courseAtI != null) { // short hand for: if (typeof courseAtI !== 'undefined' && courseAtI !== null).
+                    if (this.hourList[row - 2][col - 1] != courseAtI) {
                         switch (courseAtI.blocks) {
                             case 1:
-                                context.rect(col * numCols + .5, row * numRows + .5 + offset, numCols, numRows);
+                                context.rect(col * numCols + 0.5, row * numRows + 0.5 + offset, numCols, numRows);
                                 context.fillText(courseAtI.nameID, col*numCols + numCols/2, row*numRows + numRows/2 + offset);
                                 break;
                             case 2:
                                 context.fillStyle="#E6E6E6";
-                                context.fillRect(col * numCols + .5, row * numRows + .5 + offset, numCols, numRows * 2);
+                                context.fillRect(col * numCols + 0.5, row * numRows + 0.5 + offset, numCols, numRows * 2);
                                 context.fillStyle="black";
-                                context.strokeRect(col * numCols + .5, row * numRows + .5 + offset, numCols, numRows * 2);
+                                context.strokeRect(col * numCols + 0.5, row * numRows + 0.5 + offset, numCols, numRows * 2);
                                 context.fillText(courseAtI.nameID, col*numCols + numCols/2, row*numRows + numRows/2 + offset);
                                 context.fillText(courseAtI.bldg + " " + courseAtI.room, col*numCols + numCols/2, row*numRows + numRows + numRows/2 + offset);
                                 break;
                             default:
                                 context.fillStyle="#E6E6E6";
-                                context.fillRect(col * numCols + .5, row * numRows + .5 + offset, numCols, numRows * courseAtI.blocks);
+                                context.fillRect(col * numCols + 0.5, row * numRows + 0.5 + offset, numCols, numRows * courseAtI.blocks);
                                 context.fillStyle="black";
-                                context.strokeRect(col * numCols + .5, row * numRows + .5 + offset, numCols, numRows * courseAtI.blocks);
+                                context.strokeRect(col * numCols + 0.5, row * numRows + 0.5 + offset, numCols, numRows * courseAtI.blocks);
                                 context.fillText(courseAtI.nameID, col*numCols + numCols/2, row*numRows + numRows*courseAtI.blocks/2 - numRows + offset);
                                 context.fillText(courseAtI.duration + " minutes", col*numCols + numCols/2, row*numRows + numRows*courseAtI.blocks/2 + offset);
                                 context.fillText(courseAtI.bldg + " " + courseAtI.room, col*numCols + numCols/2, row*numRows + numRows*courseAtI.blocks/2 + numRows + offset);
@@ -118,15 +118,15 @@ function Schedule(courseList) {
                     }
                 }
                 else {
-                    context.rect(col * numCols + .5, row * numRows + .5 + offset, numCols, numRows);
+                    context.rect(col * numCols + 0.5, row * numRows + 0.5 + offset, numCols, numRows);
                 }
             }
         }
         context.stroke();
 
-        $(".centered").append("<button class = 'btn'>Click to download schedule</button>");
+        $(".centered").append("<button class = 'btn' id = 'imageDL'>Download to an Image</button>");
 
-        $(".btn").click(function() {
+        $("#imageDL").click(function() {
             canvas.toBlob(function(blob) {
                 saveAs(blob, "UCR-Schedule-Visualized.png");
             });
@@ -141,7 +141,7 @@ function Schedule(courseList) {
      */
     this.createTableString = function () {
         //This creates the first row of days
-        this.tableString = "<table class='pure-table'>\n \
+        this.tableString = "<table class='pure-table'>\n\
         <thead> \n\
             <tr> \n\
                 <th></th> \n\
@@ -153,10 +153,11 @@ function Schedule(courseList) {
                 <th>Saturday</th> \n\
             </tr> \n\
         </thead> \n\
-        <tbody>";
+    <tbody>\n";
 
         //This creates the body of the table
         var hour = 0;
+        var popoutString = -1;
         for (var row = 0; row < 32; row++) { //for each tr/row (700 730 800 etc). 32 is the amount of rows. See blocks
 
             //Starts off the row with an hour ID to keep things readable
@@ -166,8 +167,8 @@ function Schedule(courseList) {
             hour = Math.ceil(((row * 30 + 420)/60) % 12.1);
 
             //This creates the first column of times and adds AM or PM based on time of day
-            if (row % 2 == 0) { //To make each rowspan 2 time column
-                if (Math.floor(row/10) == 0) {
+            if (row % 2 === 0) { //To make each rowspan 2 time column
+                if (Math.floor(row/10) === 0) {
                     this.tableString += "<td rowspan='2'><strong>" + hour + "AM</strong></td>\n"; }
                 else {
                     this.tableString += "<td rowspan='2'><strong>" + hour + "PM</strong></td>\n"; }
@@ -178,10 +179,9 @@ function Schedule(courseList) {
                 courseAtI = this.hourList[row][col];
 
                 //This displays the course info per course, instead of per block
-                if (courseAtI != null) {
-                    if (this.hourList[row - 1][col] == null) {
-
-                        var popoutString = "<td class='rspan' rowspan='" + courseAtI.blocks + "'>" +
+                if (courseAtI != null) { //short hand for: if (typeof courseAtI !== 'undefined' && courseAtI !== null).
+                    if (this.hourList[row - 1][col] !== courseAtI) {
+                        popoutString = "<td class='rspan' rowspan='" + courseAtI.blocks + "'>" +
                         "<a href='' onclick='return false;' " +
                         "class='course" + courseAtI.index + "'>\n";
 
@@ -195,10 +195,9 @@ function Schedule(courseList) {
                                 break;
                             default:
                                 this.tableString += popoutString + courseAtI.nameID + "<br>" + courseAtI.duration + " minutes<br>" +
-                                courseAtI.bldg + " " + courseAtI.room + "</a></td>\n"
+                                courseAtI.bldg + " " + courseAtI.room + "</a></td>\n";
                                 break;
                         }
-
                     }
                 }
                 else {
@@ -206,7 +205,7 @@ function Schedule(courseList) {
                 }
             }
         }
-        this.tableString += "</thead>\n</table>";
+        this.tableString += "</tbody>\n</table>";
     };
 
     /**
@@ -230,10 +229,10 @@ function Schedule(courseList) {
             courseAtI = this.courseList[c];
 
             //This block will give "None" to empty variables in a course
-            var gt = (courseAtI.gt == "") ? "None" : courseAtI.gt;
-            var days = (courseAtI.days == "") ? "None" : courseAtI.days;
-            var bldg = (courseAtI.bldg == "") ? "None" : courseAtI.bldg;
-            var room = (courseAtI.room == "") ? "None" : courseAtI.room;
+            var gt = (courseAtI.gt === "") ? "None" : courseAtI.gt;
+            var days = (courseAtI.days === "") ? "None" : courseAtI.days;
+            var bldg = (courseAtI.bldg === "") ? "None" : courseAtI.bldg;
+            var room = (courseAtI.room === "") ? "None" : courseAtI.room;
 
             $('.course' + c).popover({title: courseAtI.name,
             content: "<strong>Times: </strong>" + courseAtI.times +
@@ -261,7 +260,7 @@ function Schedule(courseList) {
 
     this.getTableString = function() {
         return this.tableString;
-    }
+    };
 
     this.getGud = function() {
         var powerLevel = 9001;

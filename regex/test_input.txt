@@ -18,16 +18,16 @@ GENERAL CHEMISTRY LABORATORY
 CHEM-01LA-056           1.00    M       0810AM-1100AM   PRCE    1326
 
 CNAS FSLC THRU 2015-16 AY
-CNAS-LC -001      NG    0.00    TBA     -              
+CNAS-LC -001      NG    0.00    TBA     -
 
 SUSTAINABILITY
-CNAS-LC -069      NG    0.00    TBA     -              
+CNAS-LC -069      NG    0.00    TBA     -
 
 ENGLISH WRITING
 ENGL-004 -038     LG    4.00    TR      0940AM-1100AM   INTS    2134
 
 ENGLISH WRITING
-ENGL-004L-001     SN    1.00    TBA     -              
+ENGL-004L-001     SN    1.00    TBA     -
 
 INTRO TO COLL MATH FOR SCIENCS
 MATH-008B-030           5.00    TR      0510PM-0630PM   OLMH    1208
@@ -40,7 +40,7 @@ NASC-093 -069     SN    2.00    T       0210PM-0300PM   GEOL    1444
                                 R       0210PM-0300PM   PRCE    2301
 
 
-Total Enrolled Units: 17.00 
+Total Enrolled Units: 17.00
 +++
 
 
@@ -50,7 +50,7 @@ W  0110PM-0200PM
 
 TR    0210PM-0330PM
 
-M    1210PM-0100PM 
+M    1210PM-0100PM
 
 TR   0510PM-0630PM
 
@@ -62,4 +62,3 @@ TR 0940AM-1100AM
 
 W  1110AM-1200PM
 M  1110AM-0100PM
-
