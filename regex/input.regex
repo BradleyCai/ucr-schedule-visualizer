@@ -1,1 +1,1 @@
-%{class-full}\n\s*%{class-formal}\s+%{gt}\s+%{units}\s+%{noncap-session}\n
+%{class-full}\n\s*%{class-formal}\s+%{gt}\s+%{units}\s+%{noncap-session}

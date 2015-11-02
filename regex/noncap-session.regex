@@ -1,1 +1,1 @@
-(%{noncap-days}\s+%{noncap-hours}\s+%{noncap-building}\s+%{noncap-room}\s*)+
+(?:\s*%{noncap-days}\s+%{noncap-hours}\s*%{noncap-building}\s*%{noncap-room}\s*\n)+
