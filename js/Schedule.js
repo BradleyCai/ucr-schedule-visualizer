@@ -213,6 +213,7 @@ function Schedule(courseList) {
 
     this.createPopovers = function() {
         var courseAtI;
+        var buildings = new UcrBuildings();
         for (var c = 0; c < this.courseList.length; c++) {
             courseAtI = this.courseList[c];
 
@@ -221,13 +222,14 @@ function Schedule(courseList) {
             var days = (courseAtI.days === "") ? "None" : courseAtI.days;
             var bldg = (courseAtI.bldg === "") ? "None" : courseAtI.bldg;
             var room = (courseAtI.room === "") ? "None" : courseAtI.room;
+            var locat = buildings.getBuildingLocation(bldg, room);
 
             $('.course' + c).popover({title: courseAtI.name,
             content: "<strong>Times: </strong>" + courseAtI.times +
             " <br><strong>Building:</strong> " + bldg +
             " <br><strong>Room:</strong> " + room +
             " <br><strong>GT:</strong> " + gt +
-            " <br><strong>Location:</strong> (To be implemented)",
+            " <br><strong>Location:</strong> " + locat,
             html: true,
             animation: true,
             trigger: "focus"});

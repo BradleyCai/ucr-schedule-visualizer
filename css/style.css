@@ -49,9 +49,6 @@ div.centered table {
     margin: 0 auto;
     text-align: left;
 }
-.table-space {
-    /*margin-bottom: 0px;*/
-}
 .pure-table {
     /* Remove spacing between table cells (from Normalize.css) */
     background-color: rgba(0, 0, 0, .2);
