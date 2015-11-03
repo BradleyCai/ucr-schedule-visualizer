@@ -217,18 +217,13 @@ function Schedule(courseList) {
         for (var c = 0; c < this.courseList.length; c++) {
             courseAtI = this.courseList[c];
 
-            //This block will give "None" to empty variables in a course
-            var gt = (courseAtI.gt === "") ? "None" : courseAtI.gt;
-            var days = (courseAtI.days === "") ? "None" : courseAtI.days;
-            var bldg = (courseAtI.bldg === "") ? "None" : courseAtI.bldg;
-            var room = (courseAtI.room === "") ? "None" : courseAtI.room;
-            var locat = buildings.getBuildingLocation(bldg, room);
+            var locat = buildings.getBuildingLocation(courseAtI.bldg, courseAtI.room);
 
             $('.course' + c).popover({title: courseAtI.name,
             content: "<strong>Times: </strong>" + courseAtI.times +
-            " <br><strong>Building:</strong> " + bldg +
-            " <br><strong>Room:</strong> " + room +
-            " <br><strong>GT:</strong> " + gt +
+            " <br><strong>Building:</strong> " + courseAtI.bldg +
+            " <br><strong>Room:</strong> " + courseAtI.room +
+            " <br><strong>GT:</strong> " + courseAtI.gt +
             " <br><strong>Location:</strong> " + locat,
             html: true,
             animation: true,
