@@ -153,7 +153,7 @@ function UcrBuildings() {
         var url = "http://campusmap.ucr.edu/imap/index.html?loc=" + bldg;
 
         if (name === undefined)
-            return "Unknown";
+            return "Not given";
 
         return "<a target=\"_blank\" href=\"" + url + "\">" + name + " " + room + "</a>";
     };
