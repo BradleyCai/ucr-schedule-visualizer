@@ -21,7 +21,7 @@ function Schedule(courseList) {
      * @param courseList - A list of courses
      * @return hourList - A 2D array hour list
      */
-    this.createHourList = function () {
+    this.createHourList = function() {
         //Initialize a 2-D array. Each item within the array is an array.
         this.hourList = new Array(32);
         for (var i = 0; i < 32; i++) {
@@ -44,7 +44,7 @@ function Schedule(courseList) {
     };
 
     // TODO: split into multiple functions
-    this.drawCanvasTable = function (numCols, numRows) {
+    this.drawCanvasTable = function(numCols, numRows) {
         var canvas = this.canvas;
         var offset = 100; //Sets the table down (offset) amount of pixels. Used for the title
         var tableWidth = numCols * this.hourList[0].length + numRows + 1;
@@ -89,11 +89,20 @@ function Schedule(courseList) {
 
             }
 
+            var location = -1;
             for (var col = 1; col < this.hourList[0].length + 1; col++) { //For each day (Mon-Sat)
                 courseAtI = this.hourList[row - 1][col - 1];
 
                 if (courseAtI != null) { // short hand for: if (typeof courseAtI !== 'undefined' && courseAtI !== null).
+
                     if (this.hourList[row - 2][col - 1] != courseAtI) {
+                        if (courseAtI.bldg === "TBA" && courseAtI.room === "TBA") {
+                            location = "TBA";
+                        }
+                        else {
+                            location = courseAtI.bldg + " " + courseAtI.room;
+                        }
+
                         switch (courseAtI.blocks) {
                             case 1:
                                 context.rect(col * numCols + 0.5, row * numRows + 0.5 + offset, numCols, numRows);
@@ -105,7 +114,7 @@ function Schedule(courseList) {
                                 context.fillStyle = "black";
                                 context.strokeRect(col * numCols + 0.5, row * numRows + 0.5 + offset, numCols, numRows * 2);
                                 context.fillText(courseAtI.nameID, col * numCols + numCols / 2, row * numRows + numRows / 2 + offset);
-                                context.fillText(courseAtI.bldg + " " + courseAtI.room, col * numCols + numCols / 2, row * numRows + numRows + numRows / 2 + offset);
+                                context.fillText(location, col * numCols + numCols / 2, row * numRows + numRows + numRows / 2 + offset);
                                 break;
                             default:
                                 context.fillStyle = "#E6E6E6";
@@ -114,7 +123,7 @@ function Schedule(courseList) {
                                 context.strokeRect(col * numCols + 0.5, row * numRows + 0.5 + offset, numCols, numRows * courseAtI.blocks);
                                 context.fillText(courseAtI.nameID, col * numCols + numCols / 2, row * numRows + numRows * courseAtI.blocks / 2 - numRows + offset);
                                 context.fillText(courseAtI.duration + " minutes", col * numCols + numCols / 2, row * numRows + numRows * courseAtI.blocks / 2 + offset);
-                                context.fillText(courseAtI.bldg + " " + courseAtI.room, col * numCols + numCols / 2, row * numRows + numRows * courseAtI.blocks / 2 + numRows + offset);
+                                context.fillText(location, col * numCols + numCols / 2, row * numRows + numRows * courseAtI.blocks / 2 + numRows + offset);
                                 break;
                         }
                     }
@@ -148,6 +157,8 @@ function Schedule(courseList) {
         //This creates the body of the table
         var hour = 0;
         var popoutString = -1;
+        var location = -1;
+        var courseAtI;
         for (var row = 0; row < 32; row++) { //for each tr/row (700 730 800 etc). 32 is the amount of rows. See blocks
 
             //Starts off the row with an hour ID to keep things readable
@@ -177,17 +188,24 @@ function Schedule(courseList) {
                             "<a href='' onclick='return false;' " +
                             "class='course" + courseAtI.index + "'>\n";
 
+                        if (courseAtI.bldg === "TBA" && courseAtI.room === "TBA") {
+                            location = "TBA";
+                        }
+                        else {
+                            location = courseAtI.bldg + " " + courseAtI.room;
+                        }
+
                         switch (courseAtI.blocks) {
                             case 1:
                                 this.tableString += popoutString + courseAtI.nameID + "</a></td>\n";
                                 break;
                             case 2:
                                 this.tableString += popoutString + courseAtI.nameID +
-                                    "<br>" + courseAtI.bldg + " " + courseAtI.room + "</a></td>\n";
+                                    "<br>" + location + "</a></td>\n";
                                 break;
                             default:
                                 this.tableString += popoutString + courseAtI.nameID + "<br>" + courseAtI.duration + " minutes<br>" +
-                                    courseAtI.bldg + " " + courseAtI.room + "</a></td>\n";
+                                    location + "</a></td>\n";
                                 break;
                         }
                     }
@@ -209,9 +227,10 @@ function Schedule(courseList) {
         var tableSpace = document.getElementById("table-space");
         this.createTableString();
 
+        loadBuildingNames();
+
         tableSpace.innerHTML = this.tableString;
 
-        loadBuildingNames();
         //console.log(this.tableString);
     };
 
@@ -220,20 +239,15 @@ function Schedule(courseList) {
         for (var c = 0; c < this.courseList.length; c++) {
             courseAtI = this.courseList[c];
 
-            //This block will give "None" to empty variables in a course
-            var gt = (courseAtI.gt === "") ? "None" : courseAtI.gt;
-            var days = (courseAtI.days === "") ? "None" : courseAtI.days;
-            var bldg = (courseAtI.bldg === "") ? "None" : courseAtI.bldg;
-            var room = (courseAtI.room === "") ? "None" : courseAtI.room;
-            var locat = getBuildingLocation(bldg, room);
+            var location = getBuildingLocation(courseAtI.bldg, courseAtI.room);
 
             $('.course' + c).popover({
                 title: courseAtI.name,
                 content: "<strong>Times: </strong>" + courseAtI.times +
-                " <br><strong>Building:</strong> " + bldg +
-                " <br><strong>Room:</strong> " + room +
-                " <br><strong>GT:</strong> " + gt +
-                " <br><strong>Location:</strong> " + locat,
+                " <br><strong>Building:</strong> " + courseAtI.bldg +
+                " <br><strong>Room:</strong> " + courseAtI.room +
+                " <br><strong>GT:</strong> " + courseAtI.gt +
+                " <br><strong>Location:</strong> " + location,
                 html: true,
                 animation: true,
                 trigger: "focus"
