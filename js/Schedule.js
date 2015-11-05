@@ -227,19 +227,19 @@ function Schedule(courseList) {
         var tableSpace = document.getElementById("table-space");
         this.createTableString();
 
+        loadBuildingNames();
+
         tableSpace.innerHTML = this.tableString;
 
-        this.createPopovers();
         //console.log(this.tableString);
     };
 
     this.createPopovers = function () {
         var courseAtI;
-        var buildings = new UcrBuildings();
         for (var c = 0; c < this.courseList.length; c++) {
             courseAtI = this.courseList[c];
 
-            var locat = buildings.getBuildingLocation(courseAtI.bldg, courseAtI.room);
+            var location = getBuildingLocation(courseAtI.bldg, courseAtI.room);
 
             $('.course' + c).popover({
                 title: courseAtI.name,
@@ -247,7 +247,7 @@ function Schedule(courseList) {
                 " <br><strong>Building:</strong> " + courseAtI.bldg +
                 " <br><strong>Room:</strong> " + courseAtI.room +
                 " <br><strong>GT:</strong> " + courseAtI.gt +
-                " <br><strong>Location:</strong> " + locat,
+                " <br><strong>Location:</strong> " + location,
                 html: true,
                 animation: true,
                 trigger: "focus"
