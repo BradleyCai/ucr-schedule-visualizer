@@ -61,29 +61,31 @@ function Schedule(courseList) {
         var courseAtI;
 
         var days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-        context.fillStyle="white";
+        context.fillStyle = "white";
         context.fillRect(0, 0, tableWidth, tableHeight);
-        context.fillStyle="black";
-        context.fillText("UCR Schedule Visualizer", tableWidth/2, 30);
+        context.fillStyle = "black";
+        context.fillText("UCR Schedule Visualizer", tableWidth / 2, 30);
         context.font = '18px "Helvetica"';
-        context.fillText("https://waa.ai/ucrsv", tableWidth/2, 65);
+        context.fillText("https://waa.ai/ucrsv", tableWidth / 2, 65);
         context.font = '14px "Helvetica"';
 
         for (var day = 0; day < days.length; day++) { //Heh, courses for days. No? Okay ;_;
             context.rect(day * numCols + numCols + 0.5, offset + 0.5, numCols, numRows);
-            context.fillText(days[day], day*numCols + numCols + numCols/2, numRows/2 + offset);
+            context.fillText(days[day], day * numCols + numCols + numCols / 2, numRows / 2 + offset);
         }
         context.rect(0.5, offset + 0.5, numCols, numRows);
 
         var hour = 0;
         for (var row = 1; row < this.hourList.length + 1; row++) { //For each row (30 minute block)
-            if (row%2 == 1) {
-                hour = Math.ceil(((row * 30 + 420)/60) % 12.1);
-                context.rect(0.5 ,row * numRows + offset + 0.5, numCols, numRows*2);
-                if (Math.floor(row/10) === 0) {
-                    context.fillText(hour + "AM", 0.5 + numCols / 2, row * numRows + numRows + offset + 0.5); }
+            if (row % 2 == 1) {
+                hour = Math.ceil(((row * 30 + 420) / 60) % 12.1);
+                context.rect(0.5, row * numRows + offset + 0.5, numCols, numRows * 2);
+                if (Math.floor(row / 10) === 0) {
+                    context.fillText(hour + "AM", 0.5 + numCols / 2, row * numRows + numRows + offset + 0.5);
+                }
                 else {
-                    context.fillText(hour + "PM", 0.5 + numCols / 2, row * numRows + numRows + offset + 0.5); }
+                    context.fillText(hour + "PM", 0.5 + numCols / 2, row * numRows + numRows + offset + 0.5);
+                }
 
             }
 
@@ -104,24 +106,24 @@ function Schedule(courseList) {
                         switch (courseAtI.blocks) {
                             case 1:
                                 context.rect(col * numCols + 0.5, row * numRows + 0.5 + offset, numCols, numRows);
-                                context.fillText(courseAtI.nameID, col*numCols + numCols/2, row*numRows + numRows/2 + offset);
+                                context.fillText(courseAtI.nameID, col * numCols + numCols / 2, row * numRows + numRows / 2 + offset);
                                 break;
                             case 2:
-                                context.fillStyle="#E6E6E6";
+                                context.fillStyle = "#E6E6E6";
                                 context.fillRect(col * numCols + 0.5, row * numRows + 0.5 + offset, numCols, numRows * 2);
-                                context.fillStyle="black";
+                                context.fillStyle = "black";
                                 context.strokeRect(col * numCols + 0.5, row * numRows + 0.5 + offset, numCols, numRows * 2);
-                                context.fillText(courseAtI.nameID, col*numCols + numCols/2, row*numRows + numRows/2 + offset);
-                                context.fillText(location, col*numCols + numCols/2, row*numRows + numRows + numRows/2 + offset);
+                                context.fillText(courseAtI.nameID, col * numCols + numCols / 2, row * numRows + numRows / 2 + offset);
+                                context.fillText(location, col * numCols + numCols / 2, row * numRows + numRows + numRows / 2 + offset);
                                 break;
                             default:
-                                context.fillStyle="#E6E6E6";
+                                context.fillStyle = "#E6E6E6";
                                 context.fillRect(col * numCols + 0.5, row * numRows + 0.5 + offset, numCols, numRows * courseAtI.blocks);
-                                context.fillStyle="black";
+                                context.fillStyle = "black";
                                 context.strokeRect(col * numCols + 0.5, row * numRows + 0.5 + offset, numCols, numRows * courseAtI.blocks);
-                                context.fillText(courseAtI.nameID, col*numCols + numCols/2, row*numRows + numRows*courseAtI.blocks/2 - numRows + offset);
-                                context.fillText(courseAtI.duration + " minutes", col*numCols + numCols/2, row*numRows + numRows*courseAtI.blocks/2 + offset);
-                                context.fillText(location, col*numCols + numCols/2, row*numRows + numRows*courseAtI.blocks/2 + numRows + offset);
+                                context.fillText(courseAtI.nameID, col * numCols + numCols / 2, row * numRows + numRows * courseAtI.blocks / 2 - numRows + offset);
+                                context.fillText(courseAtI.duration + " minutes", col * numCols + numCols / 2, row * numRows + numRows * courseAtI.blocks / 2 + offset);
+                                context.fillText(location, col * numCols + numCols / 2, row * numRows + numRows * courseAtI.blocks / 2 + numRows + offset);
                                 break;
                         }
                     }
@@ -135,8 +137,8 @@ function Schedule(courseList) {
 
         $(".centered").append("<button class = 'btn' id = 'imageDL'>Download to an Image</button>");
 
-        $("#imageDL").click(function() {
-            canvas.toBlob(function(blob) {
+        $("#imageDL").click(function () {
+            canvas.toBlob(function (blob) {
                 saveAs(blob, "UCR-Schedule-Visualized.png");
             });
         });
@@ -156,20 +158,23 @@ function Schedule(courseList) {
         var hour = 0;
         var popoutString = -1;
         var location = -1;
+        var courseAtI;
         for (var row = 0; row < 32; row++) { //for each tr/row (700 730 800 etc). 32 is the amount of rows. See blocks
 
             //Starts off the row with an hour ID to keep things readable
-            this.tableString += "<tr id = '" + (row * 30 + 420)/60 + "'>\n";
+            this.tableString += "<tr id = '" + (row * 30 + 420) / 60 + "'>\n";
 
             //This is the 12 hour clock mechanism
-            hour = Math.ceil(((row * 30 + 420)/60) % 12.1);
+            hour = Math.ceil(((row * 30 + 420) / 60) % 12.1);
 
             //This creates the first column of times and adds AM or PM based on time of day
             if (row % 2 === 0) { //To make each rowspan 2 time column
-                if (Math.floor(row/10) === 0) {
-                    this.tableString += "<td rowspan='2'><strong>" + hour + "AM</strong></td>\n"; }
+                if (Math.floor(row / 10) === 0) {
+                    this.tableString += "<td rowspan='2'><strong>" + hour + "AM</strong></td>\n";
+                }
                 else {
-                    this.tableString += "<td rowspan='2'><strong>" + hour + "PM</strong></td>\n"; }
+                    this.tableString += "<td rowspan='2'><strong>" + hour + "PM</strong></td>\n";
+                }
             }
 
             //This creates the courses in the table
@@ -180,8 +185,8 @@ function Schedule(courseList) {
                 if (courseAtI != null) { //short hand for: if (typeof courseAtI !== 'undefined' && courseAtI !== null).
                     if (this.hourList[row - 1][col] !== courseAtI) {
                         popoutString = "<td class='rspan' rowspan='" + courseAtI.blocks + "'>" +
-                        "<a href='' onclick='return false;' " +
-                        "class='course" + courseAtI.index + "'>\n";
+                            "<a href='' onclick='return false;' " +
+                            "class='course" + courseAtI.index + "'>\n";
 
                         if (courseAtI.bldg === "TBA" && courseAtI.room === "TBA") {
                             location = "TBA";
@@ -196,11 +201,11 @@ function Schedule(courseList) {
                                 break;
                             case 2:
                                 this.tableString += popoutString + courseAtI.nameID +
-                                "<br>" + location + "</a></td>\n";
+                                    "<br>" + location + "</a></td>\n";
                                 break;
                             default:
                                 this.tableString += popoutString + courseAtI.nameID + "<br>" + courseAtI.duration + " minutes<br>" +
-                                location + "</a></td>\n";
+                                    location + "</a></td>\n";
                                 break;
                         }
                     }
@@ -218,7 +223,7 @@ function Schedule(courseList) {
      * Will also display the tableString on the console log
      *
      */
-    this.injectTable = function() {
+    this.injectTable = function () {
         var tableSpace = document.getElementById("table-space");
         this.createTableString();
 
@@ -228,7 +233,7 @@ function Schedule(courseList) {
         //console.log(this.tableString);
     };
 
-    this.createPopovers = function() {
+    this.createPopovers = function () {
         var courseAtI;
         var buildings = new UcrBuildings();
         for (var c = 0; c < this.courseList.length; c++) {
@@ -236,35 +241,37 @@ function Schedule(courseList) {
 
             var locat = buildings.getBuildingLocation(courseAtI.bldg, courseAtI.room);
 
-            $('.course' + c).popover({title: courseAtI.name,
-            content: "<strong>Times: </strong>" + courseAtI.times +
-            " <br><strong>Building:</strong> " + courseAtI.bldg +
-            " <br><strong>Room:</strong> " + courseAtI.room +
-            " <br><strong>GT:</strong> " + courseAtI.gt +
-            " <br><strong>Location:</strong> " + locat,
-            html: true,
-            animation: true,
-            trigger: "focus"});
+            $('.course' + c).popover({
+                title: courseAtI.name,
+                content: "<strong>Times: </strong>" + courseAtI.times +
+                " <br><strong>Building:</strong> " + courseAtI.bldg +
+                " <br><strong>Room:</strong> " + courseAtI.room +
+                " <br><strong>GT:</strong> " + courseAtI.gt +
+                " <br><strong>Location:</strong> " + locat,
+                html: true,
+                animation: true,
+                trigger: "focus"
+            });
         }
     };
 
-    this.getCourseList = function() {
+    this.getCourseList = function () {
         return this.courseList;
     };
 
-    this.getHourList = function() {
+    this.getHourList = function () {
         return this.hourList;
     };
 
-    this.getCanvas = function() {
+    this.getCanvas = function () {
         return canvas;
     };
 
-    this.getTableString = function() {
+    this.getTableString = function () {
         return this.tableString;
     };
 
-    this.getGud = function() {
+    this.getGud = function () {
         var powerLevel = 9001;
         return powerLevel;
     };

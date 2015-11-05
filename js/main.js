@@ -10,9 +10,9 @@ if (window.File && window.FileReader && window.FileList) {
     alert("This browser isn't fully supported!");
 }
 
-input.onkeyup = function() {
+input.onkeyup = function () {
     //Quick check if input is a schedule
-    if(this.value.match(parser.getRegex()) && !made) {
+    if (this.value.match(parser.getRegex()) && !made) {
         made = true;
         $('#regex').hide(250);
         parser.createCourseList(this.value + "\n");
