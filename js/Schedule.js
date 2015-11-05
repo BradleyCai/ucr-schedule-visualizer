@@ -126,11 +126,11 @@ function Schedule(courseList) {
         }
         context.stroke();
 
-        $(".centered").append("<button class = 'btn' id = 'imageDL'>Download to an Image</button>");
+        $(".centered").append("<button class = 'btn' id = 'imageDL'>Download as an Image</button>");
 
         $("#imageDL").click(function () {
             canvas.toBlob(function (blob) {
-                saveAs(blob, "UCR-Schedule-Visualized.png");
+                saveAs(blob, "schedule.png");
             });
         });
     };
