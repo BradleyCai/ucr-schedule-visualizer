@@ -65,7 +65,7 @@ function CourseParser() {
 
         // For each course that won't show up
         if (this.noShowList.length > 0) {
-            var noShowString = '<div class="container"><p class = "alert alert-error"><strong>One or more classes are not shown because their times are either TBA or missing: </strong><br><br>';
+            var noShowString = '<div class="container"><p class = "alert alert-error"><strong>One or more classes are not shown either because they are TBA or because their times are not shown on the original list: </strong><br><br>';
             for (var i = 0; i < this.noShowList.length; i++) {
                 noShowString += this.noShowList[i].name + " (" + this.noShowList[i].nameID + ")" + "<br>";
             }
