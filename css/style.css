@@ -34,7 +34,7 @@ a:active {
 textarea {
     margin-bottom: 25px;
     height: 85px;
-    width: 400px;
+    width: 500px;
     text-align: center;
     border-radius: 4px;
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
@@ -49,6 +49,9 @@ div.centered {
 div.centered table {
     margin: 0 auto;
     text-align: left;
+}
+.table-space {
+    margin-bottom: 25px;
 }
 .pure-table {
     /* Remove spacing between table cells (from Normalize.css) */
@@ -165,7 +168,7 @@ there's a rowspan on the first cell. Case added to the tests. issue#432 */
     background-color: #FCF8E3;
     border: 1px solid #FBEED5;
     border-radius: 4px;
-    margin-bottom: 20px;
+    margin-bottom: 25px;
     padding: 8px 14px;
     text-shadow: 0 1px rgba(255, 255, 255, .5);
     text-align: left;

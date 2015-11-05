@@ -58,22 +58,23 @@ function CourseParser() {
                     this.noShowList.push(new Course(quarter, course[1], course[2], course[3], course[4],
                     subCourse[1], hour1, min1, hour2, min2, subCourse[4], subCourse[5]));
                 }
-            subCourse = this.subCourseRegex.exec(course[0]);
+                subCourse = this.subCourseRegex.exec(course[0]);
             }
             course = this.regex.exec(rawString);
         }
 
         // For each course that won't show up
         if (this.noShowList.length > 0) {
-            var noShowString = '<div class="container"><p class = "alert alert-error"><strong>One or more classes are not shown because their times are either TBA or missing: </strong><br><br>';
+            var noShowString = '<div class="container" id = "noShow"><p class = "alert alert-error"><strong>One or more classes are not shown because their times are either TBA or missing: </strong><br><br>';
             for (var i = 0; i < this.noShowList.length; i++) {
                 noShowString += this.noShowList[i].name + " (" + this.noShowList[i].nameID + ")" + "<br>";
             }
             noShowString += "</a></div>";
 
-            $(".centered").append(noShowString);
+            $(".table-space").before(noShowString);
         }
     };
+
     this.getCourseList = function() {
         return this.courseList;
     };

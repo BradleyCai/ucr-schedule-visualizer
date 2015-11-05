@@ -29,7 +29,6 @@ function Schedule(courseList) {
         }
 
         for (var c = 0; c < this.courseList.length; c++) { //for each course
-
             var current = this.courseList[c];
             current.setIndex(c);
             for (var day = 0; day < current.days.length; day++) { //for each day of the week
@@ -43,7 +42,30 @@ function Schedule(courseList) {
         }
     };
 
-    // TODO: split into multiple functions
+    this.injectButtons = function(canvas) {
+        $(".centered").append("<button class = 'btn' id = 'imageDL'>Download to an Image</button>");
+        $(".centered").append("<button class = 'btn' id = 'reload'>Visualize Again</button>");
+
+        $("#reload").click(function() {
+            made = false;
+            document.getElementById("regex").value = "";
+            $('#regex').show(250);
+            $('.pure-table').hide(250);
+            $('#imageDL').hide(250);
+            $('#reload').hide(250);
+            $('#noShow').hide(250);
+            $('.pure-table').remove();
+            $('#imageDL').remove();
+            $('#reload').remove();
+            $('#noShow').remove();
+        });
+        $("#imageDL").click(function() {
+            canvas.toBlob(function(blob) {
+                saveAs(blob, "UCR-Schedule-Visualized.png");
+            });
+        });
+    };
+
     this.drawCanvasTable = function(numCols, numRows) {
         var canvas = this.canvas;
         var offset = 100; //Sets the table down (offset) amount of pixels. Used for the title
@@ -132,14 +154,7 @@ function Schedule(courseList) {
             }
         }
         context.stroke();
-
-        $(".centered").append("<button class = 'btn' id = 'imageDL'>Download to an Image</button>");
-
-        $("#imageDL").click(function() {
-            canvas.toBlob(function(blob) {
-                saveAs(blob, "UCR-Schedule-Visualized.png");
-            });
-        });
+        this.injectButtons(canvas);
     };
 
     /**
