@@ -65,13 +65,13 @@ function CourseParser() {
 
         // For each course that won't show up
         if (this.noShowList.length > 0) {
-            var noShowString = '<div class="container"><p class = "alert alert-error"><strong>One or more classes are not shown because their times are either TBA or missing: </strong><br><br>';
+            var noShowString = '<div class="container" id = "noShow"><p class = "alert alert-error"><strong>One or more classes are not shown because their times are either TBA or missing: </strong><br><br>';
             for (var i = 0; i < this.noShowList.length; i++) {
                 noShowString += this.noShowList[i].name + " (" + this.noShowList[i].nameID + ")" + "<br>";
             }
             noShowString += "</a></div>";
 
-            $(".centered").append(noShowString);
+            $(".table-space").before(noShowString);
         }
     };
 

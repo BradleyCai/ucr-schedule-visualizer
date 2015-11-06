@@ -30,7 +30,6 @@ function Schedule(courseList) {
         }
 
         for (var c = 0; c < this.courseList.length; c++) { //for each course
-
             var courseAtI = this.courseList[c];
             courseAtI.setIndex(c);
 
@@ -43,7 +42,7 @@ function Schedule(courseList) {
                         }
                         else {
                             if (!hasConflict) {
-                                var conflictString = '<div class="container" id = "conflict"><p class = "alert alert-error"><strong>Two or more courses appear to be scheduled at the same time which has caused one to overwrite the other! Be wary! </strong>';
+                                var conflictString = '<div class="container" id = "conflict"><p class = "alert alert-error"><strong>Two or more courses appear to be scheduled at the same time. You might want to check that over. </strong>';
 
                                 $(".table-space").before(conflictString);
                                 hasConflict = true;
@@ -56,7 +55,30 @@ function Schedule(courseList) {
         }
     };
 
-    // TODO: split into multiple functions
+    this.injectButtons = function(canvas) {
+        $(".centered").append("<button class = 'btn' id = 'imageDL'>Download to an Image</button>");
+        $(".centered").append("<button class = 'btn' id = 'reload'>Visualize Again</button>");
+
+        $("#reload").click(function() {
+            made = false;
+            document.getElementById("regex").value = "";
+            $('#regex').show(250);
+            $('.pure-table').hide(250);
+            $('#imageDL').hide(250);
+            $('#reload').hide(250);
+            $('#noShow').hide(250);
+            $('.pure-table').remove();
+            $('#imageDL').remove();
+            $('#reload').remove();
+            $('#noShow').remove();
+        });
+        $("#imageDL").click(function() {
+            canvas.toBlob(function(blob) {
+                saveAs(blob, "UCR-Schedule-Visualized.png");
+            });
+        });
+    };
+
     this.drawCanvasTable = function(numCols, numRows) {
         var canvas = this.canvas;
         var offset = 100; //Sets the table down (offset) amount of pixels. Used for the title
@@ -147,7 +169,7 @@ function Schedule(courseList) {
             }
         }
         context.stroke();
-
+        this.injectButtons(canvas);
         $(".centered").append("<button class = 'btn' id = 'imageDL'>Download as an Image</button>");
 
         $("#imageDL").click(function () {

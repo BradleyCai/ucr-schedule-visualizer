@@ -21,7 +21,7 @@ p {
 a {
     color: #4099FF;
     text-decoration: none;
-    transition: color .15s
+    transition: color .15s;
 }
 br {
     margin-bottom: 20px;
@@ -29,12 +29,13 @@ br {
 a:hover,
 a:focus,
 a:active {
-    color: #2f2f2f
+    color: #2f2f2f;
+    border-bottom: 1px dotted #2f2f2f;
 }
 textarea {
     margin-bottom: 25px;
     height: 85px;
-    width: 400px;
+    width: 500px;
     text-align: center;
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
     font-size: 16px;
@@ -48,6 +49,9 @@ div.centered {
 div.centered table {
     margin: 0 auto;
     text-align: left;
+}
+.table-space {
+    margin-bottom: 25px;
 }
 .pure-table {
     /* Remove spacing between table cells (from Normalize.css) */
@@ -164,7 +168,7 @@ there's a rowspan on the first cell. Case added to the tests. issue#432 */
     background-color: #FCF8E3;
     border: 1px solid #FBEED5;
     border-radius: 4px;
-    margin-bottom: 20px;
+    margin-bottom: 25px;
     padding: 8px 14px;
     text-shadow: 0 1px rgba(255, 255, 255, .5);
     text-align: left;
