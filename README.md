@@ -46,4 +46,4 @@ detailed.
 License
 -------
 
-MIT License: Do what ever you want with this code :heart:. This project is intended for public use and for personal learning and enjoyment.
+MIT License: Do what ever you want with our code so long as you credit it :heart:. This project is intended for public use and for personal learning and enjoyment. You can find our license [here](https://github.com/BradleyCai/ucr-schedule-visualizer/blob/gh-pages/LICENSE.md).
