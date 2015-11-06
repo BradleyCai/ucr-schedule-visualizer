@@ -22,6 +22,7 @@ function Schedule(courseList) {
      * @return hourList - A 2D array hour list
      */
     this.createHourList = function() {
+        var hasConflict = false;
         //Initialize a 2-D array. Each item within the array is an array.
         this.hourList = new Array(32);
         for (var i = 0; i < 32; i++) {
@@ -29,13 +30,25 @@ function Schedule(courseList) {
         }
 
         for (var c = 0; c < this.courseList.length; c++) { //for each course
-            var current = this.courseList[c];
-            current.setIndex(c);
-            for (var day = 0; day < current.days.length; day++) { //for each day of the week
-                if (current.days[day] === true) {
+            var courseAtI = this.courseList[c];
+            courseAtI.setIndex(c);
+
+            for (var day = 0; day < courseAtI.days.length; day++) { //for each day of the week
+                if (courseAtI.days[day] === true) {
                     //console.log(courseList[c].pos + " " + day);
-                    for (var b = 0; b < current.blocks; b++) {//for each block
-                        this.hourList[current.pos + b][day] = this.courseList[c];
+                    for (var b = 0; b < courseAtI.blocks; b++) {//for each block
+                        if (this.hourList[courseAtI.pos + b][day] == null) { // short hand for: if (typeof hourList[courseAtI.pos + b][day] === 'undefined' && hourList[courseAtI.pos + b][day] === null).
+                                this.hourList[courseAtI.pos + b][day] = this.courseList[c];
+                        }
+                        else {
+                            if (!hasConflict) {
+                                var conflictString = '<div class="container" id = "conflict"><p class = "alert alert-error"><strong>Two or more courses appear to be scheduled at the same time. You might want to check that over. </strong>';
+
+                                $(".table-space").before(conflictString);
+                                hasConflict = true;
+                            }
+                        }
+
                     }
                 }
             }

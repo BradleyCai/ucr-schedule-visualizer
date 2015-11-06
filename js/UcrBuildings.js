@@ -9,7 +9,6 @@ loadBuildingNames = function () {
         for (var i = 0; i < data.length; i++) {
             line = data[i].split(":");
             buildingNames[line[0]] = line[1];
-            console.log(line[0] + ":" + buildingNames[line[0]]);
         }
         schedule.createPopovers();
     });
