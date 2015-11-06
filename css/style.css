@@ -21,7 +21,7 @@ p {
 a {
     color: #4099FF;
     text-decoration: none;
-    transition: color .15s
+    transition: color .15s;
 }
 br {
     margin-bottom: 20px;
@@ -29,7 +29,8 @@ br {
 a:hover,
 a:focus,
 a:active {
-    color: #2f2f2f
+    color: #2f2f2f;
+    border-bottom: 1px dotted #2f2f2f;
 }
 textarea {
     margin-bottom: 25px;
