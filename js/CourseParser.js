@@ -4,17 +4,17 @@ function CourseParser() {
     this.courseList = -1;
     this.noShowList = -1;
 
-    this.createTestCourses = function() {
+    this.createTestCourses = function () {
         courseList = new Array(0);
 
         /*Example courses. Will be filled from user input in the final version */
         list.push(new Course("FALL", "INTRO: CS FOR SCI,MATH&ENGR I", "CS -010 -001", "BRNHL", "A125", "None", 4,
-                        9, 0, 10, 0, "MWF"));
+            9, 0, 10, 0, "MWF"));
         list.push(new Course("FALL", "INTRO: CS FOR SCI,MATH&ENGR I", "CS -010 -001", "BRNHL", "A125", "None", 4,
-                        15, 30, 17, 0, "TR"));
+            15, 30, 17, 0, "TR"));
     };
 
-    this.createCourseList = function(rawString) {
+    this.createCourseList = function (rawString) {
         this.courseList = new Array(0);
         this.noShowList = new Array(0);
         var quarter = /[0-9]{4} [A-z]+ Quarter/g.exec(rawString);
@@ -31,32 +31,32 @@ function CourseParser() {
         //For each course
         while (course !== null) {
             var subCourse = this.subCourseRegex.exec(course[0]);
-            while(subCourse !== null) {
+            while (subCourse !== null) {
                 if (subCourse[2] != null) { // short hand for: if (typeof courseAtI !== 'undefined' && courseAtI !== null).
                     if (subCourse[2].substr(-2, 2).toUpperCase() == "AM") {
-                        hour1 = parseInt(subCourse[2].substr(0, 2))%12;
+                        hour1 = parseInt(subCourse[2].substr(0, 2)) % 12;
                     }
                     else {
-                        hour1 = parseInt(subCourse[2].substr(0, 2))%12 + 12;
+                        hour1 = parseInt(subCourse[2].substr(0, 2)) % 12 + 12;
                     }
 
                     min1 = parseInt(subCourse[2].substr(2, 2));
 
                     if (subCourse[3].substr(-2, 2).toUpperCase() == "AM") {
-                        hour2 = parseInt(subCourse[3].substr(0, 2))%12;
+                        hour2 = parseInt(subCourse[3].substr(0, 2)) % 12;
                     }
                     else {
-                        hour2 = parseInt(subCourse[3].substr(0, 2))%12 + 12;
+                        hour2 = parseInt(subCourse[3].substr(0, 2)) % 12 + 12;
                     }
 
                     min2 = parseInt(subCourse[3].substr(2, 2));
 
                     this.courseList.push(new Course(quarter, course[1], course[2], course[3], course[4],
-                    subCourse[1], hour1, min1, hour2, min2, subCourse[4], subCourse[5]));
+                        subCourse[1], hour1, min1, hour2, min2, subCourse[4], subCourse[5]));
                 }
                 else {
                     this.noShowList.push(new Course(quarter, course[1], course[2], course[3], course[4],
-                    subCourse[1], hour1, min1, hour2, min2, subCourse[4], subCourse[5]));
+                        subCourse[1], hour1, min1, hour2, min2, subCourse[4], subCourse[5]));
                 }
                 subCourse = this.subCourseRegex.exec(course[0]);
             }
@@ -75,11 +75,11 @@ function CourseParser() {
         }
     };
 
-    this.getCourseList = function() {
+    this.getCourseList = function () {
         return this.courseList;
     };
 
-    this.getRegex = function() {
+    this.getRegex = function () {
         return this.regex;
     };
 }

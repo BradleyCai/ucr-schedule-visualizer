@@ -38,7 +38,7 @@ Credits
   <li><a href="https://github.com/eligrey/Blob.js">Blob.js</a></l>
 </ul>
 
-Authored and conceived by [Bradley Cai](https://github.com/BradleyCai) and [Ammon](https://github.com/ammongit).
+Authored and conceived by [Bradley Cai](https://github.com/BradleyCai), [Ammon](https://github.com/ammongit), and [John (FuzzyAvacado)](https://github.com/fuzzyavacado).
 
 Contact us! We have a [twitter](https://twitter.com/UCR_Visualizer), or you can email us at [bradleycai24@gmail.com](mailto:bradleycai24@gmail.com) (Bradley) or [ammon.i.smith@gmail.com](mailto:ammon.i.smith@gmail.com) (Ammon) if it's something more
 detailed.
@@ -46,4 +46,4 @@ detailed.
 License
 -------
 
-MIT License: Do what ever you want with this code :heart:. This project is intended for public use and for personal learning and enjoyment.
+MIT License: Do what ever you want with our code so long as you credit it :heart:. This project is intended for public use and for personal learning and enjoyment. You can find our license [here](https://github.com/BradleyCai/ucr-schedule-visualizer/blob/gh-pages/LICENSE.md).
