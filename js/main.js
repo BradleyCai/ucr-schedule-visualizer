@@ -2,15 +2,14 @@ var HTML5 = false; // If browser supports HTML5
 var made = false; // If the schedule has been made and drawn yet
 var parser = new CourseParser();
 var schedule;
+var input = document.getElementById('regex');
 
 if (window.File && window.FileReader && window.FileList) {
     HTML5 = true;
-}
-else {
+} else {
     alert("This browser isn't fully supported!");
 }
 
-var input = document.getElementById('regex');
 input.onkeyup = function() {
     //Quick check if input is a schedule
     if(this.value.match(parser.getRegex()) && !made) {
