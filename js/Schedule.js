@@ -156,14 +156,8 @@ function Schedule(courseList) {
             }
         }
         context.stroke();
+        
         this.injectButtons(canvas);
-        $(".centered").append("<button class = 'btn' id = 'imageDL'>Download as an Image</button>");
-
-        $("#imageDL").click(function () {
-            canvas.toBlob(function (blob) {
-                saveAs(blob, "schedule.png");
-            });
-        });
     };
 
     /**
