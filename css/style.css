@@ -132,7 +132,7 @@ there's a rowspan on the first cell. Case added to the tests. issue#432 */
     font-size: 21px;
     font-weight: 200;
     line-height: 30px;
-    margin-bottom: 20px;
+    margin-bottom: 40px;
     transition: font-size .5s
 }
 .jumbotron .form-group{

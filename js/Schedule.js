@@ -67,10 +67,13 @@ function Schedule(courseList) {
             $('#imageDL').hide(250);
             $('#reload').hide(250);
             $('#noShow').hide(250);
+            $('#conflict').hide(250);
+
             $('.pure-table').remove();
             $('#imageDL').remove();
             $('#reload').remove();
             $('#noShow').remove();
+            $('#conflict').remove();
         });
         $("#imageDL").click(function() {
             canvas.toBlob(function(blob) {
@@ -169,7 +172,7 @@ function Schedule(courseList) {
             }
         }
         context.stroke();
-        
+
         this.injectButtons(canvas);
     };
 
