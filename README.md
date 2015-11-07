@@ -22,7 +22,7 @@ branch is our master branch.
 
 We are using the [Akari Link Shortener](https://waa.ai/) to shorten our link. The link is: [https://waa.ai/ucrsv](https://waa.ai/ucrsv) with the
 first three characters "ucr" referring to our school name, and the last 2 characters "sv" being short for "schedule visualizer". We also have a QR code
-which you can find [here](http://bradleycai.github.io/ucr-class-map/img/WAAAI-QR.png).
+which you can find [here](http://bradleycai.github.io/ucr-schedule-visualizer/img/WAAAI-QR.png).
 
 Issues
 ------
