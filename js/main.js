@@ -1,5 +1,6 @@
 var HTML5 = false; // If browser supports HTML5
 var made = false; // If the schedule has been made and drawn yet
+var unrecognized = false;
 var parser = new CourseParser();
 var schedule;
 var input = document.getElementById('regex');
@@ -13,6 +14,9 @@ if (window.File && window.FileReader && window.FileList) {
 input.onkeyup = function () {
     //Quick check if input is a schedule
     if (this.value.match(parser.getRegex()) && !made) {
+        unrecognized = false;
+        $('#unrecognized').hide(250);
+        $('#unrecognized').remove();
         made = true;
         $('#regex').hide(250);
         parser.createCourseList(this.value + "\n");
@@ -20,6 +24,17 @@ input.onkeyup = function () {
         schedule.createHourList();
         schedule.injectTable();
         schedule.drawCanvasTable(150, 25);
+    }
+    else if (this.value.length > 20 && !unrecognized && !this.value.match(parser.getRegex())) {
+        var unrecognizedString = '<div class="container" id ="unrecognized"><p class = "alert alert-error"><strong>Something went wrong!</strong> We were not able to recognize your schedule. Please email us with your schedule so that we can take a closer look. Sorry about that.';
+
+        $(".table-space").before(unrecognizedString);
+        unrecognized = true;
+    }
+    else if (this.value.length < 20 && unrecognized) {
+        unrecognized = false;
+        $('#unrecognized').hide(250);
+        $('#unrecognized').remove();
     }
 };
 
