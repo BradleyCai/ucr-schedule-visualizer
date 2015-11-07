@@ -1,4 +1,4 @@
-var HTML5 = false; // If browser supports HTML5
+var HTML5 = false; // If this browser supports HTML5
 var made = false; // If the schedule has been made and drawn yet
 var unrecognized = false;
 var parser = new CourseParser();
