@@ -5,17 +5,15 @@ The raw class list from GROWL is pretty ugly. We're here to fix that.
 
 This project is a website written in HTML, CSS, and JavaScript that generates an
 hour by hour view of your schedule as well as provide links to each class location
-from the schedule you get from GROWL. Your security and privacy is maintained because all of the schedule
-interpreting and viewing is done client side. No personal schedule related information is sent over the web. This because GitHub pages hosts only static webpages.
+from the schedule you get from GROWL. Your security and privacy is maintained because
+all of the schedule interpreting and viewing is done client side. No personal schedule
+related information is sent over the web.
 
 [GitHub Pages](http://bradleycai.github.io/ucr-schedule-visualizer/)
 --------------------------------------------------------
 
-This project is hosted for free on GitHub pages. The downside is that you can't do any
-server side magic. The upside is that the website's purpose only really needs client
-side HTML, CSS, and JS which works out!
-
-You can check out the current stable release of our website via the link above.
+This project is hosted on GitHub pages. You can check out the current stable release
+of our website using the link above.
 
 Because the GitHub pages branch is the equivalent of a master branch, the gh-pages
 branch is our master branch.
