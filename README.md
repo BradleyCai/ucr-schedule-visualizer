@@ -1,4 +1,4 @@
-UCR Schedule Visualizer
+UCR Schedule Visualizer v1.0
 =======================
 
 The raw class list from GROWL is pretty ugly. We're here to fix that.
