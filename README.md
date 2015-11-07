@@ -5,8 +5,8 @@ The raw class list from GROWL is pretty ugly. We're here to fix that.
 
 This project is a website written in HTML, CSS, and JavaScript that generates an
 hour by hour view of your schedule as well as provide links to each class location
-from the schedule you get from GROWL. Security is ensured because all of the schedule
-interpreting and viewing is done client side. No personal schedule related information is sent over the web.
+from the schedule you get from GROWL. Your security and privacy is maintained because all of the schedule
+interpreting and viewing is done client side. No personal schedule related information is sent over the web. This because GitHub pages hosts only static webpages.
 
 [GitHub Pages](http://bradleycai.github.io/ucr-schedule-visualizer/)
 --------------------------------------------------------
@@ -27,7 +27,7 @@ which you can find [here](http://bradleycai.github.io/ucr-class-map/img/WAAAI-QR
 Issues
 ------
 
-If you want to be a nice pal, suggest a feature in the "issues" section! If you want to be a super pal, you can fork us and make a change that we can merge into our source.
+If you want to be a nice pal, suggest a feature in the [issues section](https://github.com/BradleyCai/ucr-schedule-visualizer/issues)! If you want to be a super pal, you can fork us and make a change that we can merge into our source.
 
 Credits
 -------
@@ -44,7 +44,7 @@ Credits
 Authored and conceived by [Bradley Cai](https://github.com/BradleyCai), [Ammon](https://github.com/ammongit), and [John (FuzzyAvacado)](https://github.com/fuzzyavacado).
 
 Contact us! We have a [twitter](https://twitter.com/UCR_Visualizer), or you can email us at [bradleycai24@gmail.com](mailto:bradleycai24@gmail.com) (Bradley) or [ammon.i.smith@gmail.com](mailto:ammon.i.smith@gmail.com) (Ammon) if it's something more
-detailed.
+detailed. Our public keys are located in the `etc` directory of this repo.
 
 License
 -------
