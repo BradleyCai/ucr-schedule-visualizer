@@ -6,5 +6,5 @@ all: $(OBJECTS) inject
 	python sub_regex.py $@.regex $@.out
 
 clean:
-	rm *.out
+	rm -f *.out
 

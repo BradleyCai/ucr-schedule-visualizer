@@ -19,7 +19,7 @@ if __name__ == "__main__":
 
     output_text = \
         re.sub(r"this\.%s\s*=\s*\/.*\/g;" % re.escape(field), \
-               "this.%s = /%s/g;" % (field, to_replace, \
+               "this.%s = /%s/g;" % (field, to_replace), \
                output_text)
      
     with open(sys.argv[3], 'w+') as fh:
