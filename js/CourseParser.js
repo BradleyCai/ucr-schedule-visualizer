@@ -4,16 +4,6 @@ function CourseParser() {
     this.courseList = -1;
     this.noShowList = -1;
 
-    this.createTestCourses = function () {
-        courseList = new Array(0);
-
-        /*Example courses. Will be filled from user input in the final version */
-        list.push(new Course("FALL", "INTRO: CS FOR SCI,MATH&ENGR I", "CS -010 -001", "BRNHL", "A125", "None", 4,
-            9, 0, 10, 0, "MWF"));
-        list.push(new Course("FALL", "INTRO: CS FOR SCI,MATH&ENGR I", "CS -010 -001", "BRNHL", "A125", "None", 4,
-            15, 30, 17, 0, "TR"));
-    };
-
     this.createCourseList = function (rawString) {
         this.courseList = new Array(0);
         this.noShowList = new Array(0);
