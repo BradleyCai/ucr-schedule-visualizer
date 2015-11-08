@@ -20,7 +20,7 @@ function CourseParser() {
 
         //For each course
         while (course !== null) {
-            var subCourse = this.subCourseRegex.exec(course[0]);
+            var subCourse = this.subCourseRegex.exec(course[5]);
             while (subCourse !== null) {
                 if (subCourse[2] !== undefined) {
                     if (subCourse[2].substr(-2, 2).toUpperCase() == "AM") {
@@ -54,7 +54,7 @@ function CourseParser() {
                     this.noShowList.push(new Course(quarter, course[1], course[2], course[3], course[4],
                         subCourse[1], hour1, min1, hour2, min2, subCourse[4], subCourse[5]));
                 }
-                subCourse = this.subCourseRegex.exec(course[0]);
+                subCourse = this.subCourseRegex.exec(course[5]);
             }
             course = this.regex.exec(rawString);
         }
