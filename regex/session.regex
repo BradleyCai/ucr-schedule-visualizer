@@ -1,1 +1,1 @@
-%{days}\s*%{hours}\s*%{building}\s*%{room}\n
+%{days}\s*%{hours}\s*%{building}\s*%{room}?\s*\n

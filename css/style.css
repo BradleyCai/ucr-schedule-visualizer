@@ -55,27 +55,27 @@ div.centered table {
     margin-bottom: 25px;
 }
 .pure-table {
-    /* Remove spacing between table cells (from Normalize.css) */
     background-color: rgba(0, 0, 0, .2);
     width: 1000px;
     table-layout: fixed;
     border-collapse: collapse;
     border-spacing: 0;
     empty-cells: show;
-    border: 1px solid #cbcbcb;
 }
 .pure-table thead {
     background-color: #f8f8f8;
     color: rgb(60, 60, 60);
     vertical-align: bottom;
 }
+.pure-table tr {
+    border: 1px solid rgb(80, 80, 80);
+}
 .pure-table td,
 .pure-table th {
     text-align: center;
-    border: 1px solid #cbcbcb;/*  inner column border */
-    border-width: 0 0 0 1px;
+    border: 1px solid #cbcbcb;
+    border-width: 0 1px 0 1px;
     font-size: inherit;
-    margin: 0;
 }
 .pure-table td {
     height: 20px;
@@ -84,14 +84,8 @@ div.centered table {
     height: 35px;
     padding-bottom: 15px;
 }
-.pure-table tr {
-    border: 1px solid rgb(80, 80, 80);
-}
 .rspan{
     background-color: rgba(0, 0, 0, .3);
-    border: 1px solid #cbcbcb;
-    border-width: 0 0 0 1px;
-    margin: 0;
 }
 /* Consider removing this next declaration block, as it causes problems when
 there's a rowspan on the first cell. Case added to the tests. issue#432 */
@@ -231,6 +225,10 @@ only screen and (max-width: 400px) {
     }
     .alert {
         font-size: 13px;
+    }
+    .btn {
+        width: 100%;
+        margin: 0 0 10px 0;
     }
     nav {
         padding: 10px 0;
