@@ -56,7 +56,7 @@ function Schedule(courseList) {
     };
 
     this.injectButtons = function(canvas) {
-        $(".centered").append("<button class = 'btn' id = 'imageDL'>Download to an Image</button>");
+        $(".centered").append("<button class = 'btn' id = 'imageDL'>Download as an Image</button>");
         $(".centered").append("<button class = 'btn' id = 'reload'>Visualize Again</button>");
 
         $("#reload").click(function() {
