@@ -10,7 +10,7 @@
 # in the javascript sources should not be modified, as they will be overwritten by
 # this Makefile chain.
 
-.PHONY: all regex inject clean
+.PHONY: all regex inject test clean
 
 OBJECTS = input session
 
@@ -23,8 +23,11 @@ all: $(OBJECTS) inject
 inject:
 	make -C js inject
 
+test:
+	make -C tests test
+
 clean:
 	make -C regex clean
 	make -C js clean
-
+	make -C tests clean
 
