@@ -22,8 +22,7 @@ function CourseParser() {
         while (course !== null) {
             var subCourse = this.subCourseRegex.exec(course[0]);
             while (subCourse !== null) {
-                if (subCourse[2] != null) {
-                    // short hand for: if (typeof courseAtI !== 'undefined' && courseAtI !== null).
+                if (subCourse[2] !== undefined) {
                     if (subCourse[2].substr(-2, 2).toUpperCase() == "AM") {
                         hour1 = parseInt(subCourse[2].substr(0, 2)) % 12;
                     }
