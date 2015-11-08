@@ -22,7 +22,7 @@ function CourseParser() {
         while (course !== null) {
             var subCourse = this.subCourseRegex.exec(course[0]);
             while (subCourse !== null) {
-                if (subCourse[2] != null) { // short hand for: if (typeof courseAtI !== 'undefined' && courseAtI !== null).
+                if (subCourse[2] !== undefined) {
                     if (subCourse[2].substr(-2, 2).toUpperCase() == "AM") {
                         hour1 = parseInt(subCourse[2].substr(0, 2)) % 12;
                     }
@@ -41,8 +41,14 @@ function CourseParser() {
 
                     min2 = parseInt(subCourse[3].substr(2, 2));
 
-                    this.courseList.push(new Course(quarter, course[1], course[2], course[3], course[4],
+                    if (7 < hour1 && hour1 < 22 && 7 < hour2 && hour2 < 22) {
+                        this.courseList.push(new Course(quarter, course[1], course[2], course[3], course[4],
                         subCourse[1], hour1, min1, hour2, min2, subCourse[4], subCourse[5]));
+                    }
+                    else {
+                        var unrecognizedString = '<div class="container" id ="unrecognized"><p class = "alert alert-error"><strong>Something went wrong!</strong> Your schedule refers to a time that is out of range! We didn\'t expect any classes after 10PM or before 7AM. Send us an email and we\'ll figure something out.';
+                        $(".table-space").before(unrecognizedString);
+                    }
                 }
                 else {
                     this.noShowList.push(new Course(quarter, course[1], course[2], course[3], course[4],
