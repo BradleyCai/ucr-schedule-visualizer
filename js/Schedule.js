@@ -132,7 +132,7 @@ function Schedule(courseList) {
             for (var col = 1; col < this.hourList[0].length + 1; col++) { //For each day (Mon-Sat)
                 courseAtI = this.hourList[row - 1][col - 1];
 
-                if (courseAtI != null) { // short hand for: if (typeof courseAtI !== 'undefined' && courseAtI !== null).
+                if (courseAtI !== undefined) {
 
                     if (this.hourList[row - 2][col - 1] != courseAtI) {
                         if (courseAtI.bldg === "TBA" && courseAtI.room === "TBA") {
@@ -215,7 +215,7 @@ function Schedule(courseList) {
                 courseAtI = this.hourList[row][col];
 
                 //This displays the course info per course, instead of per block
-                if (courseAtI != null) { //short hand for: if (typeof courseAtI !== 'undefined' && courseAtI !== null).
+                if (courseAtI !== undefined) {
                     if (this.hourList[row - 1][col] !== courseAtI) {
                         popoutString = "<td class='rspan' rowspan='" + courseAtI.blocks + "'>" +
                             "<a href='' onclick='return false;' " +
