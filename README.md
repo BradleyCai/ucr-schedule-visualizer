@@ -30,8 +30,6 @@ If you want to be a nice pal, suggest a feature in the [issues section](https://
 Credits
 -------
 
-Coded with love by [Bradley Cai](https://github.com/BradleyCai), [Ammon](https://github.com/ammongit), and [John (FuzzyAvacado)](https://github.com/fuzzyavacado).
-
 <ul>
   <li>Lots of inspiration from <a href="https://github.com/nokonoko/Pomf">pomf</a></li>
   <li><a href="https://jquery.com/">jQuery</a></li>
@@ -40,6 +38,8 @@ Coded with love by [Bradley Cai](https://github.com/BradleyCai), [Ammon](https:/
   <li><a href="https://github.com/eligrey/canvas-toBlob.js">Canvas-toBlob.js</a></li>
   <li><a href="https://github.com/eligrey/Blob.js">Blob.js</a></l>
 </ul>
+
+Coded with love by [Bradley Cai](https://github.com/BradleyCai), [Ammon](https://github.com/ammongit), and [John (FuzzyAvacado)](https://github.com/fuzzyavacado).
 
 Contact us! We have a [twitter](https://twitter.com/UCR_Visualizer), or you can email us at [bradleycai24@gmail.com](mailto:bradleycai24@gmail.com) (Bradley) or [ammon.i.smith@gmail.com](mailto:ammon.i.smith@gmail.com) (Ammon) if it's something more
 detailed. Our public keys are located in the `etc` directory of this repo.
