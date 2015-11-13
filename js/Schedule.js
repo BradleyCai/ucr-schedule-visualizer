@@ -260,9 +260,8 @@ function Schedule(courseList) {
         var tableSpace = document.getElementById("table-space");
         this.createTableString();
 
-        loadBuildingNames();
-
         tableSpace.innerHTML = this.tableString;
+        loadBuildingNames();
 
         //console.log(this.tableString);
     };
