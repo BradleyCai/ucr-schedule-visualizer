@@ -305,7 +305,7 @@ function Schedule(courseList) {
     };
 
     this.getGud = function () {
-        var powerLevel = 9001;
+        var powerLevel = 9002;
         return powerLevel;
     };
 }
