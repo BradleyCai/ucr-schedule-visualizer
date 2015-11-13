@@ -117,7 +117,7 @@ function Schedule(courseList) {
         var hour = 0;
         for (var row = 1; row < this.hourList.length + 1; row++) { //For each row (30 minute block)
             if (row % 2 == 1) {
-                hour = Math.ceil(((row * 30 + 390) / 60) % 12.1);
+                hour = Math.ceil((((row - 1) * 30 + 420) / 60) % 12.1);
                 context.rect(0.5, row * cellHeight + offset + 0.5, cellWidth, cellHeight * 2);
                 if (Math.floor(row / 10) === 0) {
                     context.fillText(hour + "AM", 0.5 + cellWidth / 2, row * cellHeight + cellHeight + offset + 0.5);
