@@ -1,0 +1,37 @@
+%%% Example test case
+SUSTAINABILITY
+CNAS-LC -069      NG    0.00    TBA     -
+~
+SUSTAINABILITY
+CNAS-LC -069
+NG
+0.00
+~
+TBA
+
+
+
+
+~
+%%% Another example test case
+CLASS NAME
+CHEM-003B -021    ZZ    4.50    MF     0940AM-1100AM     INTN   1234
+                                W      0840AM-1000AM     INTS   5678
+~
+CLASS NAME
+CHEM-003B -021
+ZZ
+4.50
+~
+MF
+0940AM
+1100AM
+INTN
+1234
+~
+W
+0840AM
+1000AM
+INTS
+5678
+~

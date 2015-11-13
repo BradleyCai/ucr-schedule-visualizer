@@ -14,7 +14,11 @@
 
 OBJECTS = input session
 
-all: $(OBJECTS) inject
+all: test compile
+
+compile:
+	make $(OBJECTS)
+	make inject
 
 %:
 	make -C regex $@

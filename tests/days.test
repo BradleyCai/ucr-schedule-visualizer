@@ -1,0 +1,57 @@
+%%% Different sessions and days
+INTRODUCTION TO ENGINEERING
+ENGR-010 -001     SN    2.00    M   1010AM-1100AM      PHY 100
+                                T   1110AM-1200PM      PHY 100
+                                W   1210PM-0100PM      PHY 100
+~
+INTRODUCTION TO ENGINEERING
+ENGR-010 -001
+SN
+2.00
+~
+M
+1010AM
+1100AM
+PHY
+100
+~
+T
+1110AM
+1200PM
+PHY
+100
+~
+W
+1110AM
+1200PM
+PHY
+100
+~
+!!! Invalid day
+INTRODUCTION TO CHEMISTRY
+CHEM-020-003          1.50   Z  1010AM-1100AM      CHEM 100
+~
+!!! Invalid times
+INTRODUCTION TO CHEMISTRY
+CHEM-020-003          1.50   M  ????AM-????PM      CHEM 100
+~
+!!! Not enough digits in first time
+INTRODUCTION TO CHEMISTRY
+CHEM-020-003          0.00   M  110PM-0330PM       CHEM 100
+~
+!!! Not enough digits in last time
+INTRODUCTION TO CHEMISTRY
+CHEM-020-003          0.00   M  0110PM-330PM       CHEM 100
+~
+!!! Not enough digits in both times
+INTRODUCTION TO CHEMISTRY
+CHEM-020-003          0.00   M  110PM-330PM        CHEM 100
+~
+!!! No AM/PM
+INTRODUCTION TO CHEMISTRY
+CHEM-020-003          0.00   M  1010-1230          CHEM 100
+~
+!!! No 'M' in AM/PM
+INTRODUCTION TO CHEMISTRY
+CHEM-020-003          0.00   M  1010A-1230P        CHEM 100
+~

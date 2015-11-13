@@ -1,0 +1,63 @@
+%%% Single TBA Test
+SUSTAINABILITY
+CNAS-LC -069      NG    0.00    TBA     -
+~
+SUSTAINABILITY
+CNAS-LC -069
+NG
+0.00
+~
+TBA
+
+
+
+
+~
+%%% Multiple TBA Test
+SUSTAINABILITY
+CNAS-LC -069      NG    0.00    TBA     -
+                                TBA     -
+~
+SUSTAINABILITY
+CNAS-LC -069
+NG
+0.00
+~
+TBA
+
+
+
+
+~
+TBA
+
+
+
+
+~
+%%% TBA and actual times
+SUSTAINABILITY
+CNAS-LC -069      NG    0.00    TBA     -
+                                MWF     0510PM-0630PM    OLMH   9999
+~
+SUSTAINABILITY
+CNAS-LC -069
+NG
+0.00
+~
+TBA
+
+
+
+
+~
+MWF
+0510PM
+0630PM
+OLMH
+9999
+~
+%%% No times
+SUSTAINABILITY
+CNAS-LC -069      NG    0.00
+~
