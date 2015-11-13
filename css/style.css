@@ -16,7 +16,7 @@ body {
     max-width: 820px;
 }
 p {
-    margin: 0 0 10px
+    margin: 0 0 10px 0;
 }
 a {
     color: #4895F4;
@@ -214,6 +214,12 @@ only screen and (max-width: 400px) {
         height: 85px;
         width: 80%;
     }
+    h1 {
+        margin: 0 10px 15px 10px;
+    }
+    p {
+        margin: 0 10px 0 10px;
+    }
     .jumbotron {
         margin: 0px 0px 20px 0px;
     }
@@ -225,6 +231,7 @@ only screen and (max-width: 400px) {
     }
     .alert {
         font-size: 13px;
+        margin: 0 0 0 0;
     }
     .btn {
         width: 100%;

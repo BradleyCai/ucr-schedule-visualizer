@@ -1,6 +1,6 @@
 function CourseParser() {
-    this.regex = /(.*)\n\s*([A-Z]+ ?-[A-Z0-9]+ ?-[0-9]{3})\s+([A-Z]*)\s+([0-9]\.[0-9]{2})\s+(?:\s*(?:TBA|[MTWRFS]{1,6})\s+(?:[0-9]{4}[AP]M)?-(?:[0-9]{4}[AP]M)?\s*(?:[A-Z\-]{0,8})\s*(?:[0-9]+[A-Z]+|[A-Z]+[0-9]+|[0-9]+)?\s*\n)+/g;
-    this.subCourseRegex = /(TBA|[MTWRFS]+)\s*([0-9]{4}[AP]M)?-([0-9]{4}[AP]M)?\s*([A-Z\-]{0,8})\s*([0-9]+[A-Z]+|[A-Z]+[0-9]+|[0-9]+)?\s*\n/g;
+    this.regex = /(.*)\n\s*([A-Z]+ ?-[A-Z0-9]+ ?-[0-9]{3})\s+([A-Z]*)\s+([0-9]\.[0-9]{2})\s+((?:\s*(?:TBA|[MTWRFS]{1,6})\s*(?:[0-9]{4}[AP]M)?-(?:[0-9]{4}[AP]M)?\s*(?:[A-Z\-]{0,8})\s*(?:[0-9]+[A-Z]{1}|[A-Z]{1}[0-9]+|[0-9]+)?\n)+)/g;
+    this.subCourseRegex = /(TBA|[MTWRFS]+)\s*([0-9]{4}[AP]M)?-([0-9]{4}[AP]M)?\s*([A-Z\-]{0,8})\s*([0-9]+[A-Z]+|[A-Z]+[0-9]+|[0-9]+|\s*)\n/g;
     this.courseList = -1;
     this.noShowList = -1;
 
@@ -20,7 +20,7 @@ function CourseParser() {
 
         //For each course
         while (course !== null) {
-            var subCourse = this.subCourseRegex.exec(course[0]);
+            var subCourse = this.subCourseRegex.exec(course[5]);
             while (subCourse !== null) {
                 if (subCourse[2] !== undefined) {
                     if (subCourse[2].substr(-2, 2).toUpperCase() == "AM") {
@@ -54,7 +54,7 @@ function CourseParser() {
                     this.noShowList.push(new Course(quarter, course[1], course[2], course[3], course[4],
                         subCourse[1], hour1, min1, hour2, min2, subCourse[4], subCourse[5]));
                 }
-                subCourse = this.subCourseRegex.exec(course[0]);
+                subCourse = this.subCourseRegex.exec(course[5]);
             }
             course = this.regex.exec(rawString);
         }

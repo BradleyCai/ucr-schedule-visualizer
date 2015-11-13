@@ -56,7 +56,7 @@ function Schedule(courseList) {
     };
 
     this.injectButtons = function(canvas) {
-        $(".centered").append("<button class = 'btn' id = 'imageDL'>Download as an Image</button>");
+        $(".centered").append("<button class = 'btn' id = 'imageDL'>Download as Image</button>");
         $(".centered").append("<button class = 'btn' id = 'reload'>Visualize Again</button>");
 
         $("#reload").click(function() {
@@ -75,6 +75,7 @@ function Schedule(courseList) {
             $('#noShow').remove();
             $('#conflict').remove();
         });
+
         $("#imageDL").click(function() {
             canvas.toBlob(function(blob) {
                 saveAs(blob, "UCR-Schedule-Visualized.png");
@@ -82,11 +83,11 @@ function Schedule(courseList) {
         });
     };
 
-    this.drawCanvasTable = function(numCols, numRows) {
+    this.drawCanvasTable = function(cellWidth, cellHeight) {
         var canvas = this.canvas;
         var offset = 100; //Sets the table down (offset) amount of pixels. Used for the title
-        var tableWidth = numCols * this.hourList[0].length + numRows + 1;
-        var tableHeight = numRows * this.hourList.length + numRows + 1 + offset;
+        var tableWidth = cellWidth * this.hourList[0].length + cellWidth + 1;
+        var tableHeight = cellHeight * this.hourList.length + cellHeight + 1 + offset;
 
         this.canvas.width = tableWidth;
         this.canvas.height = tableHeight;
@@ -108,21 +109,21 @@ function Schedule(courseList) {
         context.font = '14px "Helvetica"';
 
         for (var day = 0; day < days.length; day++) { //Heh, courses for days. No? Okay ;_;
-            context.rect(day * numCols + numCols + 0.5, offset + 0.5, numCols, numRows);
-            context.fillText(days[day], day * numCols + numCols + numCols / 2, numRows / 2 + offset);
+            context.rect(day * cellWidth + cellWidth + 0.5, offset + 0.5, cellWidth, cellHeight);
+            context.fillText(days[day], day * cellWidth + cellWidth + cellWidth / 2, cellHeight / 2 + offset);
         }
-        context.rect(0.5, offset + 0.5, numCols, numRows);
+        context.rect(0.5, offset + 0.5, cellWidth, cellHeight);
 
         var hour = 0;
         for (var row = 1; row < this.hourList.length + 1; row++) { //For each row (30 minute block)
             if (row % 2 == 1) {
-                hour = Math.ceil(((row * 30 + 420) / 60) % 12.1);
-                context.rect(0.5, row * numRows + offset + 0.5, numCols, numRows * 2);
+                hour = Math.ceil((((row - 1) * 30 + 420) / 60) % 12.1);
+                context.rect(0.5, row * cellHeight + offset + 0.5, cellWidth, cellHeight * 2);
                 if (Math.floor(row / 10) === 0) {
-                    context.fillText(hour + "AM", 0.5 + numCols / 2, row * numRows + numRows + offset + 0.5);
+                    context.fillText(hour + "AM", 0.5 + cellWidth / 2, row * cellHeight + cellHeight + offset + 0.5);
                 }
                 else {
-                    context.fillText(hour + "PM", 0.5 + numCols / 2, row * numRows + numRows + offset + 0.5);
+                    context.fillText(hour + "PM", 0.5 + cellWidth / 2, row * cellHeight + cellHeight + offset + 0.5);
                 }
 
             }
@@ -131,7 +132,7 @@ function Schedule(courseList) {
             for (var col = 1; col < this.hourList[0].length + 1; col++) { //For each day (Mon-Sat)
                 courseAtI = this.hourList[row - 1][col - 1];
 
-                if (courseAtI != null) { // short hand for: if (typeof courseAtI !== 'undefined' && courseAtI !== null).
+                if (courseAtI !== undefined) {
 
                     if (this.hourList[row - 2][col - 1] != courseAtI) {
                         if (courseAtI.bldg === "TBA" && courseAtI.room === "TBA") {
@@ -143,31 +144,31 @@ function Schedule(courseList) {
 
                         switch (courseAtI.blocks) {
                             case 1:
-                                context.rect(col * numCols + 0.5, row * numRows + 0.5 + offset, numCols, numRows);
-                                context.fillText(courseAtI.nameID, col * numCols + numCols / 2, row * numRows + numRows / 2 + offset);
+                                context.rect(col * cellWidth + 0.5, row * cellHeight + 0.5 + offset, cellWidth, cellHeight);
+                                context.fillText(courseAtI.nameID, col * cellWidth + cellWidth / 2, row * cellHeight + cellHeight / 2 + offset);
                                 break;
                             case 2:
                                 context.fillStyle = "#E6E6E6";
-                                context.fillRect(col * numCols + 0.5, row * numRows + 0.5 + offset, numCols, numRows * 2);
+                                context.fillRect(col * cellWidth + 0.5, row * cellHeight + 0.5 + offset, cellWidth, cellHeight * 2);
                                 context.fillStyle = "black";
-                                context.strokeRect(col * numCols + 0.5, row * numRows + 0.5 + offset, numCols, numRows * 2);
-                                context.fillText(courseAtI.nameID, col * numCols + numCols / 2, row * numRows + numRows / 2 + offset);
-                                context.fillText(location, col * numCols + numCols / 2, row * numRows + numRows + numRows / 2 + offset);
+                                context.strokeRect(col * cellWidth + 0.5, row * cellHeight + 0.5 + offset, cellWidth, cellHeight * 2);
+                                context.fillText(courseAtI.nameID, col * cellWidth + cellWidth / 2, row * cellHeight + cellHeight / 2 + offset);
+                                context.fillText(location, col * cellWidth + cellWidth / 2, row * cellHeight + cellHeight + cellHeight / 2 + offset);
                                 break;
                             default:
                                 context.fillStyle = "#E6E6E6";
-                                context.fillRect(col * numCols + 0.5, row * numRows + 0.5 + offset, numCols, numRows * courseAtI.blocks);
+                                context.fillRect(col * cellWidth + 0.5, row * cellHeight + 0.5 + offset, cellWidth, cellHeight * courseAtI.blocks);
                                 context.fillStyle = "black";
-                                context.strokeRect(col * numCols + 0.5, row * numRows + 0.5 + offset, numCols, numRows * courseAtI.blocks);
-                                context.fillText(courseAtI.nameID, col * numCols + numCols / 2, row * numRows + numRows * courseAtI.blocks / 2 - numRows + offset);
-                                context.fillText(courseAtI.duration + " minutes", col * numCols + numCols / 2, row * numRows + numRows * courseAtI.blocks / 2 + offset);
-                                context.fillText(location, col * numCols + numCols / 2, row * numRows + numRows * courseAtI.blocks / 2 + numRows + offset);
+                                context.strokeRect(col * cellWidth + 0.5, row * cellHeight + 0.5 + offset, cellWidth, cellHeight * courseAtI.blocks);
+                                context.fillText(courseAtI.nameID, col * cellWidth + cellWidth / 2, row * cellHeight + cellHeight * courseAtI.blocks / 2 - cellHeight + offset);
+                                context.fillText(courseAtI.duration + " minutes", col * cellWidth + cellWidth / 2, row * cellHeight + cellHeight * courseAtI.blocks / 2 + offset);
+                                context.fillText(location, col * cellWidth + cellWidth / 2, row * cellHeight + cellHeight * courseAtI.blocks / 2 + cellHeight + offset);
                                 break;
                         }
                     }
                 }
                 else {
-                    context.rect(col * numCols + 0.5, row * numRows + 0.5 + offset, numCols, numRows);
+                    context.rect(col * cellWidth + 0.5, row * cellHeight + 0.5 + offset, cellWidth, cellHeight);
                 }
             }
         }
@@ -214,7 +215,7 @@ function Schedule(courseList) {
                 courseAtI = this.hourList[row][col];
 
                 //This displays the course info per course, instead of per block
-                if (courseAtI != null) { //short hand for: if (typeof courseAtI !== 'undefined' && courseAtI !== null).
+                if (courseAtI !== undefined) {
                     if (this.hourList[row - 1][col] !== courseAtI) {
                         popoutString = "<td class='rspan' rowspan='" + courseAtI.blocks + "'>" +
                             "<a href='' onclick='return false;' " +
@@ -259,9 +260,8 @@ function Schedule(courseList) {
         var tableSpace = document.getElementById("table-space");
         this.createTableString();
 
-        loadBuildingNames();
-
         tableSpace.innerHTML = this.tableString;
+        loadBuildingNames();
 
         //console.log(this.tableString);
     };
@@ -304,7 +304,7 @@ function Schedule(courseList) {
     };
 
     this.getGud = function () {
-        var powerLevel = 9001;
+        var powerLevel = 9002;
         return powerLevel;
     };
 }
