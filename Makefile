@@ -14,7 +14,7 @@
 
 OBJECTS = input session
 
-all: test compile
+all: compile sanity-test
 
 compile:
 	make $(OBJECTS)
@@ -29,6 +29,9 @@ inject:
 
 test:
 	make -C tests test
+
+sanity-test:
+	make -C tests sanity
 
 clean:
 	make -C regex clean
