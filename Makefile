@@ -22,7 +22,8 @@ compile:
 
 %:
 	make -C regex $@
-	cp regex/$@.out js/
+	cp regex/$@.out js/$@.regex
+	cp regex/$@.out tests/$@.regex
 
 inject:
 	make -C js inject

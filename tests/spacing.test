@@ -1,7 +1,7 @@
 !!! No spacing
 ENGLISHWRITING
 ENGL-004-001NG0.00M0510PM-0630PM
-~
+~~~
 %%% Minimal spacing
 ENGLISH WRITING
 ENGL-004-001 NG 0.00 M 0510PM-0630PM
@@ -14,7 +14,7 @@ NG
 M
 0510PM
 0630PM
-~
+~~~
 %%% A little spacing
 ENGLISH WRITING
 ENGL-004-001   NG   0.00   M   0510PM-0630PM
@@ -27,7 +27,7 @@ NG
 M
 0510PM
 0630PM
-~
+~~~
 %%% Tabs in between
 ENGLISH WRITING
 ENGL-004-001	NG	0.00	M	0510PM-0630PM
@@ -40,7 +40,7 @@ NG
 M
 0510PM
 0630PM
-~
+~~~
 %%% Tabs and spaces in between
 ENGLISH WRITING
 ENGL-004-001	 NG	 0.00	 M	 0510PM-0630PM
@@ -53,7 +53,7 @@ NG
 M
 0510PM
 0630PM
-~
+~~~
 %%% Spaces and tabs in between
 ENGLISH WRITING
 ENGL-004-001 	NG 	0.00 	M 	0510PM-0630PM
@@ -66,7 +66,7 @@ NG
 M
 0510PM
 0630PM
-~
+~~~
 %%% Newlines in between
 ENGLISH WRITING
 ENGL-004-001
@@ -83,7 +83,7 @@ NG
 M
 0510PM
 0630PM
-~
+~~~
 %%% Newlines in between everything
 ENGLISH WRITING
 ENGL
@@ -102,7 +102,7 @@ NG
 ~
 M
 0510PM-0630PM
-~
+~~~
 %%% Spaces in class name before number
 ENGLISH WRITING
 ENGL -004-001 NG 0.00 M 0510PM-0630PM
@@ -115,7 +115,7 @@ NG
 M
 0510PM
 0630PM
-~
+~~~
 %%% Spaces in class name after first number
 ENGLISH WRITING
 ENGL-004 -001 NG 0.00 M 0510PM-0630PM
@@ -128,7 +128,7 @@ NG
 M
 0510PM
 0630PM
-~
+~~~
 %%% Spaces in class name before every number
 ENGLISH WRITING
 ENGL -004 -001 NG 0.00 M 0510PM-0630PM
@@ -141,4 +141,4 @@ NG
 M
 0510PM
 0630PM
-~
+~~~

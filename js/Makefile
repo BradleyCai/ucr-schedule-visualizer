@@ -3,9 +3,9 @@
 all: inject
 
 inject:
-	python update_regex.py regex input.out CourseParser.js
-	python update_regex.py subCourseRegex session.out CourseParser.js
+	python update_regex.py regex input.regex CourseParser.js
+	python update_regex.py subCourseRegex session.regex CourseParser.js
 
 clean:
-	rm -f *.out
+	rm -f *.regex
 
