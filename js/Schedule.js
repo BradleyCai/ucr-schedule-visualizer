@@ -37,7 +37,7 @@ function Schedule(courseList) {
                 if (courseAtI.days[day] === true) {
                     //console.log(courseList[c].pos + " " + day);
                     for (var b = 0; b < courseAtI.blocks; b++) {//for each block
-                        if (this.hourList[courseAtI.pos + b][day] == null) { // short hand for: if (typeof hourList[courseAtI.pos + b][day] === 'undefined' && hourList[courseAtI.pos + b][day] === null).
+                        if (this.hourList[courseAtI.pos + b][day] === undefined) {
                                 this.hourList[courseAtI.pos + b][day] = this.courseList[c];
                         }
                         else {
