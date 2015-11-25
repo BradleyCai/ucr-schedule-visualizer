@@ -10,11 +10,13 @@
 # in the javascript sources should not be modified, as they will be overwritten by
 # this Makefile chain.
 
-.PHONY: all regex inject clean
+.PHONY: all compile inject clean
 
 OBJECTS = input session
 
-all: $(OBJECTS) inject
+all: compile inject
+
+compile: $(OBJECTS)
 
 %:
 	make -C regex $@
