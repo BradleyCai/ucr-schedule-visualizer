@@ -1,6 +1,6 @@
 .PHONY: all clean
 
-all: $(OBJECTS) inject
+all: $(OBJECTS)
 
 %:
 	python sub_regex.py $@.regex $@.out
