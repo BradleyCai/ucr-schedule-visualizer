@@ -36,7 +36,8 @@ Credits
   <li><a href="http://getbootstrap.com/">Bootstrap</a></li>
   <li><a href="https://github.com/eligrey/FileSaver.js/">FileSaver.js</a></li>
   <li><a href="https://github.com/eligrey/canvas-toBlob.js">Canvas-toBlob.js</a></li>
-  <li><a href="https://github.com/eligrey/Blob.js">Blob.js</a></l>
+  <li><a href="https://github.com/eligrey/Blob.js">Blob.js</a></li>
+  <li><a href="https://necolas.github.io/normalize.css/">normalize.css</a></li>
 </ul>
 
 Coded with love by [Bradley Cai](https://github.com/BradleyCai) and [Ammon](https://github.com/ammongit).
