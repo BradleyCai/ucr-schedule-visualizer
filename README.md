@@ -40,7 +40,7 @@ Credits
   <li><a href="https://necolas.github.io/normalize.css/">normalize.css</a></li>
 </ul>
 
-Coded with love by [Bradley Cai](https://github.com/BradleyCai), [Ammon](https://github.com/ammongit), and [John (FuzzyAvacado)](https://github.com/fuzzyavacado).
+Coded with love by [Bradley Cai](https://github.com/BradleyCai) and [Ammon](https://github.com/ammongit).
 
 Contact us! We have a [twitter](https://twitter.com/UCR_Visualizer), or you can email us at [bradleycai24@gmail.com](mailto:bradleycai24@gmail.com) (Bradley) or [ammon.i.smith@gmail.com](mailto:ammon.i.smith@gmail.com) (Ammon) if it's something more
 detailed. Our public keys are located in the `etc` directory of this repo.
