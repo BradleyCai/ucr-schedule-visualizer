@@ -18,8 +18,8 @@ function Course(quarter, name, nameID, gt, units,
     this.quarter = (quarter === "" ? "None provided" : quarter); //written as a string in the format of "season####"
     this.name = name;
     this.nameID = nameID; //ID written under the name of the course. (ex. CHEM-001A-060)
-    this.bldg = (bldg === "" ? "TBA" : bldg); //String of the bldg
-    this.room = (room === "" ? "TBA" : room); //String of room number
+    this.bldg = (bldg === "" || bldg === undefined ? "TBA" : bldg); //String of the bldg
+    this.room = (room === "" || room === undefined ? "TBA" : room); //String of room number
     this.gt = (gt === "" ? "None" : gt); //GT - Grade type. No one knows what this is
     this.units = units; //Expressed as a double
 

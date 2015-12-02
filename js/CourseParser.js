@@ -1,6 +1,6 @@
 function CourseParser() {
-    this.regex = /(.*)\n\s*([A-Z]+ ?-[A-Z0-9]+ ?-[0-9]{3})\s+([A-Z]*)\s+([0-9]\.[0-9]{2})\s+((?:\s*(?:TBA|[MTWRFS]{1,6})\s+(?:[0-9]{4}[AP]M)?-(?:[0-9]{4}[AP]M)?\s*(?:(?!^)[A-Z\-]{0,8})\s*(?:(?!^).*[0-9]*.*)?\s*$)+)/g;
-    this.subCourseRegex = /(TBA|[MTWRFS]+)\s*([0-9]{4}[AP]M)?-([0-9]{4}[AP]M)?\s*([A-Z\-]{0,8})\s*(.*[0-9]*.*)?\s*/g;
+    this.regex = /(.*)\n\s*([A-Z]+ ?-[A-Z0-9]+ ?-[0-9]{3})\s+([A-Z]*)\s+([0-9]\.[0-9]{2})\s+((?:\s*(?:TBA|[MTWRFS]{1,6})\s+(?:[0-9]{4}[AP]M)?-(?:[0-9]{4}[AP]M)?\s*(?:(?!^)[A-Z\-]{0,8})\s*(?:(?!^)([A-z]*[0-9]*[A-z]*))?\s*$)+)/gm;
+    this.subCourseRegex = /(TBA|[MTWRFS]+)\s*([0-9]{4}[AP]M)?-([0-9]{4}[AP]M)?\s*([A-Z\-]{0,8})\s*([A-z]*[0-9]*[A-z]*)?\s*\n/g;
     this.courseList = -1;
     this.noShowList = -1;
 
