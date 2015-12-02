@@ -1,10 +1,16 @@
+// Objects
+var schedule;
+var parser = new CourseParser();
+
+// Booleans
 var HTML5 = false; // If this browser supports HTML5
 var made = false; // If the schedule has been made and drawn yet
 var unrecognized = false;
-var parser = new CourseParser();
-var schedule;
+
+// Document input
 var input = document.getElementById('regex');
 
+// Check for HTML5 compatability
 if (window.File && window.FileReader && window.FileList) {
     HTML5 = true;
 } else {
