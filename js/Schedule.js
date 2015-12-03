@@ -282,7 +282,7 @@ function Schedule(courseList) {
                 " <br><strong>Location:</strong> " + location,
                 html: true,
                 animation: true,
-                trigger: "focus"
+                trigger: "click"
             });
         }
     };
