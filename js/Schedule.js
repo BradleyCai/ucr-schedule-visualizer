@@ -224,6 +224,9 @@ function Schedule(courseList) {
                         if (courseAtI.bldg === "TBA" && courseAtI.room === "TBA") {
                             location = "TBA";
                         }
+                        else if (courseAtI.bldg === "ONLINE" && courseAtI.room === "COURSE") {
+                            location = "Online class";
+                        }
                         else {
                             location = courseAtI.bldg + " " + courseAtI.room;
                         }
