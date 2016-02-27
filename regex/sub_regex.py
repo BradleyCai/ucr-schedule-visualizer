@@ -4,8 +4,16 @@ import re, sys, time, os
 
 NEEDS_COMPILE = re.compile(r".*%\{.*\}.*")
 
+def get_file_list(path):
+    gen = os.walk(path)
+
+    if hasattr(gen, "next"):
+        return gen.next()[2]
+    else:
+        return gen.__next__()[2]
+
 def regex_compile(source):
-    files = os.walk(".").next()[2]
+    files = get_file_list(".")
     for fn in files:
         parts = fn.split('.')
 
@@ -50,7 +58,7 @@ if __name__ == "__main__":
         regex = regex_compile(fh.read())
 
     if os.path.exists(target):
-        print("warn: Overwriting %s..." % target)
+        print("[WARN] Overwriting %s..." % target)
 
     with open(target, 'w+') as fh:
         fh.write(regex)
