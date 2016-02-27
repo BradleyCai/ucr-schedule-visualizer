@@ -225,7 +225,7 @@ function Schedule(courseList) {
                             location = "TBA";
                         }
                         else if (courseAtI.bldg === "ONLINE" && courseAtI.room === "COURSE") {
-                            location = "Online class";
+                            location = "Online Course";
                         }
                         else {
                             location = courseAtI.bldg + " " + courseAtI.room;
@@ -274,19 +274,32 @@ function Schedule(courseList) {
         for (var c = 0; c < this.courseList.length; c++) {
             courseAtI = this.courseList[c];
 
-            var location = getBuildingLocation(courseAtI.bldg, courseAtI.room);
+            if (courseAtI.bldg == "ONLINE" && courseAtI.room == "COURSE") {
+                $('.course' + c).popover({
+                    title: courseAtI.name,
+                    content: "<strong>Times: </strong>" + courseAtI.times +
+                    " <br><strong>GT:</strong> " + courseAtI.gt +
+                    " <br><strong>Location:</strong> Online Course",
+                    html: true,
+                    animation: true,
+                    trigger: "click"
+                });
+            }
+            else {
+                var location = getBuildingLocation(courseAtI.bldg, courseAtI.room);
 
-            $('.course' + c).popover({
-                title: courseAtI.name,
-                content: "<strong>Times: </strong>" + courseAtI.times +
-                " <br><strong>Building:</strong> " + courseAtI.bldg +
-                " <br><strong>Room:</strong> " + courseAtI.room +
-                " <br><strong>GT:</strong> " + courseAtI.gt +
-                " <br><strong>Location:</strong> " + location,
-                html: true,
-                animation: true,
-                trigger: "click"
-            });
+                $('.course' + c).popover({
+                    title: courseAtI.name,
+                    content: "<strong>Times: </strong>" + courseAtI.times +
+                    " <br><strong>Building:</strong> " + courseAtI.bldg +
+                    " <br><strong>Room:</strong> " + courseAtI.room +
+                    " <br><strong>GT:</strong> " + courseAtI.gt +
+                    " <br><strong>Location:</strong> " + location,
+                    html: true,
+                    animation: true,
+                    trigger: "click"
+                });
+            }
         }
     };
 
