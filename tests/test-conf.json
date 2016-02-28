@@ -1,13 +1,13 @@
 {
     "regex" : {
-        "file" : "input.regex",
+        "file" : "input.out",
         "groups" : [
             true,
             true,
             true,
             true,
             {
-                "file" : "session.regex",
+                "file" : "session.out",
                 "groups" : [
                     true,
                     true,

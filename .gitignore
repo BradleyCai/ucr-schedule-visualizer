@@ -1,8 +1,7 @@
 # Artifacts
-regex/*.out
+*.out
 js/*.regex
 tests/*.regex
-tests/*.out
 
 # Misc
 __pycache__
