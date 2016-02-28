@@ -1,5 +1,11 @@
-**/.*.swp
-**/*~
+# Artifacts
 regex/*.out
 js/*.regex
 tests/*.regex
+tests/*.out
+
+# Misc
+__pycache__
+**/.*.swp
+**/*~
+

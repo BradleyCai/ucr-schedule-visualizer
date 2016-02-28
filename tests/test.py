@@ -1,9 +1,6 @@
 #!/usr/bin/python
 import argparse, json, re, sys
 
-class TestFailed(RuntimeError):
-    pass
-
 class Test(object):
     def __init__(self, config, name, input, output):
         self.config = config
@@ -13,14 +10,13 @@ class Test(object):
     def __call__(self):
         for regex in self.config:
             result = regex.match(self.input)
-            if (result == None) or (result.groups() != self.output):
-                raise TestFailed(self.name)
+            return (result is not None) and (result.groups() == self.output)
 
-def byteify(data):
+def convert_json(data):
     if isinstance(data, dict):
-        return { byteify(key) : byteify(data) for key, data in data.iteritems() }
+        return { convert_json(key) : convert_json(data) for key, data in data.iteritems() }
     elif isinstance(data, list):
-        return [ byteify(element) for element in data ]
+        return [ convert_json(element) for element in data ]
     elif isinstance(data, unicode):
         return data.encode("utf-8")
     else:
@@ -56,14 +52,18 @@ def sanity_check(config):
 
 if __name__ == "__main__":
     # Parse command line arguments
-    argparser = argparse.ArgumentParser(description="Test regular expressions to make sure they perform as expected.")
-    argparser.add_argument("-c", "--config-file", nargs=1, type=open, help="Specify the configuration file to use when running tests.")
-    argparser.add_argument("-F", "--fail-fast", action="store_true", help="Specifies that testing should terminate when a test fails.")
-    argparser.add_argument("test file", nargs='+', type=open, help="The *.test files that describe the tests to be performed.")
+    argparser = argparse.ArgumentParser(description=\
+            "Test regular expressions to make sure they perform as expected.")
+    argparser.add_argument("-c", "--config-file", nargs=1, type=open, help=\
+            "Specify the configuration file to use when running tests.")
+    argparser.add_argument("-F", "--fail-fast", action="store_true", help=\
+            "Specifies that testing should terminate when a test fails.")
+    argparser.add_argument("test-file", nargs='+', type=open, help=\
+            "The *.test files that describe the tests to be performed.")
     args = argparser.parse_args(sys.argv[1:])
 
     # Parse config file
-    config = byteify(json.loads(args.config_file[0].read()))
+    config = convert_json(json.loads(args.config_file[0].read()))
     if not sanity_check(config):
         print("Errors parsing configuration file.")
         exit(1)
@@ -83,4 +83,4 @@ if __name__ == "__main__":
         for test in tests:
             test()
 
-    
+
