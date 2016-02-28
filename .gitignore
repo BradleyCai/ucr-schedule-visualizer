@@ -1,4 +1,10 @@
+# Artifacts
+*.out
+js/*.regex
+tests/*.regex
+
+# Misc
+__pycache__
 **/.*.swp
 **/*~
-regex/*.out
-js/*.out
+

@@ -1,0 +1,22 @@
+{
+    "regex" : {
+        "file" : "input.out",
+        "groups" : [
+            true,
+            true,
+            true,
+            true,
+            {
+                "file" : "session.out",
+                "groups" : [
+                    true,
+                    true,
+                    true,
+                    true,
+                    true
+                ]
+            }
+        ]
+    }
+}
+
