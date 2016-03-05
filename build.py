@@ -74,7 +74,7 @@ def compile_regex(name, dont_overwrite=False):
         exit(1)
 
     try:
-        write_to_file(target + "\n", compiled)
+        write_to_file(target, compiled + "\n")
     except IOError as err:
         print("Unable to write to \"%s\": %s" % (target, err))
         exit(1)
