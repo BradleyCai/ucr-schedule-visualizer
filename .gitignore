@@ -7,4 +7,5 @@ tests/*.regex
 __pycache__
 **/.*.swp
 **/*~
+client_id.json
 
