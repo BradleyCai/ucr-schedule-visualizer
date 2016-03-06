@@ -1,6 +1,6 @@
 function CourseParser() {
     // CourseParser.regex is in charge of finding each course
-    this.regex = /(.*)\n\s*([A-Z]+ ?-[A-Z0-9]+ ?-[A-Z0-9]+)\s+([A-Z]*)\s+([0-9]\.[0-9]{2})\s+((?:\s*(?:TBA|[MTWRFS]{1,6})\s+(?:[0-9]{4}[AP]M)?-(?:[0-9]{4}[AP]M)?\s*(?:(?!^)[A-Z\-]{0,8})\s*(?:(?!^)([A-z]*[0-9]*[A-z]*))?\s*$)+)/g;
+    this.regex = /(.*)\n\s*([A-Z]+ ?-[A-Z0-9]+ ?-[A-Z0-9]+)\s+([A-Z]*)\s+([0-9]\.[0-9]{2})\s+((?:\s*(?:TBA|[MTWRFS]{1,6})\s+(?:[0-9]{4}[AP]M)?-(?:[0-9]{4}[AP]M)?\s*(?:(?!^)[A-Z\-]{0,8}|ONLINE)\s*(?:(?!^)([A-Z]*[0-9]*[A-Z]*)|COURSE)?\s*$)+)/g;
 
     // CourseParser.subCourseRegex is in charge of extracting the times and locations of the course
     this.subCourseRegex = /(TBA|[MTWRFS]+)\s*([0-9]{4}[AP]M)-([0-9]{4}[AP]M)\s*([A-Z\-]{0,8}|ONLINE)\s*([0-9]+[A-Z]+|[A-Z]+[0-9]+|[0-9]+|COURSE)?\s*\n/g;
