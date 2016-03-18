@@ -23,3 +23,5 @@ TO_INJECT = {
     "session.out": "subCourseRegex",
 }
 
+# What flags to use with the regex.
+REGEX_FLAGS = "gm"

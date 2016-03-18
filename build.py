@@ -87,8 +87,8 @@ def inject_regex(field_name, input_file, output_file):
     output_text = read_file(output_file).rstrip()
 
     output_text = \
-        re.sub(r"this\.%s\s*=\s*\/.*\/g;" % re.escape(field_name), \
-               "this.%s = /%s/g;" % (field_name, to_replace), \
+        re.sub(r"this\.%s\s*=\s*\/.*/.*;" % re.escape(field_name), \
+               ("this.%s = /%s/%s;") % (field_name, to_replace, config.REGEX_FLAGS), \
                output_text)
 
     write_to_file(output_file, output_text)
@@ -147,4 +147,3 @@ if __name__ == "__main__":
 
     # Report elapsed time
     print("Finished in %.4f seconds." % (time.time() - start_time))
-
