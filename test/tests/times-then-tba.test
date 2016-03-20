@@ -1,0 +1,32 @@
+[Name] Multiple TBAs in class
+[Type] normal
+
+[Input]
+SUSTAINABILITY
+CNAS-LC -069      NG    0.00     MWF     0510PM-0630PM    OLMH  9999
+                                 TBA     -
+[/Input]
+
+[ClassOutput]
+SUSTAINABILITY
+CNAS-LC -069
+NG
+0.00
+[/ClassOutput]
+
+[SessionOutput]
+MWF
+0510PM
+0630PM
+OLMH
+9999
+[/SessionOutput]
+
+[SessionOutput]
+TBA
+
+
+
+
+[/SessionOutput]
+
