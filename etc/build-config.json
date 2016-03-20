@@ -1,0 +1,20 @@
+{
+    "source-files": [
+        "input",
+        "session"
+    ],
+
+    "regex-directory": "regex",
+    
+    "copy-to": [
+        "../js",
+        "../tests"
+    ],
+
+    "inject-file": "../js/CourseParser.js",
+
+    "to-inject": {
+        "input.out": "regex",
+        "session.out": "subCourseRegex"
+    }
+}

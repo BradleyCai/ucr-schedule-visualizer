@@ -2,6 +2,8 @@
     "test-dir": "tests",
     "test-dir-recursive": true,
     "ignore-tests": [
+        "sample",
+        "template"
     ],
 
     "regex": {
