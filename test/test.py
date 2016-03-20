@@ -5,6 +5,11 @@ import json
 import re
 import sys
 
+try:
+    import configparser
+except ImportError:
+    import ConfigParser as configparser
+
 TEST_FILE_REGEX = re.compile(r"(%%%|!!!) *([^\n]*)\n(.*?)~~~", re.DOTALL)
 
 
@@ -48,7 +53,7 @@ def convert_json(data):
 
 def sanity_check(config):
     def valid_regex(data):
-        if "file" not in data.keys() and not isistance(config["file"], str):
+        if "file" not in data.keys() and not isinstance(config["file"], str):
             print("'file' property is missing or not a string.")
             return False
         elif "groups" not in data.keys():
@@ -84,8 +89,6 @@ if __name__ == "__main__":
             "Specify the configuration file to use when running tests.")
     argparser.add_argument("-F", "--fail-fast", action="store_true", help=\
             "Specifies that testing should terminate when a test fails.")
-    argparser.add_argument("test-file", nargs='+', type=open, help=\
-            "The *.test files that describe the tests to be performed.")
     args = argparser.parse_args(sys.argv[1:])
 
     # Parse config file

@@ -1,0 +1,8 @@
+[Name] No 'M' in AM or PM
+[Type] fail
+
+[Input]
+INTRODUCTION TO CHEMISTRY
+CHEM-020-003          1.50   M   1010A-1100P     CHEM 100
+[/Input]
+

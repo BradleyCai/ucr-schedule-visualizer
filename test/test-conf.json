@@ -1,0 +1,19 @@
+{
+    "test-dir": "tests",
+    "test-dir-recursive": true,
+    "ignore-tests": [
+    ],
+
+    "regex": {
+        "class": {
+            "source": "input.out",
+            "multiple": false
+        },
+
+        "session": {
+            "source": "session.out",
+            "multiple": true
+        }
+    }
+}
+

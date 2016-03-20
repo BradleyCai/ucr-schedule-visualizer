@@ -4,7 +4,10 @@ js/*.regex
 tests/*.regex
 
 # Misc
+client_id.json
 __pycache__
+.idea
+.tern-project
 **/.*.swp
 **/*~
 
