@@ -25,7 +25,7 @@ import time
 try:
     import jsonconfig
 except ImportError:
-    print("Cannot find other modules. Are you in the right directory?")
+    print("Cannot local modules. Are you in the right directory?")
     exit(1)
 
 CONFIG_FIELDS = {

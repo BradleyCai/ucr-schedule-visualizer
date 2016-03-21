@@ -40,6 +40,8 @@ def sanity_check(dict, fields):
         if field not in dict.keys():
             print("Config file does not have a \"%s\" value." % field)
             exit(1)
+        elif type(ftype) == dict:
+            sanity_check(field, ftype)
         elif type(dict[field]) != ftype:
             print("Config file has invalid type for \"%s\": %s (expected %s)." %
                   (field, type(dict[field]), ftype))
