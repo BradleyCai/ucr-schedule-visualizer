@@ -16,6 +16,11 @@
             "source": "session.out",
             "multiple": true
         }
-    }
+    },
+
+    "regex-order": [
+        "class",
+        "session"
+    ]
 }
 
