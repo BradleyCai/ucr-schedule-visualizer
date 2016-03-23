@@ -27,6 +27,26 @@ CONFIG_FIELDS = {
 TEST_FILE_REGEX = re.compile(r".+\.test", re.IGNORECASE)
 
 
+class TestableRegex(object):
+    def __init__(self, config):
+        flags = 0
+        for flag in config.get("multiple", ()):
+            if not hasattr(re, flag):
+                print("Invalid regex flag: \"%s\"." % flag)
+                exit(1)
+
+            flags |= getattr(re, flag)
+
+        with open(config["source"], 'r') as fh:
+            self.regex = re.compile(fh.read().rstrip(), flags)
+
+        self.multiple = config.get("multiple", True)
+
+    def test(self, input):
+        result = self.regex.match(input)
+        return result.groups() if result else None
+
+
 def get_tests(recursive):
     gen = os.walk(".", followlinks=True)
     tests = []
@@ -42,8 +62,20 @@ def get_tests(recursive):
     return tests
 
 
+def get_regular_expression_order(config):
+    regex = []
+
+    for name in config["regex-order"]:
+        if name not in config["regex"].keys():
+            print("Configuration error: regex \"%s\" mentioned in \"regex-order\" but not specified in \"regex\"." % name)
+            exit(1)
+
+        regex.append(TestableRegex(config["regex"]["name"]))
+
+
 def plural(num):
     return "" if num == 1 else "s"
+
 
 def skip_test(test, ignore):
     return test in ignore or \
@@ -109,6 +141,8 @@ if __name__ == "__main__":
     parser = TestParser()
     tests = []
 
+    regex = get_regular_expression_order(config)
+
     for test in test_files:
         if skip_test(test, config["ignore-tests"]):
             log("Ignoring %s..." % test)
@@ -117,7 +151,7 @@ if __name__ == "__main__":
         with open(test, 'r') as fh:
             data = parser.parse(os.path.basename(test), fh.readlines())
 
-        tests.append(build_test(data, config))
+        tests.append(build_test(data, regex))
     prep_elapsed = time.time() - start_time
 
     # Run tests

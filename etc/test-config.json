@@ -9,12 +9,18 @@
     "regex": {
         "class": {
             "source": "input.out",
-            "multiple": false
+            "multiple": false,
+            "flags": [
+                "MULTILINE"
+            ]
         },
 
         "session": {
             "source": "session.out",
-            "multiple": true
+            "multiple": true,
+            "flags": [
+                "MULTILINE"
+            ]
         }
     },
 
