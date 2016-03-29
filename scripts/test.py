@@ -30,7 +30,7 @@ TEST_FILE_REGEX = re.compile(r".+\.test", re.IGNORECASE)
 class TestableRegex(object):
     def __init__(self, config):
         flags = 0
-        for flag in config.get("multiple", ()):
+        for flag in config.get("flags", ()):
             if not hasattr(re, flag):
                 print("Invalid regex flag: \"%s\"." % flag)
                 exit(1)
@@ -70,7 +70,9 @@ def get_regular_expression_order(config):
             print("Configuration error: regex \"%s\" mentioned in \"regex-order\" but not specified in \"regex\"." % name)
             exit(1)
 
-        regex.append(TestableRegex(config["regex"]["name"]))
+        regex.append(TestableRegex(config["regex"][name]))
+
+    return regex
 
 
 def plural(num):
@@ -94,7 +96,7 @@ def format_result(result, nocolor):
         if result:
             return "\033[32mPASS\033[0m"
         else:
-            return "\0xx[31m\033[1mFAIL\033[0m"
+            return "\033[31m\033[1mFAIL\033[0m"
 
 
 if __name__ == "__main__":
@@ -107,6 +109,8 @@ if __name__ == "__main__":
                            "Which Python configuration file to use. (default: config)")
     argparser.add_argument("-f", "--failfast", action="store_true", help=
                            "Whether to stop testing when a test fails. (default: false)")
+    argparser.add_argument("-t", "--show-type", action="store_true", help=
+                           "Print the test type when displaying test results. (default: false)")
     argparser.add_argument("--nocolor", action="store_true", help=
                            "Suppress color in the text output.")
     argparser.add_argument("-q", "--quiet", action="store_true", help=
@@ -119,6 +123,10 @@ if __name__ == "__main__":
         log = lambda x: None
     else:
         log = print
+
+    SCREEN_HEIGHT, SCREEN_WIDTH = os.popen("stty size", 'r').read().split(" ")
+    SCREEN_HEIGHT = int(SCREEN_HEIGHT)
+    SCREEN_WIDTH = int(SCREEN_WIDTH)
 
     # Change directory
     startdir = os.path.dirname(sys.argv[0])
@@ -154,13 +162,21 @@ if __name__ == "__main__":
         tests.append(build_test(data, regex))
     prep_elapsed = time.time() - start_time
 
+    log("\nResults:")
     # Run tests
     start_time = time.time()
     passed = 0
+    testcount = len(tests)
 
     for test in tests:
         result = test.run()
-        log("[%s] (%s) %s" % (format_result(result, args.nocolor), test.type, test.name))
+
+        # Print test result
+        if args.show_type:
+            testinfo = ("%s: %s" % (test.type, test.name)).ljust(SCREEN_WIDTH - 8)
+        else:
+            testinfo = test.name.ljust(SCREEN_WIDTH - 8)
+        log("%s [%s]" % (testinfo, format_result(result, args.nocolor)))
 
         if not result and args.failfast:
             passed = -1
@@ -169,10 +185,10 @@ if __name__ == "__main__":
     test_elapsed = time.time() - start_time
 
     # Report results
-    log("Took %.2f seconds to prepare %d test%s." %
-        (prep_elapsed, len(tests), plural(len(tests))))
+    log("\nTook %.2f seconds to prepare %d test%s." %
+        (prep_elapsed, testcount, plural(testcount)))
     log("It took %.2f seconds to run the tests, each taking %.2f seconds on average." %
-        test_elapsed, test_elapsed / len(tests))
+        (test_elapsed, test_elapsed / testcount))
 
     if args.failfast:
         if passed == -1:
@@ -180,5 +196,7 @@ if __name__ == "__main__":
         else:
             log("All tests passed.")
     else:
-        log("%d / %d (%.1%%) of tests passed.")
+        log("%d / %d (%.1f%%) of tests passed." % (passed, testcount, 100.0 * passed / testcount))
+
+    sys.exit(testcount - passed)
 

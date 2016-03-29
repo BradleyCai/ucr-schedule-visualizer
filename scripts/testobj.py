@@ -4,7 +4,8 @@ This module contains the definitions for all test-related objects.
 
 
 class Test(object):
-    def __init__(self, name, input, regex):
+    def __init__(self, type, name, input, regex):
+        self.type = type
         self.name = name
         self.input = input
         self.regex = regex
@@ -15,13 +16,16 @@ class Test(object):
 
 class NormalTest(Test):
     def __init__(self, name, input, regex, outputs):
-        Test.__init__(self, name, input, regex)
+        Test.__init__(self, "normal", name, input, regex)
         self.outputs = outputs
+
+    def run(self):
+        pass
 
 
 class FailTest(Test):
     def __init__(self, name, input, regex):
-        Test.__init__(self, name, input, regex)
+        Test.__init__(self, "fail", name, input, regex)
 
     def run(self):
         pass
@@ -59,9 +63,15 @@ def build_test(data, regex):
 
 
 def build_normal_test(data, regex):
-    pass
+    outputs = {}
+    for key in data.keys():
+        if key.endswith("Output"):
+            key_name = key[:-6].lower()
+            outputs[key_name] = tuple(string.splitlines() for string in data[key])
+
+    return NormalTest(data["Name"], data["Input"], regex, outputs)
 
 
 def build_fail_test(data, regex):
-    return FailTest(data["Name"], data["Input"])
+    return FailTest(data["Name"], data["Input"], regex)
 
