@@ -1,1 +1,0 @@
-../etc/test_regex_input_4.txt

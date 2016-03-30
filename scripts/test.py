@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 from __future__ import print_function
+
 import argparse
 import os
 import re
@@ -23,6 +24,8 @@ CONFIG_FIELDS = {
     "regex": dict,
     "regex-order": list,
 }
+
+FAILED_TESTS_LOG_FILE = "failed.log"
 
 TEST_FILE_REGEX = re.compile(r".+\.test", re.IGNORECASE)
 
@@ -72,7 +75,7 @@ def get_regular_expression_order(config):
 
         regex.append(TestableRegex(config["regex"][name]))
 
-    return regex
+    return tuple(regex)
 
 
 def plural(num):
@@ -142,7 +145,6 @@ if __name__ == "__main__":
     if not test_files:
         log("No .test files found. Exiting.")
         exit(0)
-
     log("Parsing %d .test file%s..." % (len(test_files), plural(len(test_files))))
 
     # Parse and create tests
@@ -159,7 +161,7 @@ if __name__ == "__main__":
         with open(test, 'r') as fh:
             data = parser.parse(os.path.basename(test), fh.readlines())
 
-        tests.append(build_test(data, regex))
+        tests.append(build_test(data, config, regex))
     prep_elapsed = time.time() - start_time
 
     log("\nResults:")
@@ -168,19 +170,23 @@ if __name__ == "__main__":
     passed = 0
     testcount = len(tests)
 
-    for test in tests:
-        result = test.run()
+    with open(FAILED_TESTS_LOG_FILE, 'a') as fail_fh:
+        fail_fh.write("Test run on %s:\n" % time.ctime())
 
-        # Print test result
-        if args.show_type:
-            testinfo = ("%s: %s" % (test.type, test.name)).ljust(SCREEN_WIDTH - 8)
-        else:
-            testinfo = test.name.ljust(SCREEN_WIDTH - 8)
-        log("%s [%s]" % (testinfo, format_result(result, args.nocolor)))
+        for test in tests:
+            test.set_error_log(fail_fh)
+            result = test.run()
 
-        if not result and args.failfast:
-            passed = -1
-            break
+            # Print test result
+            if args.show_type:
+                testinfo = ("%s: %s" % (test.type, test.name)).ljust(SCREEN_WIDTH - 8)
+            else:
+                testinfo = test.name.ljust(SCREEN_WIDTH - 8)
+            log("%s [%s]" % (testinfo, format_result(result, args.nocolor)))
+
+            if not result and args.failfast:
+                passed = -1
+                break
 
     test_elapsed = time.time() - start_time
 
@@ -197,6 +203,9 @@ if __name__ == "__main__":
             log("All tests passed.")
     else:
         log("%d / %d (%.1f%%) of tests passed." % (passed, testcount, 100.0 * passed / testcount))
+
+    if passed < testcount:
+        log("Wrote report for failed tests in \"tests/%s\"." % FAILED_TESTS_LOG_FILE)
 
     sys.exit(testcount - passed)
 

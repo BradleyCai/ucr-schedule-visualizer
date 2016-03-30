@@ -81,7 +81,7 @@ class TestParser(object):
 
         tag = self.ignore(line)
         if tag and line:
-            print("%s:%d: Warning: treating comment as text." % (filename, lineno))
+            print("%s:%d: Warning: treating comment-like line as text." % (filename, lineno))
 
     @staticmethod
     def ignore(line):
