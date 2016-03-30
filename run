@@ -1,0 +1,11 @@
+#!/bin/sh
+
+case "$1" in
+    build) exec scripts/build.py ;;
+    test) exec scripts/test.py ;;
+    *)
+        printf >&2 'Unknown target: %s\n' "$1"
+        exit 1
+        ;;
+esac
+

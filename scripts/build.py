@@ -127,12 +127,9 @@ if __name__ == "__main__":
     jsonconfig.sanity_check(config, CONFIG_FIELDS)
 
     # Change directory to compile
-    directory = os.path.join(os.path.dirname(sys.argv[0]), config["regex-directory"])
+    directory = os.path.join(os.path.dirname(sys.argv[0]), "..", config["regex-directory"])
     print("Switching directory to \"%s\"..." % directory)
-    try:
-        os.chdir(directory)
-    except FileNotFoundError:
-        os.chdir(os.path.join("..", directory))
+    os.chdir(directory)
 
     # Compile regular expressions
     print("Compiling regex sources...")
