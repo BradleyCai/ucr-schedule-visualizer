@@ -12,7 +12,8 @@
             "multiple": false,
             "flags": [
                 "MULTILINE"
-            ]
+            ],
+            "group": 5
         },
 
         "session": {
@@ -20,7 +21,8 @@
             "multiple": true,
             "flags": [
                 "MULTILINE"
-            ]
+            ],
+            "group": 0
         }
     },
 

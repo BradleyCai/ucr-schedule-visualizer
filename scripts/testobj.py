@@ -4,14 +4,41 @@ This module contains the definitions for all test-related objects.
 import codecs
 import re
 
+TEST_FILE_REGEX = re.compile(r"(.+)\.test", re.IGNORECASE)
 MULTIPLE_REGEX_FIELD_NAME_REGEX = re.compile(r"Allow([A-Za-z]+)Multiple")
 OUTPUT_FIELD_NAME_REGEX = re.compile(r"([A-Za-z]+)Output")
 PYTHON_ESCAPE_SEQUENCE_REGEX = re.compile(r"""(\\U........|\\u....|\\x..|\\[0-7]{1,3}|\\N\{[^}]+\}|\\[\\'"abfnrtv])""")
 
 
+class TestableRegex(object):
+    def __init__(self, name, config):
+        flags = 0
+        for flag in config.get("flags", ()):
+            if not hasattr(re, flag):
+                print("Invalid regex flag: \"%s\"." % flag)
+                exit(1)
+
+            flags |= getattr(re, flag)
+
+        with open(config["source"], 'r') as fh:
+            self.regex = re.compile(fh.read().rstrip(), flags)
+
+        self.name = name
+        self.multiple = config.get("multiple", True)
+        self.group = 0
+
+    def test(self, input):
+        if self.multiple:
+            match = self.regex.match(input)
+            return match.groups() if match else None
+        else:
+            return self.regex.findall(input)
+
+
 class Test(object):
     def __init__(self, type, name, input, regex):
         self._logfh = None
+        self._haslogged = False
         self.type = type
         self.name = name
         self.input = input
@@ -21,6 +48,10 @@ class Test(object):
         self._logfh = fh
 
     def log_error(self, message):
+        if not self._haslogged:
+            self._haslogged = True
+            self.logfh.write("\n[%s]\n" % self.name)
+
         if self._logfh:
             self._logfh.write(message)
             self._logfh.write("\n")
@@ -29,13 +60,43 @@ class Test(object):
         raise NotImplementedError("Abstract method.")
 
 
+class SkipTest(Test):
+    def __init__(self, name):
+        Test.__init__(self, "skip", self.format_test_name(name), None, None)
+
+    def run(self):
+        return None
+
+    @staticmethod
+    def format_test_name(string):
+        match = TEST_FILE_REGEX.match(string.title())
+        if match:
+            return match.group(1)
+        else:
+            return string
+
+
 class NormalTest(Test):
     def __init__(self, name, input, regex, outputs):
         Test.__init__(self, "normal", name, input, regex)
         self.outputs = outputs
 
     def run(self):
-        print(self.outputs)
+        input = self.input
+        for regex in self.regex:
+            results = regex.test(input)
+
+            if not results:
+                self.log_error("test")
+                return False
+
+            if regex.group <= 0:
+                break
+
+            print(results)
+            print(regex.group - 1)
+            input = results[regex.group - 1]
+        return True
 
 
 class FailTest(Test):
@@ -53,7 +114,7 @@ def get_boolean_option(filename, string):
     elif string in ("false", "no", "disable", "disabled", "unset", "0"):
         return False
     else:
-        print("%s: Unknown boolean: \"%s\"." % (filename, string))
+        print("%s: Unknown boolean value: \"%s\"." % (filename, string))
         exit(1)
 
 
@@ -100,6 +161,16 @@ def build_test(data, config, regex):
 
     data["Type"] = data["Type"][0]
 
+    if "Input" not in data.keys():
+        print("%s: No input value specified." % data["filename"])
+        exit(1)
+
+    if len(data["Input"]) > 1:
+        print("%s: Multiple input values specified." % data["filename"])
+        exit(1)
+
+    data["Input"] = data["Input"][0] + "\n"
+
     if "EscapeStrings" in data.keys():
         if len(data["EscapeStrings"]) > 1:
             print("%s: Setting 'EscapeStrings' set multiple times." % data["filename"])
@@ -114,6 +185,10 @@ def build_test(data, config, regex):
         if match:
             name = match.group(1).lower()
             regex[name].multiple = get_boolean_option(data["filename"], data[key])
+            continue
+
+    for regex_value in regex:
+        regex_value.group = config["regex"][regex_value.name].get("group", 0)
 
     if data["Type"] == "normal":
         return build_normal_test(data, regex)

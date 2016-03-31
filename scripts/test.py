@@ -30,26 +30,6 @@ FAILED_TESTS_LOG_FILE = "failed.log"
 TEST_FILE_REGEX = re.compile(r".+\.test", re.IGNORECASE)
 
 
-class TestableRegex(object):
-    def __init__(self, config):
-        flags = 0
-        for flag in config.get("flags", ()):
-            if not hasattr(re, flag):
-                print("Invalid regex flag: \"%s\"." % flag)
-                exit(1)
-
-            flags |= getattr(re, flag)
-
-        with open(config["source"], 'r') as fh:
-            self.regex = re.compile(fh.read().rstrip(), flags)
-
-        self.multiple = config.get("multiple", True)
-
-    def test(self, input):
-        result = self.regex.match(input)
-        return result.groups() if result else None
-
-
 def get_tests(recursive):
     gen = os.walk(".", followlinks=True)
     tests = []
@@ -73,7 +53,7 @@ def get_regular_expression_order(config):
             print("Configuration error: regex \"%s\" mentioned in \"regex-order\" but not specified in \"regex\"." % name)
             exit(1)
 
-        regex.append(TestableRegex(config["regex"][name]))
+        regex.append(testobj.TestableRegex(name, config["regex"][name]))
 
     return tuple(regex)
 
@@ -91,12 +71,16 @@ def skip_test(test, ignore):
 
 def format_result(result, nocolor):
     if nocolor:
-        if result:
+        if result is None:
+            return "SKIP"
+        elif result:
             return "PASS"
         else:
             return "FAIL"
     else:
-        if result:
+        if result is None:
+            return "SKIP"
+        elif result:
             return "\033[32mPASS\033[0m"
         else:
             return "\033[31m\033[1mFAIL\033[0m"
@@ -118,6 +102,7 @@ if __name__ == "__main__":
                            "Suppress color in the text output.")
     argparser.add_argument("-q", "--quiet", action="store_true", help=
                            "Suppress all output except warnings and errors.")
+
     args = argparser.parse_args(sys.argv[1:])
     config = jsonconfig.load(args.config)
     jsonconfig.sanity_check(config, CONFIG_FIELDS)
@@ -145,7 +130,7 @@ if __name__ == "__main__":
     if not test_files:
         log("No .test files found. Exiting.")
         exit(0)
-    log("Parsing %d .test file%s..." % (len(test_files), plural(len(test_files))))
+    log("Parsing %d test file%s..." % (len(test_files), plural(len(test_files))))
 
     # Parse and create tests
     parser = TestParser()
@@ -155,7 +140,7 @@ if __name__ == "__main__":
 
     for test in test_files:
         if skip_test(test, config["ignore-tests"]):
-            log("Ignoring %s..." % test)
+            tests.append(testobj.SkipTest(os.path.basename(test)))
             continue
 
         with open(test, 'r') as fh:
@@ -168,7 +153,9 @@ if __name__ == "__main__":
     # Run tests
     start_time = time.time()
     passed = 0
+    skipped = 0
     testcount = len(tests)
+    testsrun = testcount
 
     with open(FAILED_TESTS_LOG_FILE, 'a') as fail_fh:
         fail_fh.write("Test run on %s:\n" % time.ctime())
@@ -184,17 +171,24 @@ if __name__ == "__main__":
                 testinfo = test.name.ljust(SCREEN_WIDTH - 8)
             log("%s [%s]" % (testinfo, format_result(result, args.nocolor)))
 
-            if not result and args.failfast:
+            if result is None:
+                skipped += 1
+                testsrun -= 1
+            elif not result and args.failfast:
                 passed = -1
                 break
 
     test_elapsed = time.time() - start_time
 
     # Report results
-    log("\nTook %.2f seconds to prepare %d test%s." %
-        (prep_elapsed, testcount, plural(testcount)))
-    log("It took %.2f seconds to run the tests, each taking %.2f seconds on average." %
-        (test_elapsed, test_elapsed / testcount))
+    log("\nRan %d test%s." % (testsrun, plural(testsrun)))
+    log("Preparation: %.2f seconds per test, %.2f seconds total." % (prep_elapsed / testcount, prep_elapsed))
+
+    if testsrun == 0:
+        log("No tests were run.")
+        sys.exit(0)
+
+    log("Runtime:     %.2f seconds per test, %.2f seconds total." % (test_elapsed / testsrun, test_elapsed))
 
     if args.failfast:
         if passed == -1:
@@ -202,10 +196,10 @@ if __name__ == "__main__":
         else:
             log("All tests passed.")
     else:
-        log("%d / %d (%.1f%%) of tests passed." % (passed, testcount, 100.0 * passed / testcount))
+        log("%d / %d (%.1f%%) of tests passed." % (passed, testsrun, 100.0 * passed / testsrun))
 
     if passed < testcount:
         log("Wrote report for failed tests in \"tests/%s\"." % FAILED_TESTS_LOG_FILE)
 
-    sys.exit(testcount - passed)
+    sys.exit(testsrun - passed)
 
