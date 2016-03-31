@@ -9,7 +9,7 @@ from the schedule you get from GROWL. Your security and privacy is maintained be
 all of the schedule interpreting and viewing is done client side. No personal schedule
 related information is sent over the web.
 
-[GitHub Pages](http://bradleycai.github.io/ucr-schedule-visualizer/)
+[GitHub Pages](https://bradleycai.github.io/ucr-schedule-visualizer/)
 --------------------------------------------------------
 
 This project is hosted on GitHub pages. You can check out the current stable release
