@@ -1,7 +1,7 @@
 UCR Schedule Visualizer
 =======================
 
-The raw class list from GROWL is pretty ugly. We're here to fix that.
+The raw class list from [GROWL](https://ucribm.ucr.edu/Paws/PAWS.html) is pretty ugly. We're here to fix that.
 
 This project is a website written in HTML, CSS, and JavaScript that generates an
 hour by hour view of your schedule as well as provide links to each class location
