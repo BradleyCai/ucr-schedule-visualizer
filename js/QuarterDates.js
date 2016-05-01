@@ -11,14 +11,14 @@ function QuarterDates(startYear) {
     //Refers to the first calendar year within one school year
     //So the 2015-2016 school year is represented by passing in '2015'
     this.startYear = startYear;
-    
+
     //Cached results from class methods
     this.fallResult = undefined;
     this.winterResult = undefined;
     this.springResult = undefined;
-    
+
     //List of unusual start dates that don't fit the normal pattern
-    this.quirks = new Array();
+    this.quirks = new Array(0);
     this.quirks["2014-fall"] = new Date(2014, 8, 29);
 
     //Class methods
@@ -38,6 +38,14 @@ function QuarterDates(startYear) {
         return this.fallResult;
     };
 
+    this.getFallEndDate = function() {
+        date = this.getFallStartDate();
+
+        // 10 weeks = 10 * 7 days
+        date.setDate(date.getDate() + (10 * 7 + 5));
+        return date;
+    };
+
     this.getWinterStartDate = function () {
         if (this.winterResult !== undefined) {
             return this.winterResult;
@@ -52,6 +60,14 @@ function QuarterDates(startYear) {
         this.winterResult = new Date(this.startYear + 1, 0, 7);
         this.winterResult.setDate(this.winterResult.getDate() - this.winterResult.getDay() + 1);
         return this.winterResult;
+    };
+
+    this.getWinterEndDate = function() {
+        date = this.getWinterStartDate();
+
+        // 10 weeks = 10 * 7 days
+        date.setDate(date.getDate() + (10 * 7 + 5));
+        return date;
     };
 
     this.getSpringStartDate = function () {
@@ -69,5 +85,12 @@ function QuarterDates(startYear) {
         this.springResult.setDate(this.springResult.getDate() - this.springResult.getDay() + 1);
         return this.springResult;
     };
-}
 
+    this.getSpringEndDate = function() {
+        date = this.getSpringStartDate();
+
+        // 1 quarter is 10 weeks and a finals week. 10 * 7 days + 5
+        date.setDate(date.getDate() + (10 * 7 + 5));
+        return date;
+    };
+}

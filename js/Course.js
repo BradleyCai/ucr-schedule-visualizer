@@ -11,11 +11,12 @@
  * @constructor
  * @author Bradley Cai
  */
-function Course(quarter, name, nameID, gt, units,
+function Course(quarter, year, name, nameID, gt, units,
                 days, hour1, min1, hour2, min2, bldg, room) {
 
     //General information
-    this.quarter = (quarter === "" ? "None provided" : quarter); //written as a string in the format of "season####"
+    this.quarter = quarter;
+    this.year = year;
     this.name = name;
     this.nameID = nameID; //ID written under the name of the course. (ex. CHEM-001A-060)
     this.bldg = (bldg === "" || bldg === undefined ? "TBA" : bldg); //String of the bldg
