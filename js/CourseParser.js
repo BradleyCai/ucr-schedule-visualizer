@@ -23,6 +23,7 @@ function CourseParser() {
         }
         else {
             quarter = "";
+            year = "";
         }
 
         //For each course
@@ -75,6 +76,11 @@ function CourseParser() {
             noShowString += "</a></div>";
 
             $(".table-space").before(noShowString);
+        }
+        if (quarter === "" || year === 0) {
+            var noYearInfoAlert = '<div class="container" id = "noShow"><p class = "alert alert-error"><strong> Quarter and year are missing </strong><br><br> We didn\'t see the quarter or the year in the schedule you gave us! Next time copy the whole thing. </p></div>';
+
+            $(".table-space").before(noYearInfoAlert);
         }
     };
 

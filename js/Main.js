@@ -1,6 +1,7 @@
 // Objects
 var schedule;
 var parser = new CourseParser();
+var quarterDates;
 
 // Booleans
 var HTML5 = false; // If this browser supports HTML5
@@ -30,6 +31,7 @@ input.onkeyup = function () {
         schedule.createHourList();
         schedule.injectTable();
         schedule.drawCanvasTable(150, 25);
+        quarterDates = new QuarterDates(parser.getCourseList()[0].year , parser.getCourseList()[0].quarter);
     }
     else if (this.value.length > 20 && !unrecognized && !this.value.match(parser.getRegex())) {
         var unrecognizedString = '<div class="container" id ="unrecognized"><p class = "alert alert-error"><strong>Something went wrong!</strong> We were not able to recognize your schedule. Please email us with your schedule so that we can take a closer look. Sorry about that.';

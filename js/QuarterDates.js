@@ -7,15 +7,15 @@
  * @constructor
  * @author Ammon Smith
  */
-function QuarterDates(startYear) {
+function QuarterDates(startYear, quarter) {
     //Refers to the first calendar year within one school year
     //So the 2015-2016 school year is represented by passing in '2015'
-    this.startYear = startYear;
+    //If the startYear passed in is empty(no year was given) then defaults to the current year
+    this.startYear = (startYear === "" ? new Date().getFullYear() : parseInt(startYear));
 
-    //Cached results from class methods
-    this.fallResult = undefined;
-    this.winterResult = undefined;
-    this.springResult = undefined;
+    //Quarter of the course
+    //If the quarter passed in is empty then default to Fall quarter
+    this.quarter = (quarter === "" ? "Fall" : quarter);
 
     //List of unusual start dates that don't fit the normal pattern
     this.quirks = new Array(0);
@@ -23,74 +23,86 @@ function QuarterDates(startYear) {
 
     //Class methods
     this.getFallStartDate = function () {
-        if (this.fallResult !== undefined) {
-            return this.fallResult;
-        }
-
-        this.fallResult = this.quirks[this.startYear + "-fall"];
-        if (this.fallResult !== undefined) {
-            return this.fallResult;
+        var fallResult = this.quirks[this.startYear + "-fall"];
+        if (fallResult !== undefined) {
+            return fallResult;
         }
 
         //Second to last week of September, Thursday
-        this.fallResult = new Date(this.startYear, 8, 23);
-        this.fallResult.setDate(this.fallResult.getDate() - this.fallResult.getDay() + 1);
-        return this.fallResult;
+        fallResult = new Date(this.startYear, 8, 23);
+        fallResult.setDate(fallResult.getDate() - fallResult.getDay() + 4);
+        return fallResult;
     };
 
     this.getFallEndDate = function() {
-        date = this.getFallStartDate();
+        var fallResult = this.getFallStartDate();
 
         // 10 weeks = 10 * 7 days
-        date.setDate(date.getDate() + (10 * 7 + 5));
-        return date;
+        fallResult.setDate(fallResult.getDate() + (9 * 7 + 6));
+        return fallResult;
     };
 
     this.getWinterStartDate = function () {
-        if (this.winterResult !== undefined) {
-            return this.winterResult;
-        }
-
-        this.winterResult = this.quirks[this.startYear + "-winter"];
-        if (this.winterResult !== undefined) {
-            return this.winterResult;
+        var winterResult = this.quirks[this.startYear + "-winter"];
+        if (winterResult !== undefined) {
+            return winterResult;
         }
 
         //Second week of January, Monday
-        this.winterResult = new Date(this.startYear + 1, 0, 7);
-        this.winterResult.setDate(this.winterResult.getDate() - this.winterResult.getDay() + 1);
-        return this.winterResult;
+        winterResult = new Date(this.startYear + 1, 0, 7);
+        winterResult.setDate(winterResult.getDate() - winterResult.getDay() + 1);
+        return winterResult;
     };
 
     this.getWinterEndDate = function() {
-        date = this.getWinterStartDate();
+        var winterResult = this.getWinterStartDate();
 
-        // 10 weeks = 10 * 7 days
-        date.setDate(date.getDate() + (10 * 7 + 5));
-        return date;
+        winterResult.setDate(winterResult.getDate() + (9 * 7 + 6));
+        return winterResult;
     };
 
     this.getSpringStartDate = function () {
-        if (this.springResult !== undefined) {
-            return this.springResult;
-        }
-
-        this.springResult = this.quirks[this.startYear + "-spring"];
-        if (this.springResult !== undefined) {
-            return this.springResult;
+        var springResult = this.quirks[this.startYear + "-spring"];
+        if (springResult !== undefined) {
+            return springResult;
         }
 
         //Last week of March, Monday
-        this.springResult = new Date(this.startYear + 1, 3, 0);
-        this.springResult.setDate(this.springResult.getDate() - this.springResult.getDay() + 1);
-        return this.springResult;
+        springResult = new Date(this.startYear + 1, 3, 0);
+        springResult.setDate(springResult.getDate() - springResult.getDay() + 1);
+        return springResult;
     };
 
     this.getSpringEndDate = function() {
-        date = this.getSpringStartDate();
+        var springResult = this.getSpringStartDate();
 
-        // 1 quarter is 10 weeks and a finals week. 10 * 7 days + 5
-        date.setDate(date.getDate() + (10 * 7 + 5));
-        return date;
+        springResult.setDate(springResult.getDate() + (9 * 7 + 6));
+        return springResult;
+    };
+
+    this.getQuarterStartDate = function() {
+        switch (this.quarter) {
+            case "Fall":
+                return this.getFallStartDate();
+            case "Winter":
+                return this.getWinterStartDate();
+            case "Spring":
+                return this.getSpringStartDate();
+            default:
+                break;
+        }
+    };
+
+    this.getQuarterEndDate = function() {
+        switch (this.quarter) {
+            case "Fall":
+                return this.getFallEndDate();
+            case "Winter":
+                return this.getWinterEndDate();
+            case "Spring":
+                return this.getSpringEndDate();
+            default:
+                return;
+        }
     };
 }
