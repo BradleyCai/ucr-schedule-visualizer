@@ -11,11 +11,27 @@ var unrecognized = false;
 // Document input
 var input = document.getElementById('regex');
 
+// rawSchedule cookie
+var rawSchedule = Cookies.get("rawSchedule");
+
+// courseList
+var courseList;
+
 // Check for HTML5 compatability
 if (window.File && window.FileReader && window.FileList) {
     HTML5 = true;
 } else {
     alert("This browser isn't fully supported!");
+}
+
+if (rawSchedule !== undefined) {
+    made = true;
+    $('#regex').hide(250);
+    parser.createCourseList(rawSchedule);
+    courseList = parser.getCourseList();
+    quarterDates = new QuarterDates(courseList[0].year, courseList[0].quarter);
+    schedule = new Schedule(rawSchedule, courseList, quarterDates.getQuarterEndDate());
+    schedule.build();
 }
 
 input.onkeyup = function () {
@@ -26,12 +42,12 @@ input.onkeyup = function () {
         $('#unrecognized').remove();
         made = true;
         $('#regex').hide(250);
-        parser.createCourseList(this.value + "\n");
-        schedule = new Schedule(parser.getCourseList());
-        schedule.createHourList();
-        schedule.injectTable();
-        schedule.drawCanvasTable(150, 25);
-        quarterDates = new QuarterDates(parser.getCourseList()[0].year , parser.getCourseList()[0].quarter);
+        rawSchedule = this.value + "\n";
+        parser.createCourseList(rawSchedule);
+        courseList = parser.getCourseList();
+        quarterDates = new QuarterDates(courseList[0].year, courseList[0].quarter);
+        schedule = new Schedule(rawSchedule, courseList, quarterDates.getQuarterEndDate());
+        schedule.build();
     }
     else if (this.value.length > 20 && !unrecognized && !this.value.match(parser.getRegex())) {
         var unrecognizedString = '<div class="container" id ="unrecognized"><p class = "alert alert-error"><strong>Something went wrong!</strong> We were not able to recognize your schedule. Please email us with your schedule so that we can take a closer look. Sorry about that.';

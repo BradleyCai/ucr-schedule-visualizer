@@ -7,11 +7,13 @@
  *
  * @author Bradley
  */
-function Schedule(courseList) {
+function Schedule(rawSchedule, courseList, expirationDate) {
+    this.rawSchedule = rawSchedule;
     this.courseList = courseList;
+    this.expirationDate = expirationDate;
     this.hourList = -1;
-    this.canvas = document.createElement('canvas');
     this.tableString = -1;
+    this.canvas = document.createElement('canvas');
 
     /**
      * Creates a 2D array whose rows are time in 30 minute blocks and columns days of the week.
@@ -48,39 +50,10 @@ function Schedule(courseList) {
                                 hasConflict = true;
                             }
                         }
-
                     }
                 }
             }
         }
-    };
-
-    this.injectButtons = function(canvas) {
-        $(".centered").append("<button class = 'btn' id = 'imageDL'>Download as Image</button>");
-        $(".centered").append("<button class = 'btn' id = 'reload'>Visualize Again</button>");
-
-        $("#reload").click(function() {
-            made = false;
-            document.getElementById("regex").value = "";
-            $('#regex').show(250);
-            $('.pure-table').hide(250);
-            $('#imageDL').hide(250);
-            $('#reload').hide(250);
-            $('#noShow').hide(250);
-            $('#conflict').hide(250);
-
-            $('.pure-table').remove();
-            $('#imageDL').remove();
-            $('#reload').remove();
-            $('#noShow').remove();
-            $('#conflict').remove();
-        });
-
-        $("#imageDL").click(function() {
-            canvas.toBlob(function(blob) {
-                saveAs(blob, "UCR-Schedule-Visualized.png");
-            });
-        });
     };
 
     this.drawCanvasTable = function(cellWidth, cellHeight) {
@@ -301,6 +274,46 @@ function Schedule(courseList) {
                 });
             }
         }
+    };
+
+    this.injectButtons = function(canvas) {
+        $(".centered").append("<button class = 'btn' id = 'imageDL'>Download as Image</button>");
+        $(".centered").append("<button class = 'btn' id = 'reload'>Visualize Again</button>");
+
+        $("#reload").click(function() {
+            made = false;
+            document.getElementById("regex").value = "";
+            $('#regex').show(250);
+            $('.pure-table').hide(250);
+            $('#imageDL').hide(250);
+            $('#reload').hide(250);
+            $('#noShow').hide(250);
+            $('#conflict').hide(250);
+
+            $('.pure-table').remove();
+            $('#imageDL').remove();
+            $('#reload').remove();
+            $('#noShow').remove();
+            $('#conflict').remove();
+            Cookies.remove("rawSchedule");
+        });
+
+        $("#imageDL").click(function() {
+            canvas.toBlob(function(blob) {
+                saveAs(blob, "UCR-Schedule-Visualized.png");
+            });
+        });
+    };
+
+    this.createScheduleCookie = function(rawSchedule, expirationDate) {
+        Cookies.set("rawSchedule", rawSchedule, {expires: expirationDate});
+    };
+
+    this.build = function() {
+        this.createHourList();
+        this.injectTable();
+        this.drawCanvasTable(150, 25);
+        this.createScheduleCookie(this.rawSchedule, this.expirationDate);
     };
 
     this.getCourseList = function () {

@@ -8,8 +8,7 @@
  * @author Ammon Smith
  */
 function QuarterDates(startYear, quarter) {
-    //Refers to the first calendar year within one school year
-    //So the 2015-2016 school year is represented by passing in '2015'
+    //Refers to the year the quarter starts in
     //If the startYear passed in is empty(no year was given) then defaults to the current year
     this.startYear = (startYear === "" ? new Date().getFullYear() : parseInt(startYear));
 
