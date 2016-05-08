@@ -48,7 +48,7 @@ function QuarterDates(startYear, quarter) {
         }
 
         //Second week of January, Monday
-        winterResult = new Date(this.startYear + 1, 0, 7);
+        winterResult = new Date(this.startYear, 0, 7);
         winterResult.setDate(winterResult.getDate() - winterResult.getDay() + 1);
         return winterResult;
     };

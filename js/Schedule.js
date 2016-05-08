@@ -306,7 +306,9 @@ function Schedule(rawSchedule, courseList, expirationDate) {
     };
 
     this.createScheduleCookie = function(rawSchedule, expirationDate) {
-        Cookies.set("rawSchedule", rawSchedule, {expires: expirationDate});
+        var today = new Date();
+        if (today < expirationDate)
+            Cookies.set("rawSchedule", rawSchedule, {expires: expirationDate});
     };
 
     this.build = function() {
