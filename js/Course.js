@@ -19,8 +19,8 @@ function Course(quarter, year, name, nameID, gt, units,
     this.year = year;
     this.name = name;
     this.nameID = nameID; //ID written under the name of the course. (ex. CHEM-001A-060)
-    this.bldg = (bldg === "" || bldg === undefined ? "TBA" : bldg); //String of the bldg
-    this.room = (room === "" || room === undefined ? "TBA" : room); //String of room number
+    this.bldg = ((bldg === "" || bldg === undefined) ? "TBA" : bldg); //String of the bldg
+    this.room = ((room === "" || room === undefined) ? "TBA" : room); //String of room number
     this.gt = (gt === "" ? "None" : gt); //GT - Grade type. No one knows what this is
     this.units = units; //Expressed as a double
 

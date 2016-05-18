@@ -36,7 +36,7 @@ function QuarterDates(startYear, quarter) {
     this.getFallEndDate = function() {
         var fallResult = this.getFallStartDate();
 
-        // 10 weeks = 10 * 7 days
+        // Last week of quarter on sunday (not including finals week)
         fallResult.setDate(fallResult.getDate() + (9 * 7 + 6));
         return fallResult;
     };
