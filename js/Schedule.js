@@ -295,6 +295,7 @@ function Schedule(rawSchedule, courseList, expirationDate) {
             $('#reload').remove();
             $('#noShow').remove();
             $('#conflict').remove();
+            Cookies.remove("rawSchedule");
         });
 
         $("#imageDL").click(function() {
@@ -305,22 +306,10 @@ function Schedule(rawSchedule, courseList, expirationDate) {
     };
 
     this.createScheduleCookie = function(rawSchedule, expirationDate) {
-        var today = new Date();
-        var cookieDate = Cookies.get("date");
-        var inTheFuture = new Date(expirationDate);
+        var inTheFuture = new Date(expirationDate); // 10 years in the future of the inputted schedule's end of quarter date
         inTheFuture.setFullYear(inTheFuture.getFullYear() + 10);
         
-        if (cookieDate !== undefined) {
-            cookieDate = new Date(cookieDate);
-            if (cookieDate < expirationDate) { // if the inputted schedule is more recent than the schedule stored in the cookie
-                Cookies.set("rawSchedule", rawSchedule, {expires: inTheFuture});
-                Cookies.set("date", expirationDate, {expires: expirationDate});
-            }
-        }
-        else {
-            Cookies.set("rawSchedule", rawSchedule, {expires: inTheFuture});
-            Cookies.set("date", expirationDate, {expires: expirationDate});
-        }
+        Cookies.set("rawSchedule", rawSchedule, {expires: inTheFuture});
     };
 
     this.build = function() {
