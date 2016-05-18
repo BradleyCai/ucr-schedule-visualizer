@@ -13,14 +13,17 @@ function CourseParser() {
         this.courseList = new Array(0);
         this.noShowList = new Array(0);
         var quarter = /[0-9]{4} [A-z]+ Quarter/g.exec(rawString);
+        var year;
         var course = this.regex.exec(rawString);
         var hour1, min1, hour2, min2;
 
         if (quarter !== null) {
-            quarter = /Fall|Winter|Spring|Summer/g.exec(quarter)[1];
+            year = parseInt(/[0-9]{4}/g.exec(rawString)[0]);
+            quarter = /Fall|Winter|Spring|Summer/g.exec(quarter)[0];
         }
         else {
             quarter = "";
+            year = "";
         }
 
         //For each course
@@ -47,7 +50,7 @@ function CourseParser() {
                     min2 = parseInt(subCourse[3].substr(2, 2));
 
                     if (7 < hour1 && hour1 < 22 && 7 < hour2 && hour2 < 22) {
-                        this.courseList.push(new Course(quarter, course[1], course[2], course[3], course[4],
+                        this.courseList.push(new Course(quarter, year, course[1], course[2], course[3], course[4],
                         subCourse[1], hour1, min1, hour2, min2, subCourse[4], subCourse[5]));
                     }
                     else {
@@ -56,7 +59,7 @@ function CourseParser() {
                     }
                 }
                 else {
-                    this.noShowList.push(new Course(quarter, course[1], course[2], course[3], course[4],
+                    this.noShowList.push(new Course(quarter, year, course[1], course[2], course[3], course[4],
                         subCourse[1], hour1, min1, hour2, min2, subCourse[4], subCourse[5]));
                 }
                 subCourse = this.subCourseRegex.exec(course[5]);
@@ -73,6 +76,11 @@ function CourseParser() {
             noShowString += "</a></div>";
 
             $(".table-space").before(noShowString);
+        }
+        if (quarter === "" || year === 0) {
+            var noYearInfoAlert = '<div class="container" id = "noShow"><p class = "alert alert-error"><strong> Quarter and year are missing </strong><br><br> We didn\'t see the quarter or the year in the schedule you gave us! Next time copy the whole thing. </p></div>';
+
+            $(".table-space").before(noYearInfoAlert);
         }
     };
 
