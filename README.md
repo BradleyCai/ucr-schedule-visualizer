@@ -19,7 +19,7 @@ Because the GitHub pages branch is the equivalent of a master branch, the gh-pag
 branch is our master branch.
 
 We are using the [Akari Link Shortener](https://waa.ai/) to create a short URL: [https://waa.ai/ucrsv](https://waa.ai/ucrsv). The
-first three characters "ucr" referring to our school's name, and the last 2 characters "sv" being short for "schedule visualizer". We also have [a QR code](http://bradleycai.github.io/ucr-schedule-visualizer/img/WAAAI-QR.png).
+first three characters "ucr" referring to our school's name, and the last 2 characters "sv" being short for "schedule visualizer". We also have [a QR code](http://bradleycai.github.io/ucr-schedule-visualizer/img/waaai-qr.png).
 
 Issues
 ------
