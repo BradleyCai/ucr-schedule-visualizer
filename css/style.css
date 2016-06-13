@@ -1,6 +1,7 @@
 body {
     background-attachment: fixed, fixed;
-	background-image: url("../img/stardust.png");
+    /* Background pattern from subtlepatterns.com */
+	background-image: url("../img/ucrsv-bg.png");
     background-color: #f4f4f4;
     color: #f8f8f8;
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
