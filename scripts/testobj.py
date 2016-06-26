@@ -11,7 +11,7 @@ PYTHON_ESCAPE_SEQUENCE_REGEX = re.compile(r"""(\\U........|\\u....|\\x..|\\[0-7]
 
 
 class TestableRegex(object):
-    def __init__(self, name, config):
+    def __init__(self, name, config, process):
         flags = 0
         for flag in config.get("flags", ()):
             if not hasattr(re, flag):
@@ -26,6 +26,7 @@ class TestableRegex(object):
         self.name = name
         self.multiple = config.get("multiple", True)
         self.group = 0
+        self.process = process
 
     def test(self, input):
         if self.multiple:
@@ -50,7 +51,7 @@ class Test(object):
     def log_error(self, message):
         if not self._haslogged:
             self._haslogged = True
-            self.logfh.write("\n[%s]\n" % self.name)
+            self._logfh.write("\n[%s]\n" % self.name)
 
         if self._logfh:
             self._logfh.write(message)
@@ -95,7 +96,7 @@ class NormalTest(Test):
 
             print(results)
             print(regex.group - 1)
-            input = results[regex.group - 1]
+            input = results[0][regex.group - 1]
         return True
 
 

@@ -10,7 +10,6 @@ import time
 
 try:
     from testparser import TestParser
-    from testobj import build_test
     import jsonconfig
     import testobj
 except ImportError:
@@ -53,7 +52,7 @@ def get_regular_expression_order(config):
             print("Configuration error: regex \"%s\" mentioned in \"regex-order\" but not specified in \"regex\"." % name)
             exit(1)
 
-        regex.append(testobj.TestableRegex(name, config["regex"][name]))
+        regex.append(testobj.TestableRegex(name, config["regex"][name], None))
 
     return tuple(regex)
 
@@ -146,7 +145,7 @@ if __name__ == "__main__":
         with open(test, 'r') as fh:
             data = parser.parse(os.path.basename(test), fh.readlines())
 
-        tests.append(build_test(data, config, regex))
+        tests.append(testobj.build_test(data, config, regex))
     prep_elapsed = time.time() - start_time
 
     log("\nResults:")

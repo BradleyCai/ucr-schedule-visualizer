@@ -5,10 +5,6 @@ from target import TargetProcess
 config_fields = {
 }
 
-def run(args, config):
-    process = TargetProcess()
-
+def run(process):
     # TODO
-
-    return process
 

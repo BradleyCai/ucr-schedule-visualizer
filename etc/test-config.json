@@ -1,4 +1,5 @@
 {
+    "fail-fast": false,
     "test-dir": "tests",
     "recursive": true,
     "ignore-tests": [

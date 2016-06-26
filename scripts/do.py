@@ -9,6 +9,7 @@ import time
 import traceback
 
 try:
+    from target import TargetProcess
     import jsonconfig
 except ImportError:
     print("Cannot local modules. Are you in the right directory?")
@@ -25,7 +26,7 @@ def print_success(target, usecolor, elapsed):
         start_color = ""
         end_color = ""
 
-    print("%sRan target \"%s\" in %.4f seconds.%s" %
+    print("%sTarget \"%s\" ran successfully in %.4f seconds.%s" %
             (start_color, target, elapsed, end_color))
 
 
@@ -37,7 +38,7 @@ def print_failure(target, usecolor, ending):
         start_color = ""
         end_color = ""
 
-    print("%sTarget \"%s\" did not complete successfully%s%s" %
+    print("%sTarget \"%s\" was unsuccessful%s%s" %
             (start_color, target, ending, end_color))
 
 if __name__ == "__main__":
@@ -81,7 +82,8 @@ if __name__ == "__main__":
         # Run target
         start_time = time.time()
         try:
-            process = module.run(args, config)
+            process = TargetProcess(args, config)
+            module.run(process)
             if not process.successful:
                 raise SystemExit
         except SystemExit:

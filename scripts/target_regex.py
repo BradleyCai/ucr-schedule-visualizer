@@ -33,9 +33,7 @@ config_fields = {
     "to-inject": dict,
 }
 
-def run(args, config):
-    process = TargetProcess(args, config)
-
+def run(process):
     directory = os.path.join("..", config["regex-directory"])
     process.print_activity("Switching directory to \"%s\"" % directory)
     try:
@@ -48,9 +46,8 @@ def run(args, config):
     process.run_job(job_copy_out_files, "Copying compiled regex artifacts")
     process.run_job(job_inject_regex_artifacts, "Injecting compiled regex artifacts")
 
-    return process
 
-
+### Defined jobs ###
 def job_compile_regexes(process):
     if not process.config["source-files"]:
         process.print_string("(nothing to do)")
@@ -67,18 +64,17 @@ def job_compile_regex(process, name):
         source = name + ".regex"
         target = name + ".out"
 
-    process.print_operation("REGEX", target)
-    compiled = process.run_job(job_combine_regex, None, source)
-
-    if compiled is None:
-        return
-
     if os.path.exists(target):
         if process.args.dontoverwrite:
             process.print_notice("Not overwriting \"%s\"." % target)
             return
         else:
             process.print_warning("Overwriting \"%s\"." % target)
+    process.print_operation("REGEX", target)
+    compiled = process.run_job(job_combine_regex, None, source)
+
+    if compiled is None:
+        return
 
     try:
         with open(target, "w") as fh:

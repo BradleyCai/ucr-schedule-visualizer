@@ -25,7 +25,7 @@ def job_clean(process, location):
         process.print_string("(nothing to do)")
 
     for filename in files:
-        process.print_operation("RM", os.path.basename(filename))
+        process.print_operation("RM", filename)
         try:
             os.remove(filename)
         except OSError as err:
@@ -41,7 +41,7 @@ def job_clean_no_remove_regex(process, location):
         process.print_string("(nothing to do)")
 
     for filename in files:
-        process.print_operation("RM", os.path.basename(filename))
+        process.print_operation("RM", filename)
         try:
             os.remove(filename)
         except OSError as err:

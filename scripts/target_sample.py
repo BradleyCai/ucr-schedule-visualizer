@@ -11,13 +11,11 @@ config_fields = {
     # not load a config file
 }
 
-def run(args, config):
-    process = TargetProcess(args, config)
+def run(process):
     process.run_job(job_hello_world, "Printing \"hello world\"")
     process.print_notice("Important notice here")
     process.run_job(job_foo_bar, "Fooing bars")
     process.print_warning("Something possibly bad happened")
-    return process
 
 
 def job_hello_world(process):

@@ -47,6 +47,9 @@ class TargetProcess(object):
     def failiure(self):
         self.successful = False
 
+    def terminate(self):
+        raise SystemExit
+
     def run_job(self, job, description, *extra_args):
         if description:
             self.print_activity(description)
@@ -68,7 +71,7 @@ class TargetProcess(object):
             return ""
 
     def print_activity(self, message):
-        print("%s..." % message)
+        print("%s%s..." % (" " * self.depth, message))
 
     def print_string(self, message):
         print("%s%s" % (" " * self.depth, message))
