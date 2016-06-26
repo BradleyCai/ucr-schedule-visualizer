@@ -42,12 +42,18 @@ class TargetProcess(object):
         self.args = args
         self.config = config
         self.depth = 0
+        self.successful = True
+
+    def failiure(self):
+        self.successful = False
 
     def run_job(self, job, description, *extra_args):
-        self.print_activity(description)
+        if description:
+            self.print_activity(description)
         self.depth += 1
-        job(self, *extra_args)
+        value = job(self, *extra_args)
         self.depth -= 1
+        return value
 
     def get_color(self, color):
         if self.args.usecolor:
@@ -63,6 +69,9 @@ class TargetProcess(object):
 
     def print_activity(self, message):
         print("%s..." % message)
+
+    def print_string(self, message):
+        print("%s%s" % (" " * self.depth, message))
 
     def print_notice(self, message, prefix="INFO"):
         print("%s%s%s:%s %s" %

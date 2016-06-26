@@ -8,5 +8,7 @@ config_fields = {
 def run(args, config):
     process = TargetProcess()
 
-    pass
+    # TODO
+
+    return process
 

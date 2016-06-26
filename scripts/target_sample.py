@@ -17,6 +17,7 @@ def run(args, config):
     process.print_notice("Important notice here")
     process.run_job(job_foo_bar, "Fooing bars")
     process.print_warning("Something possibly bad happened")
+    return process
 
 
 def job_hello_world(process):
