@@ -4,6 +4,7 @@ Python dictionary for other scripts to utilize.
 """
 
 from __future__ import with_statement
+
 import json
 import os
 
@@ -43,6 +44,10 @@ def sanity_check(dict, fields):
         elif type(ftype) == dict:
             sanity_check(field, ftype)
         elif type(dict[field]) != ftype:
+            # Unicode literals are a special case
+            if (type(dict[field]) == unicode and ftype == str):
+                continue
+
             print("Config file has invalid type for \"%s\": %s (expected %s)." %
                   (field, type(dict[field]), ftype))
             exit(1)

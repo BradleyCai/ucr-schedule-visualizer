@@ -1,4 +1,5 @@
 # Artifacts
+**/*.pyc
 *.out
 js/*.regex
 tests/*.regex

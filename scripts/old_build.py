@@ -1,15 +1,8 @@
 #!/usr/bin/env python
 """
-The purpose of this script is to 'compile' the regular expressions
-found in the regex/ directory and inject them into their respective
-Javascript sources in the js/ directory. This is done by invoking a
-Python script in regex/ that combines multiple *.regex files into
-'compiled' *.out files. The purpose of this is to break down these
-long and complicated regular expressions into more meaningful parts,
-which can be fixed easier.  This means that whenever you need to
-modify a regular expression, you should only modify the *.regex files
-in regex/. The *.out files or the regular expressions in the javascript
-sources should not be modified, as they will be overwritten.
+System to "compile" regular expressions.
+
+DEPRECATED, use do.py with targets instead
 """
 
 from __future__ import print_function, with_statement
@@ -39,6 +32,61 @@ CONFIG_FIELDS = {
 DEPENDENCY_REGEX = re.compile(r"%\{.*?\}")
 DEPENDENCY_NAME_REGEX = re.compile(r"%\{(.*?)\}")
 
+# Build goals
+def target_regex(args, config):
+    global DEPTH
+
+    # Change directory to compile
+    directory = os.path.join(os.path.dirname(sys.argv[0]), "..", config["regex-directory"])
+    print("Switching directory to \"%s\"..." % directory)
+    os.chdir(directory)
+
+    # Compile regular expressions
+    print("Compiling regex sources...")
+    DEPTH += 1
+    if not config["source-files"]:
+        print("%s(nothing to do)" % (' ' * DEPTH))
+    for source in config["source-files"]:
+        compile_regex(source, args.dontoverwrite)
+    DEPTH -= 1
+
+    # Copy *.out files
+    print("Copying compiled regex artifacts...")
+    DEPTH += 1
+    files = glob.iglob("*.out")
+    if not files:
+        print("%s(nothing to do)" % (' ' * DEPTH))
+    for fn in files:
+        for directory in config["copy-to"]:
+            dest = os.path.join(directory, fn)
+            print("%s[CP] %s -> %s" % (' ' * DEPTH, fn, dest))
+            shutil.copy(fn, dest)
+    DEPTH -= 1
+
+    # Inject regular expressions in to the Javascript
+    print("Injecting compiled regex artifacts...")
+    DEPTH += 1
+    if not config["to-inject"]:
+        print("%s(nothing to do)" % (' ' * DEPTH))
+    for fn, field in config["to-inject"].items():
+        inject_regex(field, fn, config["inject-file"])
+    DEPTH -= 1
+
+
+def target_clean(args, config):
+    global DEPTH
+
+    pass
+
+
+DEPTH = 0
+
+TARGETS = {
+    "default": target_regex,
+    "regex": target_regex,
+    "clean": target_clean,
+}
+
 
 # Helper functions
 def read_file(fn):
@@ -61,7 +109,9 @@ def get_file_list(path):
 
 
 def combine_regex(source, depends={}):
-    print("  [DEP] %s" % source)
+    global DEPTH
+
+    print("%s[DEP] %s" % (' ' * DEPTH, source))
     body = read_file(source)
     for depend in set(DEPENDENCY_REGEX.findall(body)):
         depend = DEPENDENCY_NAME_REGEX.match(depend).group(1)
@@ -73,7 +123,9 @@ def combine_regex(source, depends={}):
 
 # Main functions
 def compile_regex(name, dont_overwrite=False):
-    print(" [CC] %s" % name)
+    global DEPTH
+
+    print("%s[RE] %s" % (' ' * DEPTH, name))
     if name.endswith(".regex"):
         source = name
         target = name[:-6] + ".out"
@@ -81,11 +133,13 @@ def compile_regex(name, dont_overwrite=False):
         source = name + ".regex"
         target = name + ".out"
 
+    DEPTH += 1
     try:
         compiled = combine_regex(source)
     except IOError as err:
         print("Unable to open \"%s\": %s" % (source, err))
         exit(1)
+    DEPTH -= 1
 
     if os.path.exists(target) and dont_overwrite:
         print("\"%s\" already exists, not overwriting." % target)
@@ -99,7 +153,9 @@ def compile_regex(name, dont_overwrite=False):
 
 
 def inject_regex(field_name, input_file, output_file):
-    print(" [INJ] %s:%s <- %s" % (output_file, field_name, input_file))
+    global DEPTH
+
+    print("%s[INJ] %s:%s <- %s" % (' ' * DEPTH, output_file, field_name, input_file))
 
     to_replace = read_file(input_file).replace(r"\n", r"\\n").strip()
     output_text = read_file(output_file).rstrip()
@@ -113,49 +169,25 @@ def inject_regex(field_name, input_file, output_file):
 
 
 if __name__ == "__main__":
-    start_time = time.time()
-
     # Get command-line arguments
     argparser = argparse.ArgumentParser(description=
             "Compile the regular expressions and inject the results into JavaScript sources.")
-    argparser.add_argument("-c", "--config", nargs='?', default="build-config.json", help=
+    argparser.add_argument("-c", "--config", nargs='?', default="build-config.json", help=\
             "Which Python configuration file to use. (default: config)")
     argparser.add_argument("-n", "--no-clobber", dest="dontoverwrite", action="store_true", help=\
             "Quit with an error instead of overwriting files.")
+    argparser.add_argument("target", nargs='?', default="default", help=\
+            "What build goal to execute.")
     args = argparser.parse_args(sys.argv[1:])
     config = jsonconfig.load(args.config)
     jsonconfig.sanity_check(config, CONFIG_FIELDS)
 
-    # Change directory to compile
-    directory = os.path.join(os.path.dirname(sys.argv[0]), "..", config["regex-directory"])
-    print("Switching directory to \"%s\"..." % directory)
-    os.chdir(directory)
+    target = TARGETS.get(args.target)
+    if not target:
+        print("No such build target: %s." % target)
+        exit(1)
 
-    # Compile regular expressions
-    print("Compiling regex sources...")
-    if not config["source-files"]:
-        print(" (nothing to do)")
-    for source in config["source-files"]:
-        compile_regex(source, args.dontoverwrite)
-
-    # Copy *.out files
-    print("Copying compiled regex artifacts...")
-    files = glob.iglob("*.out")
-    if not files:
-        print(" (nothing to do)")
-    for fn in files:
-        for directory in config["copy-to"]:
-            dest = os.path.join(directory, fn)
-            print(" [CP] %s -> %s" % (fn, dest))
-            shutil.copy(fn, dest)
-
-    # Inject regular expressions in to the Javascript
-    print("Injecting compiled regex artifacts...")
-    if not config["to-inject"]:
-        print(" (nothing to do)")
-    for fn, field in config["to-inject"].items():
-        inject_regex(field, fn, config["inject-file"])
-
-    # Report elapsed time
-    print("Finished in %.4f seconds." % (time.time() - start_time))
+    start_time = time.time()
+    target(args, config)
+    print("Built target \"%s\" in %.4f seconds." % (args.target, time.time() - start_time))
 
