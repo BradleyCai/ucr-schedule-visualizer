@@ -1,6 +1,6 @@
 __all__ = ["config_fields", "run"]
 
-from target import TargetProcess
+from target import *
 from testparser import TestParser
 import re
 import os
@@ -8,6 +8,7 @@ import testobj
 
 config_fields = {
     "fail-fast": bool,
+    "show-type": bool,
     "test-dir": str,
     "recursive": bool,
     "ignore-tests": list,
@@ -19,30 +20,47 @@ FAILED_TESTS_LOG_FILE = "failed.log"
 TEST_FILE_REGEX = re.compile(r".+\.test", re.IGNORECASE)
 
 
-def run(process):
+def run(tracker):
     directory = "tests"
     if not os.path.isdir(directory):
         directory = "../tests"
-    process.print_activity("Switching directory to \"%s\"" % directory)
+    tracker.print_activity("Switching directory to \"%s\"" % directory)
     os.chdir(directory)
 
-    process.print_activity("Getting screen size")
-    SCREEN_HEIGHT, SCREEN_WIDTH = os.popen("stty size", 'r').read().split(" ")
-    SCREEN_HEIGHT = int(SCREEN_HEIGHT)
-    SCREEN_WIDTH = int(SCREEN_WIDTH)
+    regex = tracker.run_job(job_get_regular_expression_order, "Geting order of regular expressions")
+    test_files = tracker.run_job(job_get_test_files, "Finding tests")
 
-    test_files = process.run_job(job_get_test_files, "Finding tests")
-    process.config["ignore-tests"] = set(process.config["ignore-tests"])
+    tracker.config["ignore-tests"] = set(tracker.config["ignore-tests"])
     if not test_files:
-        process.print_error("No *.test files found.")
-        process.terminate()
+        tracker.print_error("No *.test files found.")
+        tracker.terminate()
 
-    process.run_job(job_parse_tests, "Parsing %d test file%s" %
-            (len(test_files), plural(len(test_files))), test_files)
+    tests = tracker.run_job(job_parse_tests, "Parsing %d test file%s" %
+            (len(test_files), plural(len(test_files))), test_files, regex)
+
+    tracker.run_job(job_run_tests, "Running tests", tests)
 
 
 ### Defined jobs ###
-def job_get_test_files(process):
+def job_get_regular_expression_order(tracker):
+    regex = []
+    counter = 1
+
+    for name in tracker.config["regex-order"]:
+        tracker.print_operation(counter, name)
+        regex.append(testobj.TestableRegex(name, tracker.config["regex"][name], tracker))
+
+        if name not in tracker.config["regex"].keys():
+            tracker.print_error(
+                "Configuration error: regex \"%s\" mentioned in \"regex-order\" but not specified in \"regex\"."
+                    % name)
+            tracker.terminate()
+        counter += 1
+
+    return tuple(regex)
+
+
+def job_get_test_files(tracker):
     gen = os.walk(".", followlinks=True)
     test_files = []
 
@@ -51,56 +69,142 @@ def job_get_test_files(process):
             if TEST_FILE_REGEX.match(filename):
                 test_files.append(os.path.join(dirpath, filename))
 
-        if not process.config["recursive"]:
+        if not tracker.config["recursive"]:
             break
 
     return sorted(test_files)
 
 
-def job_parse_tests(process, test_files):
-    regex = process.run_job(job_get_regular_expression_order, "Geting order of regular expressions")
-    tests = process.run_job(job_add_tests, "Adding tests to queue", test_files, regex)
-
-
-def job_add_tests(process, test_files, regex):
+def job_parse_tests(tracker, test_files, regex):
     parser = TestParser()
     tests = []
 
-    for test in test_files:
-        name = os.path.basename(test)
+    if not test_files:
+        tracker.print_string("(nothing to do)")
 
-        if skip_test(test, process.config["ignore-tests"]):
-            process.print_operation("SKIP", name)
+    for test_file in test_files:
+        name = os.path.basename(test_file)
+
+        if skip_test(test_file, tracker.config["ignore-tests"]):
+            tracker.print_operation("SKIP", name)
             tests.append(testobj.SkipTest(name))
             continue
 
+        tracker.print_operation("ADD", name)
         try:
-            with open(test, "r") as fh:
+            with open(test_file, "r") as fh:
                 data = parser.parse(name, fh.readlines())
         except IOError as err:
-            process.print_error("Unable to open \"%s\": %s." % (test, err))
-            process.terminate()
+            tracker.print_error("Unable to open \"%s\": %s." % (test_file, err))
+            tracker.failure()
 
-        process.print_operation("ADD", name)
-        tests.append(testobj.build_test(data, process.config, regex))
+        # Take the collected data and build the test object
+        test = tracker.run_job(job_build_test, None, data, regex)
+        if test:
+            tests.append(test)
 
     return tests
 
 
-def job_get_regular_expression_order(process):
-    regex = []
+def job_build_test(tracker, data, regex):
+    if "Name" not in data.keys():
+        tracker.print_error("%s: No name specified." % data["filename"])
+        tracker.failure()
+        return None
 
-    for name in process.config["regex-order"]:
-        process.print_operation("ITEM", name)
-        regex.append(testobj.TestableRegex(name, process.config["regex"][name], process))
+    if len(data["Name"]) > 1:
+        tracker.print_error("%s: Multiple names specified." % data["filename"])
+        tracker.failure()
+        return None
 
-        if name not in process.config["regex"].keys():
-            process.print_error(
-                "Configuration error: regex \"%s\" mentioned in \"regex-order\" but not specified in \"regex\"."
-                    % name)
-            process.terminate()
+    data["Name"] = data["Name"][0]
 
-    return tuple(regex)
+    if "Type" not in data.keys():
+        tracker.print_error("%s: No test type specified." % data["filename"])
+        tracker.failure()
+        return None
+
+    if len(data["Type"]) > 1:
+        tracker.print_error("%s: Multiple test types specified." % data["filename"])
+        tracker.failure()
+        return None
+
+    data["Type"] = data["Type"][0]
+
+    if "Input" not in data.keys():
+        tracker.print_error("%s: No input value specified." % data["filename"])
+        tracker.failure()
+        return None
+
+    if len(data["Input"]) > 1:
+        tracker.print_error("%s: Multiple input values specified." % data["filename"])
+        tracker.failure()
+        return None
+
+    data["Input"] = data["Input"][0] + "\n"
+
+    if "EscapeStrings" in data.keys():
+        if len(data["EscapeStrings"]) > 1:
+            tracker.print_error("%s: Setting 'EscapeStrings' set multiple times." % data["filename"])
+            tracker.failure()
+            return None
+
+        data["EscapeStrings"] = get_boolean_option(tracker, data["filename"], data["EscapeStrings"][0])
+
+        if data["EscapeStrings"] is None:
+            return None
+    else:
+        data["EscapeStrings"] = False
+
+    for key in data.keys():
+        match = testobj.MULTIPLE_REGEX_FIELD_NAME_REGEX.match(key)
+        if match:
+            name = match.group(1).lower()
+            regex[name].multiple = get_boolean_option(tracker, data["filename"], data[key])
+            if regex[name].multiple is None:
+                return None
+
+    for regex_value in regex:
+        regex_value.group = tracker.config["regex"][regex_value.name].get("group", 0)
+
+    try:
+        return testobj.TEST_BUILDERS[data["Type"]](data, regex)
+    except KeyError:
+        tracker.print_error("%s: Unknown test type: \"%s\"." % data["filename"])
+        tracker.print_notice("Supported test types: %s." % (", ".join(testobj.TEST_BUILDERS.keys())))
+        tracker.failure()
+        return None
+
+
+def job_run_tests(tracker, tests):
+    passed = 0
+    skipped = 0
+    testcount = len(tests)
+    testsrun = testcount
+
+    for test in tests:
+        result = test.run()
+
+        if tracker.config["show-type"]:
+            testinfo = "%s (%s)" % (test.name, test.type)
+        else:
+            testinfo = test.name
+
+        if result is None:
+            tracker.print_operation("SKIP", testinfo)
+            skipped += 1
+        elif result is True:
+            tracker.print_operation("PASS", testinfo, target.GREEN)
+            passed += 1
+        elif result is False:
+            tracker.print_operation("FAIL", testinfo, target.RED)
+
+            if tracker.config["fail-fast"]:
+                passed = -1
+                return
+        else:
+            tracker.print_error("Invalid test return value: %s\n" % result)
+            tacker.terminate()
 
 
 ### Helper functions ###
@@ -113,6 +217,18 @@ def skip_test(test, ignore):
            test[:-5] in ignore or \
            os.path.basename(test) in ignore or \
            os.path.basename(test[:-5]) in ignore
+
+
+def get_boolean_option(tracker, filename, string):
+    string = string.lower()
+    if string in ("true", "yes", "enable", "enabled", "set", "1"):
+        return True
+    elif string in ("false", "no", "disable", "disabled", "unset", "0"):
+        return False
+    else:
+        tracker.print_error("%s: Unknown boolean value: \"%s\"." % (filename, string))
+        tracker.failure()
+        return None
 
 ####
 
@@ -170,3 +286,4 @@ def skip_test(test, ignore):
 
     sys.exit(testsrun - passed)
 ####
+

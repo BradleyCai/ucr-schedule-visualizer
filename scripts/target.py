@@ -1,5 +1,5 @@
 __all__ = [
-    "TargetProcess",
+    "TargetTracker",
     "BLACK",
     "RED",
     "GREEN",
@@ -37,7 +37,7 @@ CYAN_BOLD = "36;1"
 WHITE_BOLD = "37;1"
 
 
-class TargetProcess(object):
+class TargetTracker(object):
     def __init__(self, args, config):
         self.args = args
         self.config = config
@@ -88,7 +88,11 @@ class TargetProcess(object):
         print("%s%s%s:%s %s" %
                 (" " * self.depth, self.get_color(RED_BOLD), prefix, self.end_color(), message))
 
-    def print_operation(self, operation, item):
-        print("%s[%s] %s" %
-                (" " * self.depth, operation, item))
+    def print_operation(self, operation, item="", color=None):
+        if color:
+            print("%s[%s%s%s] %s" %
+                    (" " * self.depth, self.get_color(color), operation, self.end_color(), item))
+        else:
+            print("%s[%s] %s" %
+                    (" " * self.depth, operation, item))
 

@@ -8,6 +8,7 @@ from __future__ import with_statement
 import json
 import os
 
+CONFIG_DIRECTORY = "etc"
 
 def json2py(data):
     if isinstance(data, dict):
@@ -20,34 +21,39 @@ def json2py(data):
 
 def load(fn):
     old_cwd = os.getcwd()
-    if os.path.isdir("../etc"):
-        os.chdir("../etc")
-    elif os.path.isdir("./etc"):
-        os.chdir("./etc")
+
+    for directory in ("../%s", "./%s"):
+        directory = directory % CONFIG_DIRECTORY
+        if os.path.isdir(directory):
+            os.chdir(directory)
+            break
 
     with open(fn, 'r') as fh:
         try:
             raw = json.load(fh)
         except json.decoder.JSONDecodeError as err:
             print("Unable to read config file \"%s\": %s" % (fn, err))
-            exit(1)
+            return None
 
     os.chdir(old_cwd)
     return json2py(raw)
 
 
-def sanity_check(dict, fields):
+def sanity_check(dictionary, fields):
+    success = True
+
     for field, ftype in fields.items():
-        if field not in dict.keys():
+        if field not in dictionary.keys():
             print("Config file does not have a \"%s\" value." % field)
-            exit(1)
-        elif type(ftype) == dict:
-            sanity_check(field, ftype)
-        elif type(dict[field]) != ftype:
+            success = False
+        elif type(ftype) == dictionary:
+            success &= sanity_check(field, ftype)
+        elif type(dictionary[field]) != ftype:
             # Unicode literals are a special case
-            if (type(dict[field]) == unicode and ftype == str):
+            if (type(dictionary[field]) == unicode and ftype == str):
                 continue
 
             print("Config file has invalid type for \"%s\": %s (expected %s)." %
-                  (field, type(dict[field]), ftype))
-            exit(1)
+                  (field, type(dictionary[field]), ftype))
+            return False
+

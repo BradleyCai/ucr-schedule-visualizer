@@ -1,5 +1,7 @@
 #!/usr/bin/env python
 
+# DEPRECATED, use do.py's test target instead
+
 from __future__ import print_function
 
 import argparse
@@ -25,7 +27,6 @@ CONFIG_FIELDS = {
 }
 
 FAILED_TESTS_LOG_FILE = "failed.log"
-
 TEST_FILE_REGEX = re.compile(r".+\.test", re.IGNORECASE)
 
 

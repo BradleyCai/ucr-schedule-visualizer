@@ -1,6 +1,5 @@
 __all__ = ["config_fields", "run"]
 
-from target import TargetProcess
 import random
 
 config_fields = {
@@ -11,30 +10,30 @@ config_fields = {
     # not load a config file
 }
 
-def run(process):
-    process.run_job(job_hello_world, "Printing \"hello world\"")
-    process.print_notice("Important notice here")
-    process.run_job(job_foo_bar, "Fooing bars")
-    process.print_warning("Something possibly bad happened")
+def run(tracker):
+    tracker.run_job(job_hello_world, "Printing \"hello world\"")
+    tracker.print_notice("Important notice here")
+    tracker.run_job(job_foo_bar, "Fooing bars")
+    tracker.print_warning("Something possibly bad happened")
 
 
-def job_hello_world(process):
-    process.print_operation("PRINT", "Hello")
-    process.print_operation("PRINT", "World")
+def job_hello_world(tracker):
+    tracker.print_operation("PRINT", "Hello")
+    tracker.print_operation("PRINT", "World")
 
 
-def job_foo_bar(process):
+def job_foo_bar(tracker):
     for i in range(11):
-        process.print_operation("FOO", "bar %d" % i)
+        tracker.print_operation("FOO", "bar %d" % i)
 
         if i % 3 == 0:
-            process.run_job(job_crunch_numbers, "Crunching numbers")
+            tracker.run_job(job_crunch_numbers, "Crunching numbers")
 
         if random.random() < 0.2:
-            process.print_error("Oh noes!")
+            tracker.print_error("Oh noes!")
 
 
-def job_crunch_numbers(process):
+def job_crunch_numbers(tracker):
     for i in range(random.randint(2, 7)):
-        process.print_operation("CALC", str(random.randint(-100, 100)))
+        tracker.print_operation("CALC", str(random.randint(-100, 100)))
 
