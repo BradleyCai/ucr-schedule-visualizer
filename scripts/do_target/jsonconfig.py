@@ -1,9 +1,10 @@
+# Copyright (C) 2015-2016 Ammon Smith and Bradley Cai
+# Available for use under the terms of the MIT License.
+
 """
 This modules loads a JSON file from the etc/ directory and provides it as a
 Python dictionary for other scripts to utilize.
 """
-
-from __future__ import with_statement
 
 import json
 import os

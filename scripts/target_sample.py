@@ -1,6 +1,11 @@
-__all__ = ["config_fields", "run"]
+__all__ = ["depends", "config_fields", "run"]
 
 import random
+
+depends = [
+    # Specify dependencies here. Each of these is a target
+    # as specified in a target_* file.
+]
 
 config_fields = {
     # Settings can be passed to a target as a JSON file

@@ -1,10 +1,14 @@
-__all__ = ["config_fields", "run"]
+__all__ = ["depends", "config_fields", "run"]
 
 from target import *
 from testparser import TestParser
 import re
 import os
 import testobj
+
+depends = [
+    "build",
+]
 
 config_fields = {
     "fail-fast": bool,

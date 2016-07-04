@@ -1,7 +1,10 @@
-__all__ = ["config_fields", "run"]
+__all__ = ["depends", "config_fields", "run"]
 
 import glob
 import os
+
+depends = [
+]
 
 config_fields = {
 }

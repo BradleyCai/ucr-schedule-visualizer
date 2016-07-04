@@ -1,5 +1,7 @@
 __all__ = [
     "TargetTracker",
+    "get_target_module",
+
     "BLACK",
     "RED",
     "GREEN",
@@ -17,6 +19,8 @@ __all__ = [
     "CYAN_BOLD",
     "WHITE_BOLD",
 ]
+
+from .static import PROGRAM_NAME
 
 BLACK = "30"
 RED = "31"
@@ -96,3 +100,29 @@ class TargetTracker(object):
             print("%s[%s] %s" %
                     (" " * self.depth, operation, item))
 
+
+def get_target_module(name):
+    # Load the target module
+    try:
+        module = __import__("target_%s" % name)
+    except ImportError:
+        print("%s: No such build target: %s." % (PROGRAM_NAME, name))
+        exit(1)
+
+    # Perform sanity checks on the module
+    if not hasattr(module, "depends"):
+        print("%s: Target %s lacks a dependency list called \"depends\"." % (PROGRAM_NAME, name))
+        exit(1)
+
+    if not hasattr(module, "config_fields"):
+        print("%s: Target %s lacks a configuration template called \"config_fields\"." %
+                (PROGRAME_NAME, name))
+        exit(1)
+
+    if not hasattr(module, "run"):
+        print("%s: Target %s lacks an execution directive called \"run\"." %
+                (PROGRAM_NAME, name))
+        exit(1)
+
+    module.name = name
+    return module

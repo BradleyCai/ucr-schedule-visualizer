@@ -1,4 +1,4 @@
-__all__ = ["config_fields", "run"]
+__all__ = ["depends", "config_fields", "run"]
 
 """
 The purpose of this target is to 'compile' the regular expressions
@@ -23,6 +23,9 @@ DEPENDENCY_NAME_REGEX = re.compile(r"%\{(.*?)\}")
 
 REGEX_INJECTION_PATTERN = r"this\.%s\s*=\s*\/.\/g;"
 REGEX_REPLACE_PATTERN = r"this.%s = /%s/g;"
+
+depends = [
+]
 
 config_fields = {
     "source-files": list,
