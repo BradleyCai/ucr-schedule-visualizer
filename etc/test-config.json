@@ -2,6 +2,7 @@
     "fail-fast": false,
     "test-dir": "tests",
     "recursive": true,
+    "show-type": false,
     "ignore-tests": [
         "sample",
         "template"

@@ -46,23 +46,26 @@ def main(argv=None):
     # Determine build order
     targets = dependencies.resolve_full_build_order(args.target, args.verbose)
 
-    # Run the targets
+    # Prepare targets
     ret = 0
+    configs = {}
     for target in targets:
         if target.config_fields:
             # Load the configuration
             if args.config:
-                config = jsonconfig.load(args.config)
+                configs[target] = jsonconfig.load(args.config)
             else:
-                config = jsonconfig.load("%s-config.json" % target.name)
+                configs[target] = jsonconfig.load("%s-config.json" % target.name)
 
             # Check the configuration
-            jsonconfig.sanity_check(config, target.config_fields)
+            jsonconfig.sanity_check(configs[target], target.config_fields)
         else:
-            config = {}
+            configs[target] = {}
 
+    # Run targets
+    for target in targets:
         # Create target tracker
-        tracker = targetobj.TargetTracker(args, config)
+        tracker = targetobj.TargetTracker(args, configs[target])
 
         # Run target
         start_time = time.time()

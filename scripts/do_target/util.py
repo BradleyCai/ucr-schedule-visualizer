@@ -9,7 +9,7 @@ __all__ = [
 
 def print_success(target, usecolor, elapsed):
     if usecolor:
-        start_color = "\033[32m"
+        start_color = "\033[32;4m"
         end_color = "\033[0m"
     else:
         start_color = ""
@@ -21,7 +21,7 @@ def print_success(target, usecolor, elapsed):
 
 def print_failure(target, usecolor, ending):
     if usecolor:
-        start_color = "\033[31m"
+        start_color = "\033[31;4m"
         end_color = "\033[0m"
     else:
         start_color = ""

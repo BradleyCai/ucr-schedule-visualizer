@@ -65,8 +65,8 @@ class SkipTest(Test):
 
 
 class NormalTest(Test):
-    def __init__(self, tracker, name, input, regex, outputs):
-        Test.__init__(self, tracker, "normal", name, input, regex)
+    def __init__(self, name, input, regex, outputs):
+        Test.__init__(self, "normal", name, input, regex)
         self.outputs = outputs
 
     def run(self):
@@ -128,7 +128,7 @@ def build_normal_test(data, regex):
             name = match.group(1).lower()
             outputs[name] = get_outputs(data[key], data["EscapeStrings"])
 
-    return NormalTest(tracker, data["Name"], data["Input"], regex, outputs)
+    return NormalTest(data["Name"], data["Input"], regex, outputs)
 
 
 def build_fail_test(data, regex):

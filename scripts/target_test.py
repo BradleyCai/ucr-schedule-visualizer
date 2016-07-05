@@ -1,6 +1,6 @@
 __all__ = ["depends", "config_fields", "run"]
 
-from target import *
+from do_target import targetobj
 from testparser import TestParser
 import re
 import os
@@ -198,10 +198,10 @@ def job_run_tests(tracker, tests):
             tracker.print_operation("SKIP", testinfo)
             skipped += 1
         elif result is True:
-            tracker.print_operation("PASS", testinfo, target.GREEN)
+            tracker.print_operation("PASS", testinfo, targetobj.GREEN)
             passed += 1
         elif result is False:
-            tracker.print_operation("FAIL", testinfo, target.RED)
+            tracker.print_operation("FAIL", testinfo, targetobj.RED)
 
             if tracker.config["fail-fast"]:
                 passed = -1

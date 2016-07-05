@@ -28,7 +28,7 @@ def json2py(data):
         return data
 
 
-def load(fn):
+def load(filename):
     old_cwd = os.getcwd()
 
     for directory in ("../%s", "./%s"):
@@ -37,7 +37,7 @@ def load(fn):
             os.chdir(directory)
             break
 
-    with open(fn, 'r') as fh:
+    with open(filename, 'r') as fh:
         try:
             raw = json.load(fh)
         except json.decoder.JSONDecodeError as err:
@@ -45,7 +45,9 @@ def load(fn):
             return None
 
     os.chdir(old_cwd)
-    return json2py(raw)
+    dictionary = json2py(raw)
+    dictionary["filename"] = filename
+    return dictionary
 
 
 def sanity_check(dictionary, fields):
@@ -53,12 +55,15 @@ def sanity_check(dictionary, fields):
 
     for field, ftype in fields.items():
         if field not in dictionary.keys():
-            print("Config file does not have a \"%s\" value." % field)
+            print("%s: Config file does not have a \"%s\" value." % (dictionary["filename"], field))
             success = False
         elif type(ftype) == dictionary:
             success &= sanity_check(field, ftype)
         elif type(dictionary[field]) != ftype:
-            print("Config file has invalid type for \"%s\": %s (expected %s)." %
-                  (field, type(dictionary[field]), ftype))
-            return False
+            print("%s: Config file has invalid type for \"%s\": %s (expected %s)." %
+                  (dictionary["filename"], field, type(dictionary[field]), ftype))
+            success = False
+
+    if not success:
+        exit(1)
 
