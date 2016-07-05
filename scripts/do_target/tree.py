@@ -14,10 +14,10 @@ __all__ = [
     "ASCII_CORNER",
 ]
 
-TRUNK = "│"
-INTERSECTION = "├"
-BRANCH = "─"
-CORNER = "└"
+TRUNK = "\xe2\x94\x82"
+INTERSECTION = "\xe2\x94\x9c"
+BRANCH = "\xe2\x94\x80"
+CORNER = "\xe2\x94\x94"
 
 ASCII_TRUNK = "|"
 ASCII_INTERSECTION = "|"
