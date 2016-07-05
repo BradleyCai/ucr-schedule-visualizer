@@ -87,7 +87,7 @@ def format_result(result, nocolor):
 
 
 if __name__ == "__main__":
-    start_time = time.time()
+    print("DEPRECATED: use \"./do test\" instead.")
 
     # Get command-line arguments
     argparser = argparse.ArgumentParser(description=

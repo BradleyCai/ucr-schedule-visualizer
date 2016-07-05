@@ -6,6 +6,7 @@ __all__ = [
     "print_failure",
 ]
 
+
 def print_success(target, usecolor, elapsed):
     if usecolor:
         start_color = "\033[32m"

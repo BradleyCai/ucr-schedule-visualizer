@@ -6,6 +6,14 @@ This modules loads a JSON file from the etc/ directory and provides it as a
 Python dictionary for other scripts to utilize.
 """
 
+__all__ = [
+    "json2py",
+    "load",
+    "sanity_check",
+
+    "CONFIG_DIRECTORY",
+]
+
 import json
 import os
 
@@ -50,10 +58,6 @@ def sanity_check(dictionary, fields):
         elif type(ftype) == dictionary:
             success &= sanity_check(field, ftype)
         elif type(dictionary[field]) != ftype:
-            # Unicode literals are a special case
-            if (type(dictionary[field]) == unicode and ftype == str):
-                continue
-
             print("Config file has invalid type for \"%s\": %s (expected %s)." %
                   (field, type(dictionary[field]), ftype))
             return False

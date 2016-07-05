@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 # Copyright (C) 2015-2016 Ammon Smith and Bradley Cai
 # Available for use under the terms of the MIT License.
 
@@ -27,8 +26,8 @@ def main(argv=None):
             "Quit with an error instead of overwriting files.")
     argparser.add_argument("-N", "--no-color", dest="usecolor", action="store_false", help=\
             "Use to disable colored text output.")
-    argparser.add_argument("-D", "--debug", action="store_true", help=\
-            "Print debugging information while running.")
+    argparser.add_argument("-v", "--verbose", action="store_true", help=\
+            "Print detailed information when running.")
     argparser.add_argument("target", nargs='*', help=\
             "What build goal to execute.")
     args = argparser.parse_args((sys.argv if argv is None else argv)[1:])
@@ -45,7 +44,7 @@ def main(argv=None):
     os.chdir(os.path.join(os.path.dirname(sys.argv[0]), ".."))
 
     # Determine build order
-    targets = dependencies.resolve_full_build_order(args.target)
+    targets = dependencies.resolve_full_build_order(args.target, args.verbose)
 
     # Run the targets
     ret = 0
