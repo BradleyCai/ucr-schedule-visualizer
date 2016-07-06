@@ -75,13 +75,13 @@ class NormalTest(Test):
             results = regex.test(input)
 
             if not results:
-                self.log_error("test")
                 return False
 
             if regex.group <= 0:
                 break
 
             print(results)
+            print(self.outputs)
             print(regex.group - 1)
             input = results[0][regex.group - 1]
         return True

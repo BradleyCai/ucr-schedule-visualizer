@@ -110,6 +110,7 @@ def job_combine_regex(tracker, source, modified, depends={}):
         body = body.replace("%%{%s}" % depend, depends[depend])
 
     needs_update |= (get_mtime(tracker, source) > modified)
+    needs_update |= tracker.args.alwaysbuild
     return body.rstrip(), needs_update
 
 

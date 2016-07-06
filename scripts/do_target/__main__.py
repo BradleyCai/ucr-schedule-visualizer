@@ -22,6 +22,8 @@ def main(argv=None):
             "Specify a certain configuration file to use.")
     argparser.add_argument("-d", "--config-directory", nargs='?', help=\
             "Specify which directory to look for config files in. (Ignored if -c is set).")
+    argparser.add_argument("-B", "--build-anyways", dest="alwaysbuild", action="store_true", help=\
+            "Rebuild a target and its dependencies even if it's apparently up-to-date.")
     argparser.add_argument("-n", "--no-clobber", dest="dontoverwrite", action="store_true", help=\
             "Quit with an error instead of overwriting files.")
     argparser.add_argument("-N", "--no-color", dest="usecolor", action="store_false", help=\
