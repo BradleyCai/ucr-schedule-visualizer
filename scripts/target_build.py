@@ -44,9 +44,9 @@ def run(tracker):
         tracker.print_error("Unable to change directory to %s: %s" % (directory, err))
         tracker.terminate()
 
-    tracker.run_job(job_compile_regexes, "Compiling regex sources")
-    tracker.run_job(job_copy_out_files, "Copying compiled regex artifacts")
-    tracker.run_job(job_inject_regex_artifacts, "Injecting compiled regex artifacts")
+    if tracker.run_job(job_compile_regexes, "Compiling regex sources"):
+        tracker.run_job(job_copy_out_files, "Copying compiled regex artifacts")
+        tracker.run_job(job_inject_regex_artifacts, "Injecting compiled regex artifacts")
 
 
 ### Defined jobs ###
@@ -57,26 +57,25 @@ def job_compile_regexes(tracker):
     for source in tracker.config["source-files"]:
         tracker.run_job(job_compile_regex, None, source)
 
-
 def job_compile_regex(tracker, name):
-    if name.endswith(".regex"):
-        source = name
-        target = name[:-6] + ".out"
-    else:
-        source = name + ".regex"
-        target = name + ".out"
+    source, target = get_output_file_name(name)
+
+    modified = get_mtime(tracker, target)
+    tracker.print_operation("REGEX", target)
+    compiled, needs_update = tracker.run_job(job_combine_regex, None, source, modified)
+
+    if not needs_update:
+        tracker.print_string("(No need to update \"%s\")" % target)
+        return False
+    elif compiled is None:
+        return False
 
     if os.path.exists(target):
         if tracker.args.dontoverwrite:
-            tracker.print_notice("Not overwriting \"%s\"." % target)
-            return
-        else:
-            tracker.print_warning("Overwriting \"%s\"." % target)
-    tracker.print_operation("REGEX", target)
-    compiled = tracker.run_job(job_combine_regex, None, source)
+            tracker.print_warning("Not overwriting \"%s\"." % target)
+            return False
 
-    if compiled is None:
-        return
+        tracker.print_notice("Overwriting \"%s\"." % target)
 
     try:
         with open(target, "w") as fh:
@@ -85,26 +84,33 @@ def job_compile_regex(tracker, name):
         tracker.print_error("Unable to write to \"%s\": %s." % (target, err))
         tracker.failure()
 
+    return True
 
-def job_combine_regex(tracker, source, depends={}):
+
+def job_combine_regex(tracker, source, modified, depends={}):
     tracker.print_operation("DEP", source)
 
     try:
         with open(source, "r") as fh:
             body = fh.read()
-    except IOError as err:
+    except (OSError, IOError) as err:
         tracker.print_error("Unable to read from \"%s\": %s." % (source, err))
         tracker.failure()
         return None
 
+    needs_update = False
+
     for depend in set(DEPENDENCY_REGEX.findall(body)):
         depend = DEPENDENCY_NAME_REGEX.match(depend).group(1)
         if depend not in depends.keys():
-            depends[depend] = tracker.run_job(job_combine_regex, None, depend + ".regex", depends)
+            depends[depend], this_needs_update = tracker.run_job(job_combine_regex, None, depend + ".regex", modified, depends)
+            needs_update |= this_needs_update
         else:
             tracker.print_operation("DEP", "%s (cached)" % source)
         body = body.replace("%%{%s}" % depend, depends[depend])
-    return body.rstrip()
+
+    needs_update |= (get_mtime(tracker, source) > modified)
+    return body.rstrip(), needs_update
 
 
 def job_copy_out_files(tracker):
@@ -163,4 +169,28 @@ def job_inject_regex_artifacts(tracker):
         except IOError as err:
             tracker.print_error("Unable to write to \"%s\": %s." % (output_file, err))
             tracker.failure()
+
+
+# Helper functions
+def get_output_file_name(name):
+    if name.endswith(".regex", re.IGNORECASE):
+        source = name
+        target = name[:-6] + ".out"
+    else:
+        source = name + ".regex"
+        target = name + ".out"
+
+    return source, target
+
+
+def get_mtime(target, path):
+    try:
+        stat = os.stat(path)
+    except FileNotFoundError:
+        return 0
+    except (IOError, OSError) as err:
+        tracker.print_error("Unable to stat \"%s\": %s." % (target, err))
+        tracker.terminate()
+
+    return stat.st_mtime
 

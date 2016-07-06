@@ -47,7 +47,6 @@ def main(argv=None):
     targets = dependencies.resolve_full_build_order(args.target, args.verbose)
 
     # Prepare targets
-    ret = 0
     configs = {}
     for target in targets:
         if target.config_fields:
@@ -75,15 +74,13 @@ def main(argv=None):
                 raise SystemExit
         except SystemExit:
             print_failure(target.name, args.usecolor, ".")
-            ret += 1
+            exit(1)
         except:
             print_failure(target.name, args.usecolor, ":")
             traceback.print_exc()
-            ret += 1
+            exit(1)
         else:
             print_success(target.name, args.usecolor, time.time() - start_time)
-
-    exit(ret)
 
 
 if __name__ == "__main__":
