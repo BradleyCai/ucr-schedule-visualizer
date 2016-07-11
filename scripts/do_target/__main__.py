@@ -28,6 +28,8 @@ def main(argv=None):
             "Quit with an error instead of overwriting files.")
     argparser.add_argument("-N", "--no-color", dest="usecolor", action="store_false", help=\
             "Use to disable colored text output.")
+    argparser.add_argument("--ascii-only", dest="asciionly", action="store_true", help=\
+            "Only use ASCII characters in the text output.")
     argparser.add_argument("-v", "--verbose", action="store_true", help=\
             "Print detailed information when running.")
     argparser.add_argument("target", nargs='*', help=\
@@ -42,11 +44,17 @@ def main(argv=None):
     if args.config_directory:
         jsonconfig.CONFIG_DIRECTORY = args.config_directory
 
+    if not sys.stdout.isatty():
+        # Remove fancy text formatting if not in a tty
+        args.asciionly = True
+        args.usecolor = False
+
     # Switch directory to where the targets are
     os.chdir(os.path.join(os.path.dirname(sys.argv[0]), ".."))
 
     # Determine build order
-    targets = dependencies.resolve_full_build_order(args.target, args.verbose)
+    print("Resolving dependencies...")
+    targets = dependencies.resolve_full_build_order(args.target, args.verbose, args.asciionly)
 
     # Prepare targets
     configs = {}

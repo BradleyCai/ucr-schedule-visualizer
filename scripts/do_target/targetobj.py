@@ -10,6 +10,7 @@ __all__ = [
     "MAGENTA",
     "CYAN",
     "WHITE",
+    "RESET",
     "BLACK_BOLD",
     "RED_BOLD",
     "GREEN_BOLD",
@@ -30,6 +31,7 @@ BLUE = "34"
 MAGENTA = "35"
 CYAN = "36"
 WHITE = "37"
+RESET = "0"
 
 BLACK_BOLD = "30;1"
 RED_BOLD = "31;1"
@@ -42,13 +44,31 @@ WHITE_BOLD = "37;1"
 
 
 class TargetTracker(object):
+    BLACK = BLACK
+    RED = RED
+    GREEN = GREEN
+    YELLOW = YELLOW
+    BLUE = BLUE
+    MAGENTA = MAGENTA
+    CYAN = CYAN
+    WHITE = WHITE
+
+    BLACK_BOLD = BLACK_BOLD
+    RED_BOLD = RED_BOLD
+    GREEN_BOLD = GREEN_BOLD
+    YELLOW_BOLD = YELLOW_BOLD
+    BLUE_BOLD = BLUE_BOLD
+    MAGENTA_BOLD = MAGENTA_BOLD
+    CYAN_BOLD = CYAN_BOLD
+    WHITE_BOLD = WHITE_BOLD
+
     def __init__(self, args, config):
         self.args = args
         self.config = config
         self.depth = 0
         self.successful = True
 
-    def failiure(self):
+    def failure(self):
         self.successful = False
 
     def terminate(self):

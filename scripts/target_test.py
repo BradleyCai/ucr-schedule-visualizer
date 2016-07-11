@@ -1,3 +1,6 @@
+# Copyright (C) 2015-2016 Ammon Smith and Bradley Cai
+# Available for use under the terms of the MIT License.
+
 __all__ = ["depends", "config_fields", "run"]
 
 from do_target import targetobj
@@ -13,18 +16,25 @@ depends = [
 config_fields = {
     "fail-fast": bool,
     "show-type": bool,
+    "show-skipped": bool,
     "test-dir": str,
     "recursive": bool,
+    "failed-test-log": (str, type(None)),
     "ignore-tests": list,
     "regex": dict,
     "regex-order": list,
 }
 
-FAILED_TESTS_LOG_FILE = "failed.log"
 TEST_FILE_REGEX = re.compile(r".+\.test", re.IGNORECASE)
 
 
 def run(tracker):
+    if len(tracker.config["regex"].keys()) != len(tracker.config["regex-order"]) or \
+            not set(tracker.config["regex"].keys()).issubset(tracker.config["regex-order"]):
+        tracker.print_error("Configuration fields \"regex\" and \"regex-order\" don't match up.")
+        tracker.print_error("\"regex-order\" should be an ordered list of the keys in \"regex\".")
+        tracker.terminate()
+
     directory = "tests"
     if not os.path.isdir(directory):
         directory = "../tests"
@@ -42,7 +52,10 @@ def run(tracker):
     tests = tracker.run_job(job_parse_tests, "Parsing %d test file%s" %
             (len(test_files), plural(len(test_files))), test_files, regex)
 
-    tracker.run_job(job_run_tests, "Running tests", tests)
+    passed, skipped, testcount, testsrun = \
+            tracker.run_job(job_run_tests, "Running tests", tests)
+    tracker.run_job(job_print_results, "Test results", \
+            passed, skipped, testcount, testsrun)
 
 
 ### Defined jobs ###
@@ -90,8 +103,9 @@ def job_parse_tests(tracker, test_files, regex):
         name = os.path.basename(test_file)
 
         if skip_test(test_file, tracker.config["ignore-tests"]):
-            tracker.print_operation("SKIP", name)
-            tests.append(testobj.SkipTest(name))
+            if tracker.config["show-skipped"]:
+                tracker.print_operation("SKIP", name)
+                tests.append(testobj.SkipTest(name))
             continue
 
         tracker.print_operation("ADD", name)
@@ -186,6 +200,8 @@ def job_run_tests(tracker, tests):
     testcount = len(tests)
     testsrun = testcount
 
+    testobj.Test.set_up_error_log(tracker.config["failed-test-log"])
+
     for test in tests:
         result = test.run()
 
@@ -210,6 +226,36 @@ def job_run_tests(tracker, tests):
             tracker.print_error("Invalid test return value: %s\n" % result)
             tacker.terminate()
 
+    return passed, skipped, testcount, testsrun
+
+
+def job_print_results(tracker, passed, skipped, testcount, testsrun):
+    if passed < testsrun and tracker.args.usecolor:
+        label = "%sRESULTS%s" % (tracker.get_color(tracker.RED), tracker.end_color())
+    else:
+        label = "RESULTS"
+
+    tracker.print_operation(label, "Ran %d test%s." % (testsrun, plural(testsrun)))
+
+    if testsrun == 0:
+        tracker.print_notice("No tests were run.")
+        return
+
+    if tracker.config["fail-fast"]:
+        if passed == -1:
+            tracker.print_operation(label, "A test failed, so the suite was aborted.")
+        else:
+            tracker.print_operation(label, "All tests passed.")
+    else:
+
+        tracker.print_operation(label,
+                "%d / %d (%.1f%%) of tests passed." %
+                (passed, testsrun, 100.0 * passed / testsrun))
+
+    if passed < testcount and tracker.config["failed-test-log"]:
+        tracker.print_notice("A report for failed tests was written in \"%s\"." % \
+                os.path.abspath(tracker.config["failed-test-log"]))
+
 
 ### Helper functions ###
 def plural(num):
@@ -233,61 +279,4 @@ def get_boolean_option(tracker, filename, string):
         tracker.print_error("%s: Unknown boolean value: \"%s\"." % (filename, string))
         tracker.failure()
         return None
-
-####
-
-    log("\nResults:")
-    # Run tests
-    start_time = time.time()
-    passed = 0
-    skipped = 0
-    testcount = len(tests)
-    testsrun = testcount
-
-    with open(FAILED_TESTS_LOG_FILE, 'a') as fail_fh:
-        fail_fh.write("Test run on %s:\n" % time.ctime())
-
-        for test in tests:
-            test.set_error_log(fail_fh)
-            result = test.run()
-
-            # Print test result
-            if args.show_type:
-                testinfo = ("%s: %s" % (test.type, test.name)).ljust(SCREEN_WIDTH - 8)
-            else:
-                testinfo = test.name.ljust(SCREEN_WIDTH - 8)
-            log("%s [%s]" % (testinfo, format_result(result, args.nocolor)))
-
-            if result is None:
-                skipped += 1
-                testsrun -= 1
-            elif not result and args.failfast:
-                passed = -1
-                break
-
-    test_elapsed = time.time() - start_time
-
-    # Report results
-    log("\nRan %d test%s." % (testsrun, plural(testsrun)))
-    log("Preparation: %.2f seconds per test, %.2f seconds total." % (prep_elapsed / testcount, prep_elapsed))
-
-    if testsrun == 0:
-        log("No tests were run.")
-        sys.exit(0)
-
-    log("Runtime:     %.2f seconds per test, %.2f seconds total." % (test_elapsed / testsrun, test_elapsed))
-
-    if args.failfast:
-        if passed == -1:
-            log("A test failed, so the suite was aborted.")
-        else:
-            log("All tests passed.")
-    else:
-        log("%d / %d (%.1f%%) of tests passed." % (passed, testsrun, 100.0 * passed / testsrun))
-
-    if passed < testcount:
-        log("Wrote report for failed tests in \"tests/%s\"." % FAILED_TESTS_LOG_FILE)
-
-    sys.exit(testsrun - passed)
-####
 

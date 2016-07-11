@@ -13,11 +13,11 @@ from .tree import Tree
 from . import targetobj
 
 
-def resolve_full_build_order(raw_target_list, verbose=False):
+def resolve_full_build_order(raw_target_list, verbose=False, asciionly=False):
     groups = []
 
     for name in raw_target_list:
-        groups.append(resolve_build_order(name, verbose))
+        groups.append(resolve_build_order(name, verbose, asciionly))
 
     all_targets = []
 
@@ -33,7 +33,7 @@ def resolve_full_build_order(raw_target_list, verbose=False):
     return all_targets
 
 
-def resolve_build_order(name, verbose=False):
+def resolve_build_order(name, verbose=False, asciionly=False):
     has_deps = dict() # { dependency : {who needs it} }
     no_deps = set()
     target_names = set()
@@ -51,7 +51,9 @@ def resolve_build_order(name, verbose=False):
         exit(1)
 
     if verbose:
-        print_full_dependency_chain(name, has_deps, no_deps)
+        print("(info) Full dependency chain:")
+
+    print_full_dependency_chain(name, has_deps, no_deps, asciionly)
 
     # Resolve dependencies
     while no_deps:
@@ -149,11 +151,9 @@ def get_dependency_subtree(name, dep_dict):
     return deps
 
 
-def print_full_dependency_chain(name, has_deps, no_deps):
+def print_full_dependency_chain(name, has_deps, no_deps, asciionly):
     dep_dict = get_dependency_dict(has_deps)
     deps = get_dependency_subtree(name, dep_dict)
     tree = Tree(name, deps)
-
-    print("(info) Full dependency tree:")
-    tree.display()
+    tree.display(use_ascii=asciionly, bullet=" * ")
 

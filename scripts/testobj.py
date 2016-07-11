@@ -1,13 +1,30 @@
+# Copyright (C) 2015-2016 Ammon Smith and Bradley Cai
+# Available for use under the terms of the MIT License.
+
 """
 This module contains the definitions for all test-related objects.
 """
+
+__all__ = [
+    "TestableRegex",
+    "Test",
+    "SkipTest",
+    "NormalTest",
+    "FailTest",
+    "build_normal_test",
+    "build_fail_test",
+    "build_skip_test",
+
+    "TEST_BUILDERS",
+]
+
 import codecs
 import re
 
 TEST_FILE_REGEX = re.compile(r"(.+)\.test", re.IGNORECASE)
 MULTIPLE_REGEX_FIELD_NAME_REGEX = re.compile(r"Allow([A-Za-z]+)Multiple")
 OUTPUT_FIELD_NAME_REGEX = re.compile(r"([A-Za-z]+)Output")
-PYTHON_ESCAPE_SEQUENCE_REGEX = re.compile(r"""(\\U........|\\u....|\\x..|\\[0-7]{1,3}|\\N\{[^}]+\}|\\[\\'"abfnrtv])""")
+PYTHON_ESCAPE_SEQUENCE_REGEX = re.compile(r"""(\\U.{8}|\\u.{4}|\\x.{2}|\\[0-7]{1,3}|\\N\{[^}]+\}|\\[\\'"abfnrtv])""")
 
 
 # Class definitions
@@ -26,26 +43,78 @@ class TestableRegex(object):
 
         self.name = name
         self.multiple = config.get("multiple", True)
-        self.group = 0
+        self.group = config.get("group", 0)
         self.target = target
 
     def test(self, input):
         if self.multiple:
             match = self.regex.match(input)
-            return match.groups() if match else None
+
+            if match:
+                groups = match.groups()
+            else:
+                groups = None
+
+            return groups
         else:
             return self.regex.findall(input)
 
 
 class Test(object):
+    error_file_handle = None
+
+    @staticmethod
+    def set_up_error_log(filename):
+        if filename is None:
+            filename = os.devnull
+
+        # Let target_test deal with any exceptions
+        Test.error_file_handle = open(filename, "w")
+
     def __init__(self, type, name, input, regex):
         self.type = type
         self.name = name
         self.input = input
         self.regex = regex
+        self.wrote_to_error_log = False
 
     def run(self):
         raise NotImplementedError("Abstract method.")
+
+    def write_test_name_to_error_log(self):
+        if not self.wrote_to_error_log:
+            self.wrote_to_error_log = True
+            self.write_to_error_log("[%s]" % self.name)
+
+    def write_to_error_log(self, message):
+        self.write_test_name_to_error_log()
+        if Test.error_file_handle:
+            Test.error_file_handle.write(message)
+            Test.error_file_handle.write("\n")
+
+    def results_equal(self, expected, actual):
+        expected = expected[0]
+
+        if actual and type(actual[0]) != str:
+            actual = actual[0]
+
+        for i in range(len(expected)):
+            if expected[i] != actual[i]:
+                self.write_test_name_to_error_log()
+                self.write_to_error_log("Expected: %s" % expected)
+                self.write_to_error_log("Actual: %s" % actual)
+                return False
+
+        return True
+
+    def __hash__(self):
+        return hash(self.type) ^ hash(self.name)
+
+    def __eq__(self, other):
+        return type(self) == type(other) and hash(self) == hash(other)
+
+    def __repr__(self):
+        return "%s: \"%s\"" % (type(self).__name__, self.name)
 
 
 class SkipTest(Test):
@@ -75,15 +144,22 @@ class NormalTest(Test):
             results = regex.test(input)
 
             if not results:
+                self.write_to_error_log("The following input produced no input:\n%s\n***" % input)
                 return False
+
+            if not self.results_equal(self.outputs[regex.name], results):
+                return False
+
+            print(self.outputs[regex.name])
+            print(results)
+            print(self.outputs)
 
             if regex.group <= 0:
                 break
 
-            print(results)
-            print(self.outputs)
-            print(regex.group - 1)
             input = results[0][regex.group - 1]
+            print(input)
+
         return True
 
 
@@ -93,7 +169,7 @@ class FailTest(Test):
 
     def run(self):
         # TODO
-        pass
+        return None
 
 
 # Helper functions
@@ -105,7 +181,7 @@ def decode_escapes(string):
 
 def get_outputs(groups, escape):
     if not escape:
-        return tuple(tuple(string.splitlines()) for string in groups)
+        return [string.splitlines() for string in groups]
     else:
         outputs = []
 
@@ -115,8 +191,8 @@ def get_outputs(groups, escape):
             for line in string.splitlines():
                 lines.append(decode_escapes(line))
 
-            outputs.append(tuple(lines))
-        return tuple(outputs)
+            outputs.append(lines)
+        return outputs
 
 
 # Factory functions
@@ -133,6 +209,10 @@ def build_normal_test(data, regex):
 
 def build_fail_test(data, regex):
     return FailTest(data["Name"], data["Input"], regex)
+
+
+def build_skip_test(data, regex):
+    return SkipTest(data["Name"])
 
 
 TEST_BUILDERS = {

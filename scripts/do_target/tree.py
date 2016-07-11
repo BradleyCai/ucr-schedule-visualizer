@@ -14,10 +14,10 @@ __all__ = [
     "ASCII_CORNER",
 ]
 
-TRUNK = "\xe2\x94\x82"
-INTERSECTION = "\xe2\x94\x9c"
-BRANCH = "\xe2\x94\x80"
-CORNER = "\xe2\x94\x94"
+TRUNK = b"\xe2\x94\x82".decode("utf-8")
+INTERSECTION = b"\xe2\x94\x9c".decode("utf-8")
+BRANCH = b"\xe2\x94\x80".decode("utf-8")
+CORNER = b"\xe2\x94\x94".decode("utf-8")
 
 ASCII_TRUNK = "|"
 ASCII_INTERSECTION = "|"
@@ -31,8 +31,8 @@ class Tree(object):
         self.root = root
         self.children = children
 
-    def display(self, use_ascii=False):
-        print(self.root)
+    def display(self, use_ascii=False, bullet=""):
+        print("%s%s" % (bullet, self.root))
 
         if use_ascii:
             character_set = {
@@ -49,9 +49,9 @@ class Tree(object):
                 "corner": CORNER,
             }
 
-        self.display_subtree(self.children, [], character_set)
+        self.display_subtree(self.children, [], character_set, bullet)
 
-    def display_subtree(self, children, level, charset):
+    def display_subtree(self, children, level, charset, bullet):
         child_list = list(children.keys())
         child_list.sort()
 
@@ -65,13 +65,14 @@ class Tree(object):
 
             child = child_list[i]
             print("%s%s%s %s" %
-                    (self.get_indent(level, charset["trunk"]), corner, charset["branch"], child))
+                    (self.get_indent(level, charset["trunk"], bullet), corner, charset["branch"], child))
 
             if children[child]:
                 self.display_subtree(children[child], level + [notlast], charset)
 
-    def get_indent(self, level, trunk):
-        separator = []
+    @staticmethod
+    def get_indent(level, trunk, bullet):
+        separator = [" " * len(bullet)]
 
         for active in level:
             if active:

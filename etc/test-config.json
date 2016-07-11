@@ -3,6 +3,8 @@
     "test-dir": "tests",
     "recursive": true,
     "show-type": false,
+    "show-skipped": true,
+    "failed-test-log": "failed.log",
     "ignore-tests": [
         "sample",
         "template"

@@ -44,9 +44,9 @@ def run(tracker):
         tracker.print_error("Unable to change directory to %s: %s" % (directory, err))
         tracker.terminate()
 
-    if tracker.run_job(job_compile_regexes, "Compiling regex sources"):
-        tracker.run_job(job_copy_out_files, "Copying compiled regex artifacts")
-        tracker.run_job(job_inject_regex_artifacts, "Injecting compiled regex artifacts")
+    updated = tracker.run_job(job_compile_regexes, "Compiling regex sources")
+    tracker.run_job(job_copy_out_files, "Copying compiled regex artifacts", updated)
+    tracker.run_job(job_inject_regex_artifacts, "Injecting compiled regex artifacts", updated)
 
 
 ### Defined jobs ###
@@ -54,8 +54,13 @@ def job_compile_regexes(tracker):
     if not tracker.config["source-files"]:
         tracker.print_string("(nothing to do)")
 
+    updated = False
+
     for source in tracker.config["source-files"]:
-        tracker.run_job(job_compile_regex, None, source)
+        updated |= tracker.run_job(job_compile_regex, None, source)
+
+    return updated
+
 
 def job_compile_regex(tracker, name):
     source, target = get_output_file_name(name)
@@ -114,25 +119,33 @@ def job_combine_regex(tracker, source, modified, depends={}):
     return body.rstrip(), needs_update
 
 
-def job_copy_out_files(tracker):
+def job_copy_out_files(tracker, updated):
     files = glob.glob("*.out")
+    copied = False
 
-    if not files:
-        tracker.print_string("(nothing to do)")
     for filename in files:
         for directory in tracker.config["copy-to"]:
             dest = os.path.join(directory, filename)
+
+            if not updated and os.path.exists(dest):
+                continue
+
             tracker.print_operation("COPY", "%s -> %s" % (filename, dest))
             try:
+                copied = True
                 shutil.copy(filename, dest)
             except (OSError, IOError) as err:
                 tracker.print_error("Unable to copy file: %s.\n" % err)
                 tracker.failure()
 
-
-def job_inject_regex_artifacts(tracker):
-    if not tracker.config["to-inject"]:
+    if not copied:
         tracker.print_string("(nothing to do)")
+
+
+def job_inject_regex_artifacts(tracker, updated):
+    if not tracker.config["to-inject"] or not updated:
+        tracker.print_string("(nothing to do)")
+        return
 
     output_file = tracker.config["inject-file"]
     for input_file, field in tracker.config["to-inject"].items():

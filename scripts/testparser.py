@@ -1,5 +1,6 @@
 """
-A parser that turns .test files into dictionaries.
+A parser that turns .test files into dictionaries with their corresponding
+data items.
 """
 
 from __future__ import print_function, with_statement
