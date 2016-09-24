@@ -1,6 +1,6 @@
 The MIT License (MIT)
 
-Copyright (c) 2015 [Bradley Cai](https://github.com/BradleyCai), [Ammon Smith](https://github.com/ammongit), [John Obradovic](https://github.com/FuzzyAvacado).
+Copyright (c) 2015-2016 [Bradley Cai](https://github.com/BradleyCai), [Ammon Smith](https://github.com/ammongit).
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

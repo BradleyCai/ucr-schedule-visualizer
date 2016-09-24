@@ -3,14 +3,18 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+        <meta name="theme-color" content="#3a3a3a">
         <title>UCR Schedule Visualizer</title>
-        <link rel="shortcut icon" href="img/ucr-icon.png" type="image/png">
+        <link rel="shortcut icon" href="img/ucrsv-icon.png" type="image/png">
+        <link rel="stylesheet" href="css/normalize.css">
         <link rel="stylesheet" href="css/style.css">
         <link rel="stylesheet" href="css/bs-popover.css">
         <script type="text/javascript" src="js/jquery.min.js"></script>
         <script type="text/javascript" src="js/bootstrap.js"></script>
         <script type="text/javascript/ucr-schedule-visualizer/" src="js/Blob.js"></script>
         <script type="text/javascript" src="js/canvas-toBlob.js"></script>
+        <script type="text/javascript" src="js/js-cookie.min.js"></script>
+        <script type="text/javascript" src="js/QuarterDates.js"></script>
         <script type="text/javascript" src="js/FileSaver.js"></script>
         <script type="text/javascript" src="js/Course.js"></script>
         <script type="text/javascript" src="js/UcrBuildings.js"></script>
@@ -35,24 +39,26 @@
         </div>
 
         <div class="centered">
-            <textarea type="text" id="regex" autofocus=true placeholder="Paste it here~" style="display: inline-block;"></textarea>
+            <textarea type="text" id="regex" autofocus="true" placeholder="Paste it here~" style="display: inline-block;"></textarea>
             <div class="table-space" id="table-space"></div>
         </div>
 
         <div class="container">
             <p class="alert alert-info">
-                <strong>Something isn't working!</strong> Yeah we <i>just</i> pumped out our working version not too long ago. We're still working on this
-                project everyday! <strong><a href="https://twitter.com/UCR_Visualizer">Tweet</a> or email us</strong> about what went wrong!<br><br> UCRSV is tested on Windows and GNU/Linux using Chrome and Firefox. If you have a different browser or OS you might run into some issues until we fix them.
+                <strong>Something isn't working!</strong> Yeah, UCRSV is still early in development. <a href="about.html">Email us</a> or <a href="https://github.com/BradleyCai/ucr-schedule-visualizer/issues/new">submit an issue</a> about what went wrong!<br><br> 
+                
+                UCRSV is tested on Windows and GNU/Linux using Chrome and Firefox. If you're using a different browser or OS you might run into some issues until we fix them. <br><br>
+                
+                <strong>We changed our <a href="about.html#privacy">privacy policy</a>.</strong> UCRSV now uses tasty cookies to make your life easier!
             </p>
 
             <nav>
                 <ul>
                     <li><a href="index.html">Home</a></li>
                     <li><a href="about.html">About</a></li>
-                    <li><a href="https://twitter.com/UCR_Visualizer">Twitter</a></li>
-                    <li><a href="http://www.ucr.edu/">UCR</a></li>
-                    <li><a href="http://campusmap.ucr.edu/imap/index.html">Map</a></li>
-                    <li><a href="https://github.com/BradleyCai/ucr-schedule-visualizer">GitHub</a></li>
+                    <li><a target="_blank" href="http://www.ucr.edu/">UCR</a></li>
+                    <li><a target="_blank" href="http://campusmap.ucr.edu/imap/index.html">Map</a></li>
+                    <li><a target="_blank" href="https://github.com/BradleyCai/ucr-schedule-visualizer">GitHub</a></li>
                 </ul>
             </nav>
         </div>

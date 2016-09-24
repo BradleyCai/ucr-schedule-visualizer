@@ -1,6 +1,7 @@
 body {
     background-attachment: fixed, fixed;
-	background-image: url("../img/stardust.png");
+    /* Background pattern from subtlepatterns.com */
+	background-image: url("../img/ucrsv-bg.png");
     background-color: #f4f4f4;
     color: #f8f8f8;
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
@@ -16,15 +17,12 @@ body {
     max-width: 820px;
 }
 p {
-    margin: 0 0 10px 0;
+    margin: 0 0 10px;
 }
 a {
     color: #4895F4;
     text-decoration: none;
     transition: color .15s;
-}
-br {
-    margin-bottom: 20px;
 }
 a:hover,
 a:focus,
@@ -33,7 +31,7 @@ a:active {
     border-bottom: 1px dotted #2f2f2f;
 }
 textarea {
-    margin-bottom: 25px;
+    margin: 0 auto 25px auto;
     height: 85px;
     width: 500px;
     border-radius: 3px;
@@ -42,6 +40,7 @@ textarea {
     font-size: 16px;
     resize: none;
     overflow: auto;
+    color: #6C6C6C;
 }
 div.centered {
     text-align: center;
@@ -79,10 +78,11 @@ div.centered table {
 }
 .pure-table td {
     height: 20px;
+    padding: 2px 0;
 }
 .pure-table th {
-    height: 35px;
-    padding-bottom: 15px;
+    padding: 10px 0;
+    text-align: center;
 }
 .rspan{
     background-color: rgba(0, 0, 0, .3);
@@ -108,9 +108,8 @@ there's a rowspan on the first cell. Case added to the tests. issue#432 */
     padding: 25px;
 }
 .jumbotron {
-    margin: 0px 0;
     text-align: center;
-    transition: width .5s, height .5s, margin .5s, padding .5s
+    transition: width .5s, height .5s, margin .5s, padding .5s;
 }
 .jumbotron h1 {
     color: #f8f8f8;
@@ -118,27 +117,17 @@ there's a rowspan on the first cell. Case added to the tests. issue#432 */
     font-size: 50px;
     font-weight: 700;
     line-height: 1;
-    margin: 15px 0;
+    margin: 15px 0 5px 0;
     cursor: default;
-    text-rendering: optimizelegibility
+    text-rendering: optimizelegibility;
 }
 .jumbotron .lead {
     font-size: 21px;
     font-weight: 200;
     line-height: 30px;
     margin-bottom: 40px;
-    transition: font-size .5s
-}
-.jumbotron .form-group{
-  display: block;
-  margin: 0px 0;
-  width: 200px;
-  height: 50px;
-  font-family: sans-serif;
-  font-size: 18px;
-  appearance: none;
-  box-shadow: none;
-  border-radius: none;
+    transition: font-size .5s;
+    cursor: default;
 }
 .btn {
     background: none;
@@ -172,12 +161,12 @@ there's a rowspan on the first cell. Case added to the tests. issue#432 */
 .alert-error {
     background-color: #F2DEDE;
     border-color: #EED3D7;
-    color: #AA4342
+    color: #AA4342;
 }
 .alert-info {
     background-color: #E5E5E5;
     border-color: #EAEAEA;
-    color: #6C6C6C
+    color: #6C6C6C;
 }
 nav>ul,
 nav a {
@@ -186,22 +175,22 @@ nav a {
     margin: 0;
     margin-bottom: 75px;
     padding: 0;
-    text-align: center
+    text-align: center;
 }
 nav>ul>li {
     display: inline-block;
     margin: 0;
     padding: 0;
-    cursor: default
+    cursor: default;
 }
 nav>ul>li:after {
     content: "|";
     margin: 0 8px;
-    opacity: .3
+    opacity: .3;
 }
 nav>ul>li:last-child:after {
     content: "";
-    margin: 0
+    margin: 0;
 }
 section {
     margin-bottom: 40px;
@@ -221,7 +210,7 @@ only screen and (max-width: 400px) {
         margin: 0 10px 0 10px;
     }
     .jumbotron {
-        margin: 0px 0px 20px 0px;
+        margin: 0 0 20px 0;
     }
     .jumbotron .lead {
         font-size: 18px;
@@ -241,10 +230,10 @@ only screen and (max-width: 400px) {
         padding: 10px 0;
     }
     nav ul li {
-        margin: 0px 0px 12px 0px;
+        margin: 0 0 12px 0;
     }
     nav a {
-        padding: 15px 5px 0px 5px;
+        padding: 15px 5px 0 5px;
     }
 
 }

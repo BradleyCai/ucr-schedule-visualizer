@@ -12,4 +12,6 @@ __pycache__
 .tern-project
 **/.*.swp
 **/*~
+client_id.json
+js/.tern-project
 

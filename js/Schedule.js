@@ -7,11 +7,13 @@
  *
  * @author Bradley
  */
-function Schedule(courseList) {
+function Schedule(rawSchedule, courseList, expirationDate) {
+    this.rawSchedule = rawSchedule;
     this.courseList = courseList;
+    this.expirationDate = expirationDate;
     this.hourList = -1;
-    this.canvas = document.createElement('canvas');
     this.tableString = -1;
+    this.canvas = document.createElement('canvas');
 
     /**
      * Creates a 2D array whose rows are time in 30 minute blocks and columns days of the week.
@@ -37,7 +39,7 @@ function Schedule(courseList) {
                 if (courseAtI.days[day] === true) {
                     //console.log(courseList[c].pos + " " + day);
                     for (var b = 0; b < courseAtI.blocks; b++) {//for each block
-                        if (this.hourList[courseAtI.pos + b][day] == null) { // short hand for: if (typeof hourList[courseAtI.pos + b][day] === 'undefined' && hourList[courseAtI.pos + b][day] === null).
+                        if (this.hourList[courseAtI.pos + b][day] === undefined) {
                                 this.hourList[courseAtI.pos + b][day] = this.courseList[c];
                         }
                         else {
@@ -48,39 +50,10 @@ function Schedule(courseList) {
                                 hasConflict = true;
                             }
                         }
-
                     }
                 }
             }
         }
-    };
-
-    this.injectButtons = function(canvas) {
-        $(".centered").append("<button class = 'btn' id = 'imageDL'>Download as Image</button>");
-        $(".centered").append("<button class = 'btn' id = 'reload'>Visualize Again</button>");
-
-        $("#reload").click(function() {
-            made = false;
-            document.getElementById("regex").value = "";
-            $('#regex').show(250);
-            $('.pure-table').hide(250);
-            $('#imageDL').hide(250);
-            $('#reload').hide(250);
-            $('#noShow').hide(250);
-            $('#conflict').hide(250);
-
-            $('.pure-table').remove();
-            $('#imageDL').remove();
-            $('#reload').remove();
-            $('#noShow').remove();
-            $('#conflict').remove();
-        });
-
-        $("#imageDL").click(function() {
-            canvas.toBlob(function(blob) {
-                saveAs(blob, "UCR-Schedule-Visualized.png");
-            });
-        });
     };
 
     this.drawCanvasTable = function(cellWidth, cellHeight) {
@@ -224,6 +197,9 @@ function Schedule(courseList) {
                         if (courseAtI.bldg === "TBA" && courseAtI.room === "TBA") {
                             location = "TBA";
                         }
+                        else if (courseAtI.bldg === "ONLINE" && courseAtI.room === "COURSE") {
+                            location = "Online Course";
+                        }
                         else {
                             location = courseAtI.bldg + " " + courseAtI.room;
                         }
@@ -271,20 +247,76 @@ function Schedule(courseList) {
         for (var c = 0; c < this.courseList.length; c++) {
             courseAtI = this.courseList[c];
 
-            var location = getBuildingLocation(courseAtI.bldg, courseAtI.room);
+            if (courseAtI.bldg == "ONLINE" && courseAtI.room == "COURSE") {
+                $('.course' + c).popover({
+                    title: courseAtI.name,
+                    content: "<strong>Times: </strong>" + courseAtI.times +
+                    " <br><strong>GT:</strong> " + courseAtI.gt +
+                    " <br><strong>Location:</strong> Online Course",
+                    html: true,
+                    animation: true,
+                    trigger: "click"
+                });
+            }
+            else {
+                var location = getBuildingLocation(courseAtI.bldg, courseAtI.room);
 
-            $('.course' + c).popover({
-                title: courseAtI.name,
-                content: "<strong>Times: </strong>" + courseAtI.times +
-                " <br><strong>Building:</strong> " + courseAtI.bldg +
-                " <br><strong>Room:</strong> " + courseAtI.room +
-                " <br><strong>GT:</strong> " + courseAtI.gt +
-                " <br><strong>Location:</strong> " + location,
-                html: true,
-                animation: true,
-                trigger: "focus"
-            });
+                $('.course' + c).popover({
+                    title: courseAtI.name,
+                    content: "<strong>Times: </strong>" + courseAtI.times +
+                    " <br><strong>Building:</strong> " + courseAtI.bldg +
+                    " <br><strong>Room:</strong> " + courseAtI.room +
+                    " <br><strong>GT:</strong> " + courseAtI.gt +
+                    " <br><strong>Location:</strong> " + location,
+                    html: true,
+                    animation: true,
+                    trigger: "click"
+                });
+            }
         }
+    };
+
+    this.injectButtons = function(canvas) {
+        $(".centered").append("<button class = 'btn' id = 'imageDL'>Download as Image</button>");
+        $(".centered").append("<button class = 'btn' id = 'reload'>Visualize Again</button>");
+
+        $("#reload").click(function() {
+            made = false;
+            document.getElementById("regex").value = "";
+            $('#regex').show(250);
+            $('.pure-table').hide(250);
+            $('#imageDL').hide(250);
+            $('#reload').hide(250);
+            $('#noShow').hide(250);
+            $('#conflict').hide(250);
+
+            $('.pure-table').remove();
+            $('#imageDL').remove();
+            $('#reload').remove();
+            $('#noShow').remove();
+            $('#conflict').remove();
+            Cookies.remove("rawSchedule");
+        });
+
+        $("#imageDL").click(function() {
+            canvas.toBlob(function(blob) {
+                saveAs(blob, "UCR-Schedule-Visualized.png");
+            });
+        });
+    };
+
+    this.createScheduleCookie = function(rawSchedule, expirationDate) {
+        var inTheFuture = new Date(expirationDate); // 10 years in the future of the inputted schedule's end of quarter date
+        inTheFuture.setFullYear(inTheFuture.getFullYear() + 10);
+        
+        Cookies.set("rawSchedule", rawSchedule, {expires: inTheFuture});
+    };
+
+    this.build = function() {
+        this.createHourList();
+        this.injectTable();
+        this.drawCanvasTable(150, 25);
+        this.createScheduleCookie(this.rawSchedule, this.expirationDate);
     };
 
     this.getCourseList = function () {
