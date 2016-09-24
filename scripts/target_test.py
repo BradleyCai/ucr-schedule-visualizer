@@ -257,7 +257,7 @@ def job_print_results(tracker, passed, skipped, testcount, testsrun):
                 "%d / %d (%.1f%%) of tests passed." %
                 (passed, testsrun, 100.0 * passed / testsrun))
 
-    if passed < testcount and tracker.config['failed-test-log']:
+    if passed < testsrun and tracker.config['failed-test-log']:
         tracker.print_notice("A report for failed tests was written in '%s'." % \
                 os.path.abspath(tracker.config['failed-test-log']))
         tracker.failure()

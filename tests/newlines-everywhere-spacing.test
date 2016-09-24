@@ -1,5 +1,5 @@
 [Name] Newlines everywhere in between
-[Type] normal
+[Type] fail
 [EscapeStrings] true
 
 [Input]
