@@ -48,17 +48,11 @@ class TestableRegex(object):
         self.target = target
 
     def test(self, input):
-        if self.multiple:
-            match = self.regex.match(input)
+        return self.regex.findall(input)
 
-            if match:
-                groups = match.groups()
-            else:
-                groups = None
-
-            return groups
-        else:
-            return self.regex.findall(input)
+    def __str__(self):
+        return "<TestableRegex '%s': multiple: %s, group: %d>" % \
+                    (self.name, self.multiple, self.group)
 
 
 class Test(object):
@@ -77,36 +71,21 @@ class Test(object):
         self.name = name
         self.input = input
         self.regex = regex
-        self.wrote_to_error_log = False
+        self.wrote_name_to_error_log = False
 
     def run(self):
         raise NotImplementedError("Abstract method.")
 
     def write_test_name_to_error_log(self):
-        if not self.wrote_to_error_log:
-            self.wrote_to_error_log = True
+        if not self.wrote_name_to_error_log:
+            self.wrote_name_to_error_log = True
             self.write_to_error_log("[%s]" % self.name)
 
     def write_to_error_log(self, message):
         self.write_test_name_to_error_log()
         if Test.error_file_handle:
             Test.error_file_handle.write(message)
-            Test.error_file_handle.write("\n")
-
-    def results_equal(self, expected, actual):
-        expected = expected[0]
-
-        if actual and type(actual[0]) != str:
-            actual = actual[0]
-
-        for i in range(len(expected)):
-            if expected[i] != actual[i]:
-                self.write_test_name_to_error_log()
-                self.write_to_error_log("Expected: %s" % expected)
-                self.write_to_error_log("Actual: %s" % actual)
-                return False
-
-        return True
+            Test.error_file_handle.write('\n')
 
     def __hash__(self):
         return hash(self.type) ^ hash(self.name)
@@ -145,21 +124,32 @@ class NormalTest(Test):
             results = regex.test(input)
 
             if not results:
-                self.write_to_error_log("The following input produced no input:\n%s\n***" % input)
-                return False
-
-            if not self.results_equal(self.outputs[regex.name], results):
+                lines = [
+                    "The following input did not match:",
+                    input,
+                    "Expected: %s" % (', '.join(map(str, self.outputs[regex.name]))),
+                    "Actual: (none)",
+                    "***",
+                ]
+                self.write_to_error_log('\n'.join(lines))
                 return False
 
             expected = self.outputs[regex.name][0]
             actual = results[0]
             for i in range(min(len(expected), len(actual))):
                 if expected[i] != actual[i]:
-                    print(self.outputs[regex.name])
-                    print(results)
-                    print(self.outputs)
-                    self.write_to_error_log("Group %d does not match:\nExpected: %s\nActual: %s\n***" %
-                            (i, expected[i], actual[i]))
+                    lines = [
+                        "Group %d does not match:" % i,
+                        "Expected: %s" % expected[i],
+                        "Actual: %s" % actual[i],
+                        "",
+                        "All expected groups: %s" % \
+                                (', '.join(map(str, self.outputs[regex.name]))),
+                        "All actual groups: %s" % \
+                                (', '.join(map(str, map(list, results)))),
+                        "***",
+                    ]
+                    self.write_to_error_log('\n'.join(lines))
                     return False
 
             if regex.group <= 0:

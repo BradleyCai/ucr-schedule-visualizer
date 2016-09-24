@@ -217,6 +217,7 @@ def job_run_tests(tracker, tests):
         if result is None:
             tracker.print_operation("SKIP", testinfo)
             skipped += 1
+            testsrun -= 1
         elif result is True:
             tracker.print_operation("PASS", testinfo, targetobj.GREEN)
             passed += 1
@@ -259,6 +260,7 @@ def job_print_results(tracker, passed, skipped, testcount, testsrun):
     if passed < testcount and tracker.config['failed-test-log']:
         tracker.print_notice("A report for failed tests was written in '%s'." % \
                 os.path.abspath(tracker.config['failed-test-log']))
+        tracker.failure()
 
 
 ### Helper functions ###
