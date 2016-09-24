@@ -2,8 +2,8 @@
 # Available for use under the terms of the MIT License.
 
 __all__ = [
-    "PROGRAM_NAME",
+    'PROGRAM_NAME',
 ]
 
-PROGRAM_NAME = "do.py"
+PROGRAM_NAME = 'do.py'
 

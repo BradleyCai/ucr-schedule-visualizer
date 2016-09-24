@@ -83,10 +83,10 @@ def main(argv=None):
             if not tracker.successful:
                 raise SystemExit
         except SystemExit:
-            print_failure(target.name, args.usecolor, ".")
+            print_failure(target.name, args.usecolor, '.')
             exit(1)
         except:
-            print_failure(target.name, args.usecolor, ":")
+            print_failure(target.name, args.usecolor, ':')
             traceback.print_exc()
             exit(1)
         else:

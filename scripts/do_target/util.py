@@ -2,18 +2,18 @@
 # Available for use under the terms of the MIT License.
 
 __all__ = [
-    "print_success",
-    "print_failure",
+    'print_success',
+    'print_failure',
 ]
 
 
 def print_success(target, usecolor, elapsed):
     if usecolor:
-        start_color = "\033[32;4m"
-        end_color = "\033[0m"
+        start_color = '\033[32;4m'
+        end_color = '\033[0m'
     else:
-        start_color = ""
-        end_color = ""
+        start_color = ''
+        end_color = ''
 
     print("%sTarget \"%s\" ran successfully in %.4f seconds.%s" %
             (start_color, target, elapsed, end_color))
@@ -21,11 +21,11 @@ def print_success(target, usecolor, elapsed):
 
 def print_failure(target, usecolor, ending):
     if usecolor:
-        start_color = "\033[31;4m"
-        end_color = "\033[0m"
+        start_color = '\033[31;4m'
+        end_color = '\033[0m'
     else:
-        start_color = ""
-        end_color = ""
+        start_color = ''
+        end_color = ''
 
     print("%sTarget \"%s\" was unsuccessful%s%s" %
             (start_color, target, ending, end_color))

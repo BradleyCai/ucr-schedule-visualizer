@@ -1,4 +1,8 @@
-__all__ = ["depends", "config_fields", "run"]
+__all__ = [
+    'depends',
+    'config_fields',
+    'run',
+]
 
 """
 The purpose of this target is to 'compile' the regular expressions
@@ -18,11 +22,11 @@ import os
 import re
 import shutil
 
-DEPENDENCY_REGEX = re.compile(r"%\{.*?\}")
-DEPENDENCY_NAME_REGEX = re.compile(r"%\{(.*?)\}")
+DEPENDENCY_REGEX = re.compile(r'%\{.*?\}')
+DEPENDENCY_NAME_REGEX = re.compile(r'%\{(.*?)\}')
 
-REGEX_INJECTION_PATTERN = r"this\.%s\s*=\s*\/.\/g;"
-REGEX_REPLACE_PATTERN = r"this.%s = /%s/g;"
+REGEX_INJECTION_PATTERN = r'this\.%s\s*=\s*\/.\/g;'
+REGEX_REPLACE_PATTERN = r'this.%s = /%s/g;'
 
 depends = [
 ]
@@ -36,7 +40,7 @@ config_fields = {
 }
 
 def run(tracker):
-    directory = os.path.join("..", tracker.config["regex-directory"])
+    directory = os.path.join('..', tracker.config['regex-directory'])
     tracker.print_activity("Switching directory to \"%s\"" % directory)
     try:
         os.chdir(directory)
@@ -51,7 +55,7 @@ def run(tracker):
 
 ### Defined jobs ###
 def job_compile_regexes(tracker):
-    if not tracker.config["source-files"]:
+    if not tracker.config['source-files']:
         tracker.print_string("(nothing to do)")
 
     updated = False
@@ -96,7 +100,7 @@ def job_combine_regex(tracker, source, modified, depends={}):
     tracker.print_operation("DEP", source)
 
     try:
-        with open(source, "r") as fh:
+        with open(source, 'r') as fh:
             body = fh.read()
     except (OSError, IOError) as err:
         tracker.print_error("Unable to read from \"%s\": %s." % (source, err))
@@ -108,7 +112,7 @@ def job_combine_regex(tracker, source, modified, depends={}):
     for depend in set(DEPENDENCY_REGEX.findall(body)):
         depend = DEPENDENCY_NAME_REGEX.match(depend).group(1)
         if depend not in depends.keys():
-            depends[depend], this_needs_update = tracker.run_job(job_combine_regex, None, depend + ".regex", modified, depends)
+            depends[depend], this_needs_update = tracker.run_job(job_combine_regex, None, depend + '.regex', modified, depends)
             needs_update |= this_needs_update
         else:
             tracker.print_operation("DEP", "%s (cached)" % source)
@@ -124,7 +128,7 @@ def job_copy_out_files(tracker, updated):
     copied = False
 
     for filename in files:
-        for directory in tracker.config["copy-to"]:
+        for directory in tracker.config['copy-to']:
             dest = os.path.join(directory, filename)
 
             if not updated and os.path.exists(dest):
@@ -143,7 +147,7 @@ def job_copy_out_files(tracker, updated):
 
 
 def job_inject_regex_artifacts(tracker, updated):
-    if not tracker.config["to-inject"] or not updated:
+    if not tracker.config['to-inject'] or not updated:
         tracker.print_string("(nothing to do)")
         return
 
@@ -153,7 +157,7 @@ def job_inject_regex_artifacts(tracker, updated):
 
         # Get artifact
         try:
-            with open(input_file, "r") as fh:
+            with open(input_file, 'r') as fh:
                 to_replace = fh.read()
         except IOError as err:
             tracker.print_error("Unable to read from \"%s\": %s." % (input_file, err))
@@ -164,7 +168,7 @@ def job_inject_regex_artifacts(tracker, updated):
 
         # Replace pattern with artifact
         try:
-            with open(output_file, "r") as fh:
+            with open(output_file, 'r') as fh:
                 output_text = fh.read()
         except IOError as err:
             tracker.print_error("Unable to read from \"%s\": %s." % (output_file, err))
@@ -178,7 +182,7 @@ def job_inject_regex_artifacts(tracker, updated):
 
         # Write result to file
         try:
-            with open(output_file, "w") as fh:
+            with open(output_file, 'w') as fh:
                 fh.write(output_text)
         except IOError as err:
             tracker.print_error("Unable to write to \"%s\": %s." % (output_file, err))
@@ -187,12 +191,12 @@ def job_inject_regex_artifacts(tracker, updated):
 
 # Helper functions
 def get_output_file_name(name):
-    if name.endswith(".regex", re.IGNORECASE):
+    if name.endswith('.regex', re.IGNORECASE):
         source = name
-        target = name[:-6] + ".out"
+        target = name[:-6] + '.out'
     else:
-        source = name + ".regex"
-        target = name + ".out"
+        source = name + '.regex'
+        target = name + '.out'
 
     return source, target
 

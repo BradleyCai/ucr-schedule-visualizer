@@ -6,25 +6,25 @@ This module contains the definitions for all test-related objects.
 """
 
 __all__ = [
-    "TestableRegex",
-    "Test",
-    "SkipTest",
-    "NormalTest",
-    "FailTest",
-    "build_normal_test",
-    "build_fail_test",
-    "build_skip_test",
+    'TestableRegex',
+    'Test',
+    'SkipTest',
+    'NormalTest',
+    'FailTest',
+    'build_normal_test',
+    'build_fail_test',
+    'build_skip_test',
 
-    "TEST_BUILDERS",
+    'TEST_BUILDERS',
 ]
 
 import codecs
 import re
 
-TEST_FILE_REGEX = re.compile(r"(.+)\.test", re.IGNORECASE)
-MULTIPLE_REGEX_FIELD_NAME_REGEX = re.compile(r"Allow([A-Za-z]+)Multiple")
-OUTPUT_FIELD_NAME_REGEX = re.compile(r"([A-Za-z]+)Output")
-PYTHON_ESCAPE_SEQUENCE_REGEX = re.compile(r"""(\\U.{8}|\\u.{4}|\\x.{2}|\\[0-7]{1,3}|\\N\{[^}]+\}|\\[\\'"abfnrtv])""")
+TEST_FILE_REGEX = re.compile(r'(.+)\.test', re.IGNORECASE)
+MULTIPLE_REGEX_FIELD_NAME_REGEX = re.compile(r'Allow([A-Za-z]+)Multiple')
+OUTPUT_FIELD_NAME_REGEX = re.compile(r'([A-Za-z]+)Output')
+PYTHON_ESCAPE_SEQUENCE_REGEX = re.compile(r'''(\\U.{8}|\\u.{4}|\\x.{2}|\\[0-7]{1,3}|\\N\{[^}]+\}|\\[\\'"abfnrtv])''')
 
 
 # Class definitions

@@ -1,4 +1,8 @@
-__all__ = ["depends", "config_fields", "run"]
+__all__ = [
+    'depends',
+    'config_fields',
+    'run',
+]
 
 import random
 

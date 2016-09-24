@@ -2,10 +2,10 @@
 # Available for use under the terms of the MIT License.
 
 __all__ = [
-    "resolve_full_build_order",
-    "resolve_build_order",
-    "load_module_recursively",
-    "print_full_dependency_chain",
+    'resolve_full_build_order',
+    'resolve_build_order',
+    'load_module_recursively',
+    'print_full_dependency_chain',
 ]
 
 from .static import PROGRAM_NAME
@@ -125,7 +125,7 @@ def get_dependency_list(targets):
     for target in targets:
         name_list.append(target.name)
 
-    return ", ".join(name_list)
+    return ', '.join(name_list)
 
 
 def get_dependency_dict(deps):
@@ -155,5 +155,5 @@ def print_full_dependency_chain(name, has_deps, no_deps, asciionly):
     dep_dict = get_dependency_dict(has_deps)
     deps = get_dependency_subtree(name, dep_dict)
     tree = Tree(name, deps)
-    tree.display(use_ascii=asciionly, bullet=" * ")
+    tree.display(use_ascii=asciionly, bullet=' * ')
 

@@ -104,5 +104,3 @@ class TestParser(object):
         match = CLOSE_TAG_REGEX.match(line)
         return match.group(1) if match else None
 
-
-
