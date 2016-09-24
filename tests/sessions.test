@@ -8,12 +8,12 @@ ENGR-010 -001     SN    2.00    M   1010AM-1100AM      PHY 100
                                 W   1210PM-0100PM      PHY 102
 [/Input]
 
-[ClassOutput]
+[CourseOutput]
 INTRODUCTION TO ENGINEERING
 ENGR-010 -001
 SN
 2.00
-[/ClassOutput]
+[/CourseOutput]
 
 [SessionOutput]
 M

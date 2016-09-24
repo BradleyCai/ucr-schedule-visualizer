@@ -11,7 +11,7 @@
     ],
 
     "regex": {
-        "class": {
+        "course": {
             "source": "input.out",
             "multiple": false,
             "flags": [
@@ -31,7 +31,7 @@
     },
 
     "regex-order": [
-        "class",
+        "course",
         "session"
     ]
 }
