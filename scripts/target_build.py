@@ -41,7 +41,7 @@ config_fields = {
 
 def run(tracker):
     directory = os.path.join('..', tracker.config['regex-directory'])
-    tracker.print_activity("Switching directory to \"%s\"" % directory)
+    tracker.print_activity("Switching directory to '%s'" % directory)
     try:
         os.chdir(directory)
     except OSError as err:
@@ -74,23 +74,23 @@ def job_compile_regex(tracker, name):
     compiled, needs_update = tracker.run_job(job_combine_regex, None, source, modified)
 
     if not needs_update:
-        tracker.print_string("(No need to update \"%s\")" % target)
+        tracker.print_string("(No need to update '%s')" % target)
         return False
     elif compiled is None:
         return False
 
     if os.path.exists(target):
         if tracker.args.dontoverwrite:
-            tracker.print_warning("Not overwriting \"%s\"." % target)
+            tracker.print_warning("Not overwriting '%s'." % target)
             return False
 
-        tracker.print_notice("Overwriting \"%s\"." % target)
+        tracker.print_notice("Overwriting '%s'." % target)
 
     try:
         with open(target, "w") as fh:
             fh.write(compiled)
     except IOError as err:
-        tracker.print_error("Unable to write to \"%s\": %s." % (target, err))
+        tracker.print_error("Unable to write to '%s': %s." % (target, err))
         tracker.failure()
 
     return True
@@ -103,7 +103,7 @@ def job_combine_regex(tracker, source, modified, depends={}):
         with open(source, 'r') as fh:
             body = fh.read()
     except (OSError, IOError) as err:
-        tracker.print_error("Unable to read from \"%s\": %s." % (source, err))
+        tracker.print_error("Unable to read from '%s': %s." % (source, err))
         tracker.failure()
         return None
 
@@ -160,7 +160,7 @@ def job_inject_regex_artifacts(tracker, updated):
             with open(input_file, 'r') as fh:
                 to_replace = fh.read()
         except IOError as err:
-            tracker.print_error("Unable to read from \"%s\": %s." % (input_file, err))
+            tracker.print_error("Unable to read from '%s': %s." % (input_file, err))
             tracker.failure()
             continue
         else:
@@ -171,7 +171,7 @@ def job_inject_regex_artifacts(tracker, updated):
             with open(output_file, 'r') as fh:
                 output_text = fh.read()
         except IOError as err:
-            tracker.print_error("Unable to read from \"%s\": %s." % (output_file, err))
+            tracker.print_error("Unable to read from '%s': %s." % (output_file, err))
             tracker.failure()
             continue
         else:
@@ -185,7 +185,7 @@ def job_inject_regex_artifacts(tracker, updated):
             with open(output_file, 'w') as fh:
                 fh.write(output_text)
         except IOError as err:
-            tracker.print_error("Unable to write to \"%s\": %s." % (output_file, err))
+            tracker.print_error("Unable to write to '%s': %s." % (output_file, err))
             tracker.failure()
 
 
@@ -207,7 +207,7 @@ def get_mtime(target, path):
     except FileNotFoundError:
         return 0
     except (IOError, OSError) as err:
-        tracker.print_error("Unable to stat \"%s\": %s." % (target, err))
+        tracker.print_error("Unable to stat '%s': %s." % (target, err))
         tracker.terminate()
 
     return stat.st_mtime

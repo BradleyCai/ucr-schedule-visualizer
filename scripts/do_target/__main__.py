@@ -37,7 +37,7 @@ def main(argv=sys.argv):
     args = argparser.parse_args(argv[1:])
 
     if not args.target:
-        print("%s: No targets specified.\nUse the \"--help\" option if you're lost." %
+        print("%s: No targets specified.\nUse the '--help' option if you're lost." %
                 PROGRAM_NAME)
         exit(1)
 

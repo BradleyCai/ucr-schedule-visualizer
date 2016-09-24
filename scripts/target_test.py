@@ -35,14 +35,14 @@ TEST_FILE_REGEX = re.compile(r'.+\.test', re.IGNORECASE)
 def run(tracker):
     if len(tracker.config['regex'].keys()) != len(tracker.config['regex-order']) or \
             not set(tracker.config['regex'].keys()).issubset(tracker.config['regex-order']):
-        tracker.print_error("Configuration fields \"regex\" and \"regex-order\" don't match up.")
-        tracker.print_error("\"regex-order\" should be an ordered list of the keys in \"regex\".")
+        tracker.print_error("Configuration fields 'regex' and 'regex-order' don't match up.")
+        tracker.print_error("'regex-order' should be an ordered list of the keys in 'regex'.")
         tracker.terminate()
 
     directory = 'tests'
     if not os.path.isdir(directory):
         directory = '../tests'
-    tracker.print_activity("Switching directory to \"%s\"" % directory)
+    tracker.print_activity("Switching directory to '%s'" % directory)
     os.chdir(directory)
 
     regex = tracker.run_job(job_get_regular_expression_order, "Geting order of regular expressions")
@@ -73,7 +73,7 @@ def job_get_regular_expression_order(tracker):
 
         if name not in tracker.config['regex'].keys():
             tracker.print_error(
-                "Configuration error: regex \"%s\" mentioned in \"regex-order\" but not specified in \"regex\"."
+                "Configuration error: regex '%s' mentioned in 'regex-order' but not specified in 'regex'."
                     % name)
             tracker.terminate()
         counter += 1
@@ -117,7 +117,7 @@ def job_parse_tests(tracker, test_files, regex):
             with open(test_file, 'r') as fh:
                 data = parser.parse(name, fh.readlines())
         except IOError as err:
-            tracker.print_error("Unable to open \"%s\": %s." % (test_file, err))
+            tracker.print_error("Unable to open '%s': %s." % (test_file, err))
             tracker.failure()
 
         # Take the collected data and build the test object
@@ -192,7 +192,7 @@ def job_build_test(tracker, data, regex):
     try:
         return testobj.TEST_BUILDERS[data['Type']](data, regex)
     except KeyError:
-        tracker.print_error("%s: Unknown test type: \"%s\"." % data['filename'])
+        tracker.print_error("%s: Unknown test type: '%s'." % data['filename'])
         tracker.print_notice("Supported test types: %s." % (', '.join(testobj.TEST_BUILDERS.keys())))
         tracker.failure()
         return None
@@ -257,7 +257,7 @@ def job_print_results(tracker, passed, skipped, testcount, testsrun):
                 (passed, testsrun, 100.0 * passed / testsrun))
 
     if passed < testcount and tracker.config['failed-test-log']:
-        tracker.print_notice("A report for failed tests was written in \"%s\"." % \
+        tracker.print_notice("A report for failed tests was written in '%s'." % \
                 os.path.abspath(tracker.config['failed-test-log']))
 
 

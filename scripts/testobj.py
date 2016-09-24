@@ -34,7 +34,7 @@ class TestableRegex(object):
         flags = 0
         for flag in config.get('flags', ()):
             if not hasattr(re, flag):
-                print("Invalid regex flag: \"%s\"." % flag)
+                print("Invalid regex flag: '%s'." % flag)
                 exit(1)
 
             flags |= getattr(re, flag)
@@ -115,7 +115,7 @@ class Test(object):
         return type(self) == type(other) and hash(self) == hash(other)
 
     def __repr__(self):
-        return "%s: \"%s\"" % (type(self).__name__, self.name)
+        return "%s: '%s'" % (type(self).__name__, self.name)
 
 
 class SkipTest(Test):
@@ -151,23 +151,30 @@ class NormalTest(Test):
             if not self.results_equal(self.outputs[regex.name], results):
                 return False
 
-            print(self.outputs[regex.name])
-            print(results)
-            print(self.outputs)
+            expected = self.outputs[regex.name][0]
+            actual = results[0]
+            for i in range(min(len(expected), len(actual))):
+                if expected[i] != actual[i]:
+                    print(self.outputs[regex.name])
+                    print(results)
+                    print(self.outputs)
+                    self.write_to_error_log("Group %d does not match:\nExpected: %s\nActual: %s\n***" %
+                            (i, expected[i], actual[i]))
+                    return False
 
             if regex.group <= 0:
                 break
 
             input = results[0][regex.group - 1]
-            print(input)
-            exit(-1)
 
+        #print("-- die")
+        #exit(-1)
         return True
 
 
 class FailTest(Test):
     def __init__(self, name, input, regex):
-        Test.__init__(self, "fail", name, input, regex)
+        Test.__init__(self, 'fail', name, input, regex)
 
     def run(self):
         # TODO

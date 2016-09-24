@@ -38,7 +38,7 @@ class TestParser(object):
                 elif tag == self.current_tag:
                     self.add_tag(tag, "\n".join(self.buffer))
                 else:
-                    print("%s:%d: Closing tag is \"%s\", expected \"%s\"." %
+                    print("%s:%d: Closing tag is '%s', expected '%s'." %
                           (filename, lineno, tag, self.current_tag))
                     exit(1)
             elif not self.ignore(line):
@@ -70,13 +70,13 @@ class TestParser(object):
     def check_buffer(self, filename, lineno, line):
         tag, content = self.get_single_line_tag(line)
         if tag:
-            print("%s:%d Embedded tag detected, \"%s\" inside \"%s\"." %
+            print("%s:%d Embedded tag detected, '%s' inside '%s'." %
                   (filename, lineno, tag, self.current_tag))
             exit(1)
 
         tag = self.get_open_tag(line)
         if tag:
-            print("%s:%d: Embedded tag detected, \"%s\" inside \"%s\"." %
+            print("%s:%d: Embedded tag detected, '%s' inside '%s'." %
                   (filename, lineno, tag, self.current_tag))
             exit(1)
 
