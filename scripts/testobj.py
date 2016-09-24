@@ -157,8 +157,6 @@ class NormalTest(Test):
 
             input = results[0][regex.group - 1]
 
-        #print("-- die")
-        #exit(-1)
         return True
 
 
@@ -167,8 +165,38 @@ class FailTest(Test):
         Test.__init__(self, 'fail', name, input, regex)
 
     def run(self):
-        # TODO
-        return None
+        input = self.input
+        lines = []
+        for regex in self.regex:
+            results = regex.test(input)
+
+            if results:
+                lines += [
+                    "The following input matched:",
+                    input,
+                ]
+            else:
+                return True
+
+            expected = self.outputs[regex.name][0]
+            actual = results[0]
+            for i in range(min(len(expected), len(actual))):
+                if expected[i] == actual[i]:
+                    lines += [
+                        "Group %d matched:" % i,
+                        expected[i],
+                    ]
+                else:
+                    return True
+
+            if regex.group <= 0:
+                break
+
+            input = results[0][regex.group - 1]
+
+        lines.append("***")
+        self.write_to_error_log('\n'.join(lines))
+        return False
 
 
 # Helper functions
