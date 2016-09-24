@@ -24,26 +24,27 @@ import re
 TEST_FILE_REGEX = re.compile(r'(.+)\.test', re.IGNORECASE)
 MULTIPLE_REGEX_FIELD_NAME_REGEX = re.compile(r'Allow([A-Za-z]+)Multiple')
 OUTPUT_FIELD_NAME_REGEX = re.compile(r'([A-Za-z]+)Output')
-PYTHON_ESCAPE_SEQUENCE_REGEX = re.compile(r'''(\\U.{8}|\\u.{4}|\\x.{2}|\\[0-7]{1,3}|\\N\{[^}]+\}|\\[\\'"abfnrtv])''')
+PYTHON_ESCAPE_SEQUENCE_REGEX = re.compile(
+    r'''(\\U.{8}|\\u.{4}|\\x.{2}|\\[0-7]{1,3}|\\N\{[^}]+\}|\\[\\'"abfnrtv])''')
 
 
 # Class definitions
 class TestableRegex(object):
     def __init__(self, name, config, target):
         flags = 0
-        for flag in config.get("flags", ()):
+        for flag in config.get('flags', ()):
             if not hasattr(re, flag):
                 print("Invalid regex flag: \"%s\"." % flag)
                 exit(1)
 
             flags |= getattr(re, flag)
 
-        with open(config["source"], 'r') as fh:
+        with open(config['source'], 'r') as fh:
             self.regex = re.compile(fh.read().rstrip(), flags)
 
         self.name = name
-        self.multiple = config.get("multiple", True)
-        self.group = config.get("group", 0)
+        self.multiple = config.get('multiple', True)
+        self.group = config.get('group', 0)
         self.target = target
 
     def test(self, input):
@@ -69,7 +70,7 @@ class Test(object):
             filename = os.devnull
 
         # Let target_test deal with any exceptions
-        Test.error_file_handle = open(filename, "w")
+        Test.error_file_handle = open(filename, 'w')
 
     def __init__(self, type, name, input, regex):
         self.type = type
@@ -119,7 +120,7 @@ class Test(object):
 
 class SkipTest(Test):
     def __init__(self, name):
-        Test.__init__(self, "skip", self.format_test_name(name), None, None)
+        Test.__init__(self, 'skip', self.format_test_name(name), None, None)
 
     def run(self):
         return None
@@ -135,7 +136,7 @@ class SkipTest(Test):
 
 class NormalTest(Test):
     def __init__(self, name, input, regex, outputs):
-        Test.__init__(self, "normal", name, input, regex)
+        Test.__init__(self, 'normal', name, input, regex)
         self.outputs = outputs
 
     def run(self):
@@ -159,6 +160,7 @@ class NormalTest(Test):
 
             input = results[0][regex.group - 1]
             print(input)
+            exit(-1)
 
         return True
 
@@ -175,7 +177,7 @@ class FailTest(Test):
 # Helper functions
 def decode_escapes(string):
     def decode_match(match):
-        return codecs.decode(match.group(0), "unicode-escape")
+        return codecs.decode(match.group(0), 'unicode-escape')
     return PYTHON_ESCAPE_SEQUENCE_REGEX.sub(decode_match, string)
 
 

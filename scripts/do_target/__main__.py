@@ -14,7 +14,7 @@ import time
 import traceback
 
 
-def main(argv=None):
+def main(argv=sys.argv):
     # Get command line arguments
     argparser = argparse.ArgumentParser(description=
             "Run builds by writing target modules.")
@@ -34,7 +34,7 @@ def main(argv=None):
             "Print detailed information when running.")
     argparser.add_argument("target", nargs='*', help=\
             "What build goal to execute.")
-    args = argparser.parse_args((sys.argv if argv is None else argv)[1:])
+    args = argparser.parse_args(argv[1:])
 
     if not args.target:
         print("%s: No targets specified.\nUse the \"--help\" option if you're lost." %

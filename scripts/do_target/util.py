@@ -15,7 +15,7 @@ def print_success(target, usecolor, elapsed):
         start_color = ''
         end_color = ''
 
-    print("%sTarget \"%s\" ran successfully in %.4f seconds.%s" %
+    print("%sTarget '%s' ran successfully in %.4f seconds.%s" %
             (start_color, target, elapsed, end_color))
 
 
@@ -27,7 +27,7 @@ def print_failure(target, usecolor, ending):
         start_color = ''
         end_color = ''
 
-    print("%sTarget \"%s\" was unsuccessful%s%s" %
+    print("%sTarget '%s' was unsuccessful%s%s" %
             (start_color, target, ending, end_color))
 
 
