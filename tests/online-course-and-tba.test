@@ -1,0 +1,32 @@
+[Name] Online courses with TBA
+[Type] normal
+
+[Input]
+ORGAN HARVESTING
+CHASS-7E-002      TR    1.00     TBA     -
+                                 MF      0210PM-0300PM      ONLINE  COURSE
+[/Input]
+
+[ClassOutput]
+ORGAN HARVESTING
+CHASS-7E-002
+TR
+1.00
+[/ClassOutput]
+
+[SessionOutput]
+TBA
+
+
+
+
+[/SessionOutput]
+
+[SessionOutput]
+MF
+0210PM
+0300PM
+ONLINE
+COURSE
+[/SessionOutput]
+

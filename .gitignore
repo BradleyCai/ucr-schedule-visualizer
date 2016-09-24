@@ -1,10 +1,15 @@
 # Artifacts
+**/*.pyc
 *.out
 js/*.regex
 tests/*.regex
+tests/failed.log
 
 # Misc
+client_id.json
 __pycache__
+.idea
+.tern-project
 **/.*.swp
 **/*~
 client_id.json

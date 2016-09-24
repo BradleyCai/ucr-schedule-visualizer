@@ -1,0 +1,8 @@
+[Name] Invalid room number
+[Type] fail
+
+[Input]
+INTRODUCTION TO CHEMISTRY
+CHEM-020-003    GY   3.50    M 0910AM-1000AM OLMH NOT_A_ROOM_NUMBER
+[/Input]
+

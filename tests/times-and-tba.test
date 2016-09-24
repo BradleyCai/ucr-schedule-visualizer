@@ -1,9 +1,10 @@
-[Name] Single TBA in course
+[Name] Multiple TBAs in course, TBA comes first
 [Type] normal
 
 [Input]
 SUSTAINABILITY
 CNAS-LC -069      NG    0.00     TBA     -
+                                 MWF     0510PM-0630PM    OLMH  9999
 [/Input]
 
 [ClassOutput]
@@ -19,5 +20,13 @@ TBA
 
 
 
+[/SessionOutput]
+
+[SessionOutput]
+MWF
+0510PM
+0630PM
+OLMH
+9999
 [/SessionOutput]
 

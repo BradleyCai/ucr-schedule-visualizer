@@ -1,0 +1,33 @@
+[Name] An example test case
+[Type] normal
+; Empty lines and lines that begin with ';' are ignored.
+
+[Input]
+ADVANCED CHEMISTRY TECHNIQUES
+CHEM-003B -021    ZZ    4.50   MF     0940AM-1100AM    INTN   1234
+                               W      0840AM-1000AM    INTS   5678
+[/Input]
+
+[ClassOutput]
+CLASS NAME
+CHEM-003B -021
+ZZ
+4.50
+[/ClassOutput]
+
+[SessionOutput]
+MF
+0940AM
+1100AM
+INTN
+1234
+[/SessionOutput]
+
+[SessionOutput]
+W
+0840AM
+1000AM
+INTS
+5678
+[/SessionOutput]
+

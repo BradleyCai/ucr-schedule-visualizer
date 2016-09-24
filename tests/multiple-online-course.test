@@ -1,0 +1,32 @@
+[Name] Multiple online courses
+[Type] normal
+
+[Input]
+ORGAN HARVESTING
+CHASS-7E-002      TR    1.00     MF      0210PM-0300PM      ONLINE  COURSE
+                                 W       0110PM-0200PM      ONLINE  COURSE
+[/Input]
+
+[ClassOutput]
+ORGAN HARVESTING
+CHASS-7E-002
+TR
+1.00
+[/ClassOutput]
+
+[SessionOutput]
+MF
+0210PM
+0300PM
+ONLINE
+COURSE
+[/SessionOutput]
+
+[SessionOutput]
+W
+0110PM
+0200PM
+ONLINE
+COURSE
+[/SessionOutput]
+

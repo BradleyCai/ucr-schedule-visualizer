@@ -1,9 +1,10 @@
-[Name] Single TBA in course
+[Name] Multiple TBAs in course
 [Type] normal
 
 [Input]
 SUSTAINABILITY
 CNAS-LC -069      NG    0.00     TBA     -
+                                 TBA     -
 [/Input]
 
 [ClassOutput]
@@ -12,6 +13,14 @@ CNAS-LC -069
 NG
 0.00
 [/ClassOutput]
+
+[SessionOutput]
+TBA
+
+
+
+
+[/SessionOutput]
 
 [SessionOutput]
 TBA

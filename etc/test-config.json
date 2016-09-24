@@ -1,0 +1,38 @@
+{
+    "fail-fast": false,
+    "test-dir": "tests",
+    "recursive": true,
+    "show-type": false,
+    "show-skipped": true,
+    "failed-test-log": "failed.log",
+    "ignore-tests": [
+        "sample",
+        "template"
+    ],
+
+    "regex": {
+        "class": {
+            "source": "input.out",
+            "multiple": false,
+            "flags": [
+                "MULTILINE"
+            ],
+            "group": 5
+        },
+
+        "session": {
+            "source": "session.out",
+            "multiple": true,
+            "flags": [
+                "MULTILINE"
+            ],
+            "group": 0
+        }
+    },
+
+    "regex-order": [
+        "class",
+        "session"
+    ]
+}
+
