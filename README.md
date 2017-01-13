@@ -26,7 +26,7 @@ first three characters "ucr" refers to our school's name, and the last 2 charact
 End of life
 -----------
 
-With UCR's recent switch to Banner, we've decided to stop working on UCRSV. We plan to add minimal compatibility for it's schedule, but that'll be the last thing we do for this website. You can read more about it [here](https://bradleycai.github.io/ucr-schedule-visualizer/about.html#end)
+With UCR's recent switch to Banner, we've decided to stop working on UCRSV. We plan to add minimal compatibility for its schedule, but that'll be the last thing we do for this website. You can read more about all of this [here](https://bradleycai.github.io/ucr-schedule-visualizer/about.html#end).
 
 Contributing
 ------
