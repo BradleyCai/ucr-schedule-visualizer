@@ -23,10 +23,15 @@ branch is our master branch.
 We are using the [Akari Link Shortener](https://waa.ai/) to create a short URL: [https://waa.ai/ucrsv](https://waa.ai/ucrsv). The
 first three characters "ucr" refers to our school's name, and the last 2 characters "sv" are short for "schedule visualizer". We also have [a QR code](http://bradleycai.github.io/ucr-schedule-visualizer/img/waaai-qr.png).
 
+End of life
+-----------
+
+With UCR's recent switch to Banner, we've decided to stop working on UCRSV. We plan to add minimal compatibility for its schedule, but that'll be the last thing we do for this website. You can read more about all of this [here](https://bradleycai.github.io/ucr-schedule-visualizer/about.html#end).
+
 Contributing
 ------
 
-Anyone is welcome to contribute! Suggest a feature in the [issues section](https://github.com/BradleyCai/ucr-schedule-visualizer/issues), fork us, or join our [discord dev server](https://discord.gg/0vTWbxIL45ClG4mV).
+Feel free to pick up where we left off! You can @ us on our [discord dev server](https://discord.gg/0vTWbxIL45ClG4mV) if you have any questions.
 
 Credits
 -------
@@ -44,7 +49,9 @@ Credits
 
 Coded with love and care by [Bradley](https://github.com/BradleyCai) and [Ammon](https://github.com/ammongit).
 
-Contact us! We're pretty active on discord and will respond pretty quickly to @mentions on our [server](https://discord.gg/0vTWbxIL45ClG4mV). Alternatively you can email us at [bradleycai24@gmail.com](mailto:bradleycai24@gmail.com) (Bradley) or [ammon.i.smith@gmail.com](mailto:ammon.i.smith@gmail.com) (Ammon). Our public keys are located in the `etc` directory of this repo.
+If you'd like to contact us our emails are [bradleycai24@gmail.com](mailto:bradleycai24@gmail.com) (Bradley) or [ammon.i.smith@gmail.com](mailto:ammon.i.smith@gmail.com) (Ammon). Our public keys are located in the `etc` directory of this repo.
+
+We also have a [discord server](https://discord.gg/0vTWbxIL45ClG4mV) if you'd like to contact us there.
 
 License
 -------
