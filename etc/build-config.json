@@ -4,11 +4,15 @@
         "session"
     ],
 
-    "regex-directory": "regex",
+    "regex-directory": "../regex",
+    "regex-subdirectories": [
+        "growl",
+        "banner"
+    ],
     
     "copy-to": [
-        "../js",
-        "../tests"
+        "../../js",
+        "../../tests"
     ],
 
     "inject-file": "../js/CourseParser.js",
