@@ -34,13 +34,14 @@ depends = [
 config_fields = {
     "source-files": list,
     "regex-directory": str,
+    "regex-subdirectories": list,
     "copy-to": list,
     "inject-file": str,
     "to-inject": dict,
 }
 
 def run(tracker):
-    directory = os.path.join('..', tracker.config['regex-directory'])
+    directory = tracker.config['regex-directory']
     tracker.print_activity("Switching directory to '%s'" % directory)
     try:
         os.chdir(directory)
@@ -48,10 +49,19 @@ def run(tracker):
         tracker.print_error("Unable to change directory to %s: %s" % (directory, err))
         tracker.terminate()
 
-    updated = tracker.run_job(job_compile_regexes, "Compiling regex sources")
-    tracker.run_job(job_copy_out_files, "Copying compiled regex artifacts", updated)
-    tracker.run_job(job_inject_regex_artifacts, "Injecting compiled regex artifacts", updated)
+    for directory in tracker.config['regex-subdirectories']:
+        try:
+            old_cwd = os.getcwd()
+            os.chdir(directory)
+        except OSError as err:
+            tracker.print_error("Unable to change directory to %s: %s" % (directory, err))
+            tracker.terminate()
 
+        updated = tracker.run_job(job_compile_regexes, "Compiling regex sources")
+        tracker.run_job(job_copy_out_files, "Copying compiled regex artifacts", updated)
+        tracker.run_job(job_inject_regex_artifacts, "Injecting compiled regex artifacts", updated)
+
+        os.chdir(old_cwd)
 
 ### Defined jobs ###
 def job_compile_regexes(tracker):
@@ -64,7 +74,6 @@ def job_compile_regexes(tracker):
         updated |= tracker.run_job(job_compile_regex, None, source)
 
     return updated
-
 
 def job_compile_regex(tracker, name):
     source, target = get_output_file_name(name)
@@ -95,7 +104,6 @@ def job_compile_regex(tracker, name):
 
     return True
 
-
 def job_combine_regex(tracker, source, modified, depends={}):
     tracker.print_operation("DEP", source)
 
@@ -122,7 +130,6 @@ def job_combine_regex(tracker, source, modified, depends={}):
     needs_update |= tracker.args.alwaysbuild
     return body.rstrip(), needs_update
 
-
 def job_copy_out_files(tracker, updated):
     files = glob.glob("*.out")
     copied = False
@@ -144,7 +151,6 @@ def job_copy_out_files(tracker, updated):
 
     if not copied:
         tracker.print_string("(nothing to do)")
-
 
 def job_inject_regex_artifacts(tracker, updated):
     if not tracker.config['to-inject'] or not updated:
@@ -188,7 +194,6 @@ def job_inject_regex_artifacts(tracker, updated):
             tracker.print_error("Unable to write to '%s': %s." % (output_file, err))
             tracker.failure()
 
-
 # Helper functions
 def get_output_file_name(name):
     if name.endswith('.regex', re.IGNORECASE):
@@ -199,7 +204,6 @@ def get_output_file_name(name):
         target = name + '.out'
 
     return source, target
-
 
 def get_mtime(target, path):
     try:

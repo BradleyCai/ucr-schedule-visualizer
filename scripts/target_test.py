@@ -31,7 +31,6 @@ config_fields = {
 
 TEST_FILE_REGEX = re.compile(r'.+\.test', re.IGNORECASE)
 
-
 def run(tracker):
     if len(tracker.config['regex'].keys()) != len(tracker.config['regex-order']) or \
             not set(tracker.config['regex'].keys()).issubset(tracker.config['regex-order']):
@@ -61,7 +60,6 @@ def run(tracker):
     tracker.run_job(job_print_results, "Test results", \
             passed, skipped, testcount, testsrun)
 
-
 ### Defined jobs ###
 def job_get_regular_expression_order(tracker):
     regex = []
@@ -80,7 +78,6 @@ def job_get_regular_expression_order(tracker):
 
     return tuple(regex)
 
-
 def job_get_test_files(tracker):
     gen = os.walk('.', followlinks=True)
     test_files = []
@@ -94,7 +91,6 @@ def job_get_test_files(tracker):
             break
 
     return sorted(test_files)
-
 
 def job_parse_tests(tracker, test_files, regex):
     parser = TestParser()
@@ -126,7 +122,6 @@ def job_parse_tests(tracker, test_files, regex):
             tests.append(test)
 
     return tests
-
 
 def job_build_test(tracker, data, regex):
     if 'Name' not in data.keys():
@@ -197,7 +192,6 @@ def job_build_test(tracker, data, regex):
         tracker.failure()
         return None
 
-
 def job_run_tests(tracker, tests):
     passed = 0
     skipped = 0
@@ -233,7 +227,6 @@ def job_run_tests(tracker, tests):
 
     return passed, skipped, testcount, testsrun
 
-
 def job_print_results(tracker, passed, skipped, testcount, testsrun):
     if passed < testsrun and tracker.args.usecolor:
         label = "%sRESULTS%s" % (tracker.get_color(tracker.RED), tracker.end_color())
@@ -262,18 +255,15 @@ def job_print_results(tracker, passed, skipped, testcount, testsrun):
                 os.path.abspath(tracker.config['failed-test-log']))
         tracker.failure()
 
-
 ### Helper functions ###
 def plural(num):
     return '' if num == 1 else 's'
-
 
 def skip_test(test, ignore):
     return test in ignore or \
            test[:-5] in ignore or \
            os.path.basename(test) in ignore or \
            os.path.basename(test[:-5]) in ignore
-
 
 def get_boolean_option(tracker, filename, string):
     string = string.lower()

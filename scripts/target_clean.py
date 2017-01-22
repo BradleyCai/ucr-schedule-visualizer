@@ -11,14 +11,14 @@ depends = [
 ]
 
 config_fields = {
+    "locations": list,
 }
 
 def run(tracker):
-    for location in ('js', 'tests'):
+    for location in tracker.config['locations']:
         tracker.run_job(job_clean, "Cleaning %s" % location, location)
 
     tracker.run_job(job_clean_no_remove_regex, "Cleaning regex", "regex")
-
 
 def job_clean(tracker, location):
     path = os.path.join('..', location)
@@ -34,7 +34,6 @@ def job_clean(tracker, location):
         except OSError as err:
             tracker.print_error(err)
             tracker.failure()
-
 
 def job_clean_no_remove_regex(tracker, location):
     path = os.path.join('..', location)

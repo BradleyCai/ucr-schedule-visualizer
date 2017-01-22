@@ -15,7 +15,7 @@
         "../../tests"
     ],
 
-    "inject-file": "../js/CourseParser.js",
+    "inject-file": "../../js/CourseParser.js",
 
     "to-inject": {
         "input.out": "regex",

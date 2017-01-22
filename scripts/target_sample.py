@@ -25,11 +25,9 @@ def run(tracker):
     tracker.run_job(job_foo_bar, "Fooing bars")
     tracker.print_warning("Something possibly bad happened")
 
-
 def job_hello_world(tracker):
     tracker.print_operation("PRINT", "Hello")
     tracker.print_operation("PRINT", "World")
-
 
 def job_foo_bar(tracker):
     for i in range(11):
@@ -40,7 +38,6 @@ def job_foo_bar(tracker):
 
         if random.random() < 0.2:
             tracker.print_error("Oh noes!")
-
 
 def job_crunch_numbers(tracker):
     for i in range(random.randint(2, 7)):
